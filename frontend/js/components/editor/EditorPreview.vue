@@ -7,7 +7,7 @@
          @mousedown="_unselectBlock(unEdit)">
       <div class="editorPreview__empty"
            v-if="!blocks.length">
-        <b>Drag and drop content from the left navigation</b>
+        <b>{{ $trans('editor.preview-empty') }}</b>
       </div>
       <draggable class="editorPreview__content"
                  ref="previewContent"
