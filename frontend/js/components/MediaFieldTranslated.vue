@@ -1,34 +1,40 @@
 <template>
-  <a17-inputframe :error="error"
-                  :label="label"
-                  :locale="locale"
-                  @localize="updateLocale"
-                  :size="size"
-                  :name="name">
-    <a17-slideshow v-if="max > 1 || max === 0"
-                   :name="name"
-                   :cropContext="cropContext"
-                   :max="max"
-                   :required="required"
-                   :buttonOnTop="buttonOnTop"
-                   :withAddInfo="withAddInfo"
-                   :withVideoUrl="withVideoUrl"
-                   :withCaption="withCaption"
-                   :altTextMaxLength="altTextMaxLength"
-                   :captionMaxLength="captionMaxLength"
-                   :extraMetadatas="extraMetadatas">
+  <a17-inputframe
+    :error="error"
+    :label="label"
+    :locale="locale"
+    @localize="updateLocale"
+    :size="size"
+    :name="name"
+  >
+    <a17-slideshow
+      v-if="max > 1 || max === 0"
+      :name="name"
+      :cropContext="cropContext"
+      :max="max"
+      :required="required"
+      :buttonOnTop="buttonOnTop"
+      :withAddInfo="withAddInfo"
+      :withVideoUrl="withVideoUrl"
+      :withCaption="withCaption"
+      :altTextMaxLength="altTextMaxLength"
+      :captionMaxLength="captionMaxLength"
+      :extraMetadatas="extraMetadatas"
+    >
       <slot />
     </a17-slideshow>
-    <a17-mediafield v-else
-                    :name="name"
-                    :cropContext="cropContext"
-                    :required="required"
-                    :withAddInfo="withAddInfo"
-                    :withVideoUrl="withVideoUrl"
-                    :withCaption="withCaption"
-                    :altTextMaxLength="altTextMaxLength"
-                    :captionMaxLength="captionMaxLength"
-                    :extraMetadatas="extraMetadatas">
+    <a17-mediafield
+      v-else
+      :name="name"
+      :cropContext="cropContext"
+      :required="required"
+      :withAddInfo="withAddInfo"
+      :withVideoUrl="withVideoUrl"
+      :withCaption="withCaption"
+      :altTextMaxLength="altTextMaxLength"
+      :captionMaxLength="captionMaxLength"
+      :extraMetadatas="extraMetadatas"
+    >
       <slot />
     </a17-mediafield>
   </a17-inputframe>

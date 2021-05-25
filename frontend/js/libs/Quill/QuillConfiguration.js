@@ -9,25 +9,25 @@ const Inline = Quill.import('blots/inline')
 const Link = Quill.import('formats/link')
 
 /*
-* Support for shift enter
-* @see https://github.com/quilljs/quill/issues/252
-* @see https://codepen.io/mackermedia/pen/gmNwZP
-*/
+ * Support for shift enter
+ * @see https://github.com/quilljs/quill/issues/252
+ * @see https://codepen.io/mackermedia/pen/gmNwZP
+ */
 const lineBreak = {
   blotName: 'break',
   tagName: 'BR'
 }
 
 class SmartBreak extends Break {
-  length () {
+  length() {
     return 1
   }
 
-  value () {
+  value() {
     return '\n'
   }
 
-  insertInto (parent, ref) {
+  insertInto(parent, ref) {
     Embed.prototype.insertInto.call(this, parent, ref)
   }
 }
@@ -38,25 +38,24 @@ SmartBreak.tagName = lineBreak.tagName
 const lineBreakHandle = {
   key: 13,
   shiftKey: true,
-  handler:
-    function (range) {
-      const currentLeaf = this.quill.getLeaf(range.index)[0]
-      const nextLeaf = this.quill.getLeaf(range.index + 1)[0]
+  handler: function (range) {
+    const currentLeaf = this.quill.getLeaf(range.index)[0]
+    const nextLeaf = this.quill.getLeaf(range.index + 1)[0]
 
+    this.quill.insertEmbed(range.index, lineBreak.blotName, true, 'user')
+
+    // Insert a second break if:
+    // At the end of the editor, OR next leaf has a different parent (<p>)
+    if (nextLeaf === null || currentLeaf.parent !== nextLeaf.parent) {
       this.quill.insertEmbed(range.index, lineBreak.blotName, true, 'user')
-
-      // Insert a second break if:
-      // At the end of the editor, OR next leaf has a different parent (<p>)
-      if (nextLeaf === null || (currentLeaf.parent !== nextLeaf.parent)) {
-        this.quill.insertEmbed(range.index, lineBreak.blotName, true, 'user')
-      }
-
-      // Now that we've inserted a line break, move the cursor forward
-      this.quill.setSelection(range.index + 1, Quill.sources.SILENT)
     }
+
+    // Now that we've inserted a line break, move the cursor forward
+    this.quill.setSelection(range.index + 1, Quill.sources.SILENT)
+  }
 }
 
-function lineBreakMatcher () {
+function lineBreakMatcher() {
   const newDelta = new Delta()
   newDelta.insert({ break: '' })
   return newDelta
@@ -70,7 +69,7 @@ const anchor = {
 }
 
 class Anchor extends Inline {
-  static create (value) {
+  static create(value) {
     const node = super.create(value)
     value = this.sanitize(value)
     node.setAttribute('id', value)
@@ -78,16 +77,17 @@ class Anchor extends Inline {
     return node
   }
 
-  static sanitize (id) {
+  static sanitize(id) {
     return id.replace(/\s+/g, '-').toLowerCase()
   }
 
-  static formats (domNode) {
+  static formats(domNode) {
     return domNode.getAttribute('id')
   }
 
-  format (name, value) {
-    if (name !== this.statics.blotName || !value) return super.format(name, value)
+  format(name, value) {
+    if (name !== this.statics.blotName || !value)
+      return super.format(name, value)
     value = this.constructor.sanitize(value)
     this.domNode.setAttribute('id', value)
   }
@@ -100,7 +100,7 @@ Quill.register(Anchor)
 
 /* Customize Link */
 class MyLink extends Link {
-  static create (value) {
+  static create(value) {
     const node = super.create(value)
     value = this.sanitize(value)
     node.setAttribute('href', value)
@@ -113,7 +113,9 @@ class MyLink extends Link {
 
     // url starting with the front-end base url wont have target blank
     if (window[process.env.VUE_APP_NAME].STORE.form.baseUrl) {
-      if (value.startsWith(window[process.env.VUE_APP_NAME].STORE.form.baseUrl)) {
+      if (
+        value.startsWith(window[process.env.VUE_APP_NAME].STORE.form.baseUrl)
+      ) {
         node.removeAttribute('target')
       }
     }
@@ -121,7 +123,7 @@ class MyLink extends Link {
     return node
   }
 
-  format (name, value) {
+  format(name, value) {
     super.format(name, value)
 
     if (name !== this.statics.blotName || !value) {
@@ -137,7 +139,9 @@ class MyLink extends Link {
 
     // url starting with the front-end base url wont have target blank
     if (window[process.env.VUE_APP_NAME].STORE.form.baseUrl) {
-      if (value.startsWith(window[process.env.VUE_APP_NAME].STORE.form.baseUrl)) {
+      if (
+        value.startsWith(window[process.env.VUE_APP_NAME].STORE.form.baseUrl)
+      ) {
         this.domNode.removeAttribute('target')
         return
       }
@@ -150,8 +154,16 @@ class MyLink extends Link {
 Quill.register(MyLink)
 
 /* Custom Icons */
-function getIcon (shape) {
-  return '<span class="icon icon--wysiwyg_' + shape + '" aria-hidden="true"><svg><title>' + shape + '</title><use xlink:href="#icon--wysiwyg_' + shape + '"></use></svg></span>'
+function getIcon(shape) {
+  return (
+    '<span class="icon icon--wysiwyg_' +
+    shape +
+    '" aria-hidden="true"><svg><title>' +
+    shape +
+    '</title><use xlink:href="#icon--wysiwyg_' +
+    shape +
+    '"></use></svg></span>'
+  )
 }
 
 const icons = Quill.import('ui/icons') // custom icons
@@ -168,10 +180,10 @@ icons.header['5'] = getIcon('header-5')
 icons.header['6'] = getIcon('header-6')
 
 /*
-* ClipBoard manager
-* Use formats to authorize what user can paste
-* Formats are based on toolbar configuration
-*/
+ * ClipBoard manager
+ * Use formats to authorize what user can paste
+ * Formats are based on toolbar configuration
+ */
 
 const QuillDefaultFormats = [
   'background',
@@ -197,11 +209,15 @@ const QuillDefaultFormats = [
   'video'
 ]
 
-function getQuillFormats (toolbarEls) {
+function getQuillFormats(toolbarEls) {
   const formats = [lineBreak.blotName, anchor.blotName] // Allow linebreak and anchor
 
-  function addFormat (format) {
-    if (formats.indexOf(format) > -1 || QuillDefaultFormats.indexOf(format) === -1) return
+  function addFormat(format) {
+    if (
+      formats.indexOf(format) > -1 ||
+      QuillDefaultFormats.indexOf(format) === -1
+    )
+      return
     formats.push(format)
   }
 

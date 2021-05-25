@@ -36,7 +36,8 @@
         type: Boolean,
         default: false
       },
-      isValueEqual: { // requiredFieldValues must be equal (or different) to the stored value to show
+      isValueEqual: {
+        // requiredFieldValues must be equal (or different) to the stored value to show
         type: Boolean,
         default: true
       }
@@ -46,13 +47,10 @@
         if (this.inModal) return this.modalFieldValueByName(this.fieldName)
         else return this.fieldValueByName(this.fieldName)
       },
-      ...mapGetters([
-        'fieldValueByName',
-        'modalFieldValueByName'
-      ]),
+      ...mapGetters(['fieldValueByName', 'modalFieldValueByName']),
       ...mapState({
-        fields: state => state.form.fields, // Fields in the form
-        modalFields: state => state.form.modalFields // Fields in the create/edit modal
+        fields: (state) => state.form.fields, // Fields in the form
+        modalFields: (state) => state.form.modalFields // Fields in the create/edit modal
       })
     },
     data: function () {

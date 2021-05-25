@@ -14,7 +14,7 @@ const navToggle = function () {
 
   const klass = 's--nav'
 
-  function _triggerOpenNav () {
+  function _triggerOpenNav() {
     if (isAnimating) return false
     if (isActive) return false
 
@@ -33,7 +33,7 @@ const navToggle = function () {
     isAnimating = false
   }
 
-  function _triggerCloseNav () {
+  function _triggerCloseNav() {
     if (isAnimating) return false
     if (!isActive) return false
 
@@ -53,7 +53,7 @@ const navToggle = function () {
     isAnimating = false
   }
 
-  function _escNav (e) {
+  function _escNav(e) {
     if (e.keyCode === 27 && isActive) _triggerCloseNav() /* esc key */
   }
 

@@ -24,11 +24,13 @@ export default function (formNode) {
    * @param {object} node
    * @returns {boolean}
    */
-  function isDomElementNode (node) {
-    return !!(node &&
+  function isDomElementNode(node) {
+    return !!(
+      node &&
       typeof node === 'object' &&
       'nodeType' in node &&
-      node.nodeType === 1)
+      node.nodeType === 1
+    )
   }
 
   /**
@@ -37,14 +39,16 @@ export default function (formNode) {
    * @param o object
    * @return mixed (string|undefined)
    */
-  function checkForLastNumericKey (o) {
+  function checkForLastNumericKey(o) {
     if (!o || typeof o !== 'object') {
       return undefined
     }
 
-    return Object.keys(o).filter(function (elem) {
-      return !isNaN(parseInt(elem, 10))
-    }).splice(-1)[0]
+    return Object.keys(o)
+      .filter(function (elem) {
+        return !isNaN(parseInt(elem, 10))
+      })
+      .splice(-1)[0]
   }
 
   /**
@@ -52,7 +56,7 @@ export default function (formNode) {
    * @param o object
    * @return int
    */
-  function getLastIntegerKey (o) {
+  function getLastIntegerKey(o) {
     const lastKeyIndex = checkForLastNumericKey(o)
     if (typeof lastKeyIndex === 'string') {
       return parseInt(lastKeyIndex, 10)
@@ -66,7 +70,7 @@ export default function (formNode) {
    * @param o object
    * @return int
    */
-  function getNextIntegerKey (o) {
+  function getNextIntegerKey(o) {
     const lastKeyIndex = checkForLastNumericKey(o)
     if (typeof lastKeyIndex === 'string') {
       return parseInt(lastKeyIndex, 10) + 1
@@ -81,7 +85,7 @@ export default function (formNode) {
    * @param {object} o
    * @returns {number}
    */
-  function getObjLength (o) {
+  function getObjLength(o) {
     if (typeof o !== 'object' || o === null) {
       return 0
     }
@@ -104,7 +108,7 @@ export default function (formNode) {
 
   // Iteration through arrays.
   // Compatible with IE.
-  function forEach (arr, callback) {
+  function forEach(arr, callback) {
     if ([].forEach) {
       return [].forEach.call(arr, callback)
     }
@@ -116,7 +120,7 @@ export default function (formNode) {
   }
 
   // Constructor
-  function init (formNode) {
+  function init(formNode) {
     // Assign the current form reference.
     if (!formNode) return false
 
@@ -134,7 +138,7 @@ export default function (formNode) {
   }
 
   // Set the main form object we are working on.
-  function setForm () {
+  function setForm() {
     switch (typeof formRef) {
       case 'string':
         $form = document.getElementById(formRef)
@@ -150,45 +154,45 @@ export default function (formNode) {
     return $form
   }
 
-  function isUploadForm () {
-    return (!!($form.enctype && $form.enctype === 'multipart/form-data'))
+  function isUploadForm() {
+    return !!($form.enctype && $form.enctype === 'multipart/form-data')
   }
 
   // Set the elements we need to parse.
-  function setFormElements () {
+  function setFormElements() {
     $formElements = $form.querySelectorAll('input, textarea, select')
     return $formElements.length
   }
 
-  function isRadio ($domNode) {
+  function isRadio($domNode) {
     return $domNode.nodeName === 'INPUT' && $domNode.type === 'radio'
   }
 
-  function isCheckbox ($domNode) {
+  function isCheckbox($domNode) {
     return $domNode.nodeName === 'INPUT' && $domNode.type === 'checkbox'
   }
 
-  function isFileField ($domNode) {
+  function isFileField($domNode) {
     return $domNode.nodeName === 'INPUT' && $domNode.type === 'file'
   }
 
-  function isTextarea ($domNode) {
+  function isTextarea($domNode) {
     return $domNode.nodeName === 'TEXTAREA'
   }
 
-  function isSelectSimple ($domNode) {
+  function isSelectSimple($domNode) {
     return $domNode.nodeName === 'SELECT' && $domNode.type === 'select-one'
   }
 
-  function isSelectMultiple ($domNode) {
+  function isSelectMultiple($domNode) {
     return $domNode.nodeName === 'SELECT' && $domNode.type === 'select-multiple'
   }
 
-  function isSubmitButton ($domNode) {
+  function isSubmitButton($domNode) {
     return $domNode.nodeName === 'BUTTON' && $domNode.type === 'submit'
   }
 
-  function isChecked ($domNode) {
+  function isChecked($domNode) {
     return $domNode.checked
   }
 
@@ -196,11 +200,11 @@ export default function (formNode) {
   //  return ($domNode.multiple ? true : false);
   // }
 
-  function isFileList ($domNode) {
-    return (window.FileList && $domNode.files instanceof window.FileList)
+  function isFileList($domNode) {
+    return window.FileList && $domNode.files instanceof window.FileList
   }
 
-  function getNodeValues ($domNode) {
+  function getNodeValues($domNode) {
     // We're only interested in the radio that is checked.
     if (isRadio($domNode)) {
       return isChecked($domNode) ? $domNode.value : false
@@ -220,7 +224,9 @@ export default function (formNode) {
         if (isFileList($domNode) && $domNode.files.length > 0) {
           return $domNode.files
         } else {
-          return ($domNode.value && $domNode.value !== '' ? $domNode.value : false)
+          return $domNode.value && $domNode.value !== ''
+            ? $domNode.value
+            : false
         }
       } else {
         return false
@@ -229,13 +235,17 @@ export default function (formNode) {
 
     // We're only interested in textarea fields that have values.
     if (isTextarea($domNode)) {
-      return ($domNode.value && $domNode.value !== '' ? $domNode.value : false)
+      return $domNode.value && $domNode.value !== '' ? $domNode.value : false
     }
 
     if (isSelectSimple($domNode)) {
       if ($domNode.value && $domNode.value !== '') {
         return $domNode.value
-      } else if ($domNode.options && $domNode.options.length && $domNode.options[0].value !== '') {
+      } else if (
+        $domNode.options &&
+        $domNode.options.length &&
+        $domNode.options[0].value !== ''
+      ) {
         return $domNode.options[0].value
       } else {
         return false
@@ -255,7 +265,7 @@ export default function (formNode) {
         if (includeEmptyValuedElements) {
           return values
         } else {
-          return (values.length ? values : false)
+          return values.length ? values : false
         }
       } else {
         return false
@@ -280,14 +290,14 @@ export default function (formNode) {
       if (includeEmptyValuedElements) {
         return $domNode.value
       } else {
-        return ($domNode.value !== '' ? $domNode.value : false)
+        return $domNode.value !== '' ? $domNode.value : false
       }
     } else {
       return false
     }
   }
 
-  function processSingleLevelNode ($domNode, arr, domNodeValue, result) {
+  function processSingleLevelNode($domNode, arr, domNodeValue, result) {
     // Get the last remaining key.
     const key = arr[0]
 
@@ -333,7 +343,7 @@ export default function (formNode) {
     return domNodeValue
   }
 
-  function processMultiLevelNode ($domNode, arr, value, result) {
+  function processMultiLevelNode($domNode, arr, value, result) {
     const keyName = arr[0]
 
     if (arr.length > 1) {
@@ -359,7 +369,12 @@ export default function (formNode) {
           result[keyName] = {}
         }
 
-        return processMultiLevelNode($domNode, arr.splice(1, arr.length), value, result[keyName])
+        return processMultiLevelNode(
+          $domNode,
+          arr.splice(1, arr.length),
+          value,
+          result[keyName]
+        )
       }
     }
 
@@ -378,7 +393,7 @@ export default function (formNode) {
     }
   }
 
-  function convertToObj () {
+  function convertToObj() {
     let i = 0
     let objKeyNames
     let $domNode
@@ -416,18 +431,13 @@ export default function (formNode) {
         processSingleLevelNode(
           $domNode,
           objKeyNames,
-          (domNodeValue || ''),
+          domNodeValue || '',
           result
         )
       }
 
       if (objKeyNames.length > 1) {
-        processMultiLevelNode(
-          $domNode,
-          objKeyNames,
-          (domNodeValue || ''),
-          result
-        )
+        processMultiLevelNode($domNode, objKeyNames, domNodeValue || '', result)
       }
     }
 

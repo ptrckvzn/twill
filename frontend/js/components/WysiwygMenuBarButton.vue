@@ -1,16 +1,16 @@
 <template>
-  <button class="wysiwyg__menubar-button"
-          :class="{ 'is-active': isActive }"
-          type="button"
-          @click="handleClick">
-    <span class="icon"
-          :class="`icon--wysiwyg_${icon}`"
-          aria-hidden="true">
-    <svg>
-      <title>{{ icon }}</title>
-      <use :xlink:href="`#icon--wysiwyg_${icon}`"></use>
-    </svg>
-  </span>
+  <button
+    class="wysiwyg__menubar-button"
+    :class="{ 'is-active': isActive }"
+    type="button"
+    @click="handleClick"
+  >
+    <span class="icon" :class="`icon--wysiwyg_${icon}`" aria-hidden="true">
+      <svg>
+        <title>{{ icon }}</title>
+        <use :xlink:href="`#icon--wysiwyg_${icon}`"></use>
+      </svg>
+    </span>
   </button>
 </template>
 
@@ -28,7 +28,7 @@
       }
     },
     methods: {
-      handleClick () {
+      handleClick() {
         this.$emit('btn:click')
       }
     }

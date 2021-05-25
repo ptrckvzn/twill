@@ -1,8 +1,10 @@
 <template>
-  <a :href="editUrl"
-     v-if="!row.hasOwnProperty('deleted')"
-     class="tablecell__name"
-     @click="preventEditInPlace($event)">
+  <a
+    :href="editUrl"
+    v-if="!row.hasOwnProperty('deleted')"
+    class="tablecell__name"
+    @click="preventEditInPlace($event)"
+  >
     <span class="f--link-underlined--o">{{ row[colName] }}</span>
   </a>
   <span v-else>{{ row[colName] }}</span>
@@ -18,7 +20,6 @@
 </script>
 
 <style lang="scss" scoped>
-
   /* Name */
   .tablecell__name {
     min-width: 15vw;

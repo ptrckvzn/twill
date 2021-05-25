@@ -3,7 +3,12 @@
     <div class="overlay__window">
       <header class="overlay__header" v-if="overlayTitle">
         {{ overlayTitle }}
-        <button class="overlay__close" type="button" @click="hide"><span v-svg symbol="close_modal"></span><span class="overlay__closeLabel">{{ $trans('overlay.close') }}</span></button>
+        <button class="overlay__close" type="button" @click="hide">
+          <span v-svg symbol="close_modal"></span
+          ><span class="overlay__closeLabel">{{
+            $trans('overlay.close')
+          }}</span>
+        </button>
       </header>
       <div class="overlay__content" v-if="active" v-show="!hidden">
         <slot></slot>
@@ -67,7 +72,7 @@
         }
       },
       ...mapState({
-        currentRevision: state => state.revision.active
+        currentRevision: (state) => state.revision.active
       })
     },
     methods: {
@@ -128,16 +133,15 @@
 </script>
 
 <style lang="scss" scoped>
-
-  $height__header:60px;
+  $height__header: 60px;
 
   .overlay {
-    position:fixed;
+    position: fixed;
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
-    background: rgba(0,0,0,.4);
+    background: rgba(0, 0, 0, 0.4);
     z-index: $zindex__overlay;
 
     display: flex;
@@ -158,11 +162,11 @@
   }
 
   .overlay__window {
-    background:$color__background;
+    background: $color__background;
     min-width: 50vw;
     position: relative;
-    border-radius:2px;
-    display:flex;
+    border-radius: 2px;
+    display: flex;
     flex-flow: column nowrap;
     width: 100%;
     height: 100%;
@@ -170,56 +174,57 @@
   }
 
   .overlay__content {
-    overflow:hidden;
+    overflow: hidden;
     flex-grow: 1;
-    height:100%;
+    height: 100%;
   }
 
   .overlay__header {
     background: $color__overlay--header;
-    color:$color__background;
-    padding:0 20px;
-    height:$height__header;
-    line-height:$height__header;
-    position:relative;
-    font-weight:600;
-    text-align:center;
+    color: $color__background;
+    padding: 0 20px;
+    height: $height__header;
+    line-height: $height__header;
+    position: relative;
+    font-weight: 600;
+    text-align: center;
     @include font-smoothing();
   }
 
   .overlay__close {
     @include btn-reset;
-    position:absolute;
-    left:0;
-    top:0;
-    background:transparent;
-    height:$height__header;
-    color:$color__text--light;
-    padding:#{($height__header - 16px) / 2 } 20px;
-    text-align:left;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: transparent;
+    height: $height__header;
+    color: $color__text--light;
+    padding: #{($height__header - 16px) / 2} 20px;
+    text-align: left;
 
     &:hover,
     &:focus {
-      color:$color__background;
+      color: $color__background;
     }
   }
 
   .overlay__closeLabel {
-    position:relative;
-    margin-left:10px;
-    top:-2px;
+    position: relative;
+    margin-left: 10px;
+    top: -2px;
   }
 
   .overlay__content {
-    padding:0;
+    padding: 0;
     display: flex;
 
     > button {
-      margin-bottom:20px;
+      margin-bottom: 20px;
     }
   }
 
-  .overlay--active { // centered into the page
+  .overlay--active {
+    // centered into the page
     opacity: 1;
     visibility: visible;
     transition: opacity 0.35s;
@@ -228,5 +233,4 @@
   .overlay--hidden {
     display: none;
   }
-
 </style>

@@ -27,7 +27,7 @@ export default {
     },
     extraMetadatas: {
       type: Array,
-      default () {
+      default() {
         return []
       }
     }

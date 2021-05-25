@@ -13,18 +13,18 @@ const state = {
 
 // getters
 const getters = {
-  optionsByName (state) {
-    return name => state.options[name] || []
+  optionsByName(state) {
+    return (name) => state.options[name] || []
   }
 }
 
 const mutations = {
-  [ATTRIBUTES.EMPTY_OPTIONS] (state, name) {
+  [ATTRIBUTES.EMPTY_OPTIONS](state, name) {
     if (state.options[name]) {
       Vue.delete(state.options, name)
     }
   },
-  [ATTRIBUTES.UPDATE_OPTIONS] (state, attributes) {
+  [ATTRIBUTES.UPDATE_OPTIONS](state, attributes) {
     const name = attributes.name
     const options = attributes.options
     let currentOptions = []
@@ -39,7 +39,9 @@ const mutations = {
     // Make sure there is no duplicates
     if (Array.isArray(options)) {
       options.forEach(function (option) {
-        const currentOptionIndex = currentOptions.findIndex(currentOption => currentOption.value === option.value)
+        const currentOptionIndex = currentOptions.findIndex(
+          (currentOption) => currentOption.value === option.value
+        )
         if (currentOptionIndex === -1) {
           currentOptions.push(option)
         }

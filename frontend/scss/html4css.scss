@@ -5,18 +5,73 @@ v.1.0.0
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
-html, body, div, span, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-abbr, address, cite, code,
-del, dfn, em, img, ins, kbd, q, samp,
-small, strong, sub, sup, var,
-b, i,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, dialog, figure, figcaption, picture,
-hgroup, menu, nav, section, footer, header
-time, mark, audio, video {
+html,
+body,
+div,
+span,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+abbr,
+address,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+samp,
+small,
+strong,
+sub,
+sup,
+var,
+b,
+i,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+dialog,
+figure,
+figcaption,
+picture,
+hgroup,
+menu,
+nav,
+section,
+footer,
+header time,
+mark,
+audio,
+video {
   margin: 0;
   padding: 0;
   border: 0;
@@ -27,8 +82,17 @@ time, mark, audio, video {
   outline: 0;
 }
 
-article, aside, dialog, figure, figcaption, footer,
-header, hgroup, nav, section, main {
+article,
+aside,
+dialog,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+nav,
+section,
+main {
   display: block;
 }
 
@@ -56,7 +120,7 @@ body {
   margin: 0 auto;
   padding: 0 20px;
   max-width: 1200px;
-  _width:expression(this.scrollWidth > 1200 ? "1200px" : "auto");
+  _width: expression(this.scrollWidth > 1200 ? '1200px': 'auto');
 }
 
 /* Layout ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
@@ -93,7 +157,18 @@ footer {
 
 /* Text ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
-h1, h2, h3, h4, h5, h6, p, ul, ol, dl, label, small {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+ol,
+dl,
+label,
+small {
   margin-top: 20px;
   font-size: 18px;
   line-height: 27px;
@@ -118,7 +193,8 @@ h3 {
 
 h4,
 h5,
-h6 {}
+h6 {
+}
 
 b,
 strong,
@@ -184,11 +260,11 @@ ol ol {
 }
 
 ul {
-  list-style-type : disc;
+  list-style-type: disc;
 }
 
 ol {
-  list-style-type : decimal;
+  list-style-type: decimal;
 }
 
 dt {
@@ -202,15 +278,15 @@ dd {
 /* Tables ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 table {
-  border-collapse : separate;
-  border-spacing : 0;
-  width : 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
 }
 
 table,
 td,
 th {
-  vertical-align : top;
+  vertical-align: top;
   border: 1px solid #f2f2f2;
 }
 
@@ -265,14 +341,14 @@ textarea {
 }
 
 .btn,
-input[type=submit],
+input[type='submit'],
 button {
   font: bold 18px/27px 'Helvetica Neue', Helvetica, Arial, sans-serif;
   padding: 5px 8px;
 }
 
 input + .btn,
-input + input[type=submit],
+input + input[type='submit'],
 input + button {
   margin-top: 20px;
 }
@@ -301,8 +377,8 @@ blockquote {
 
 abbr,
 acronym {
-  border-bottom : 1px dotted #111;
-  cursor : help;
+  border-bottom: 1px dotted #111;
+  cursor: help;
 }
 
 s,
@@ -312,14 +388,15 @@ del {
   text-decoration: line-through;
 }
 
-ins, mark {
+ins,
+mark {
   background-color: #ffc;
   text-decoration: none;
 }
 
 pre,
 code {
-  font : 15px/20px 'lucida console', monospace;
+  font: 15px/20px 'lucida console', monospace;
   background-color: #f2f2f2;
   padding: 5px 8px;
 }

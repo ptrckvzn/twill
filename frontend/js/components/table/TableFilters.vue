@@ -1,32 +1,56 @@
 <template>
   <div>
     <ul class="secondarynav secondarynav--desktop" slot="navigation">
-        <li v-for="(navItem, index) in navFilters"
-            :key="index"
-            class="secondarynav__item"
-            :class="{ 's--on' : navActive === navItem.slug }">
-            <a href="#" v-on:click.prevent="filterStatus(navItem.slug)">
-                <span class="secondarynav__link">{{ navItem.name }}</span><span class="secondarynav__number">({{ navItem.number }})</span>
-            </a>
-        </li>
+      <li
+        v-for="(navItem, index) in navFilters"
+        :key="index"
+        class="secondarynav__item"
+        :class="{ 's--on': navActive === navItem.slug }"
+      >
+        <a href="#" v-on:click.prevent="filterStatus(navItem.slug)">
+          <span class="secondarynav__link">{{ navItem.name }}</span
+          ><span class="secondarynav__number">({{ navItem.number }})</span>
+        </a>
+      </li>
     </ul>
 
-    <div class="secondarynav secondarynav--mobile secondarynav--dropdown" slot="navigation" v-if="navFilters.length">
-        <a17-dropdown ref="secondaryNavDropdown" position="bottom-left" width="full" :offset="0">
-            <a17-button class="secondarynav__button" variant="dropdown-transparent" size="small" @click="$refs.secondaryNavDropdown.toggle()">
-                <span class="secondarynav__link">{{ selectedNav.name }}</span><span class="secondarynav__number">({{ selectedNav.number }})</span>
-            </a17-button>
-            <div slot="dropdown__content">
-                <ul>
-                  <li v-for="(navItem, index) in navFilters" class="secondarynav__item"
-                      :key="index">
-                        <a href="#" v-on:click.prevent="filterStatus(navItem.slug)">
-                            <span class="secondarynav__link">{{ navItem.name }}</span><span class="secondarynav__number">({{ navItem.number }})</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </a17-dropdown>
+    <div
+      class="secondarynav secondarynav--mobile secondarynav--dropdown"
+      slot="navigation"
+      v-if="navFilters.length"
+    >
+      <a17-dropdown
+        ref="secondaryNavDropdown"
+        position="bottom-left"
+        width="full"
+        :offset="0"
+      >
+        <a17-button
+          class="secondarynav__button"
+          variant="dropdown-transparent"
+          size="small"
+          @click="$refs.secondaryNavDropdown.toggle()"
+        >
+          <span class="secondarynav__link">{{ selectedNav.name }}</span
+          ><span class="secondarynav__number">({{ selectedNav.number }})</span>
+        </a17-button>
+        <div slot="dropdown__content">
+          <ul>
+            <li
+              v-for="(navItem, index) in navFilters"
+              class="secondarynav__item"
+              :key="index"
+            >
+              <a href="#" v-on:click.prevent="filterStatus(navItem.slug)">
+                <span class="secondarynav__link">{{ navItem.name }}</span
+                ><span class="secondarynav__number"
+                  >({{ navItem.number }})</span
+                >
+              </a>
+            </li>
+          </ul>
+        </div>
+      </a17-dropdown>
     </div>
   </div>
 </template>
@@ -52,7 +76,7 @@
         return navItem[0]
       },
       ...mapState({
-        navActive: state => state.datatable.filter.status
+        navActive: (state) => state.datatable.filter.status
       })
     },
     methods: {

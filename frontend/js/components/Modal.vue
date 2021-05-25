@@ -1,10 +1,23 @@
 <template>
-  <div class="modal" :class="modalClasses" @mousedown="hide" @touchend.prevent="hide">
+  <div
+    class="modal"
+    :class="modalClasses"
+    @mousedown="hide"
+    @touchend.prevent="hide"
+  >
     <transition name="fade_scale_modal">
-      <div class="modal__window" @mousedown.stop @touchend.stop v-if="active" v-show="!hidden">
+      <div
+        class="modal__window"
+        @mousedown.stop
+        @touchend.stop
+        v-if="active"
+        v-show="!hidden"
+      >
         <header class="modal__header" v-if="modalTitle">
           {{ modalTitle }}
-          <button class="modal__close" type="button" @click="hide"><span v-svg symbol="close_modal"></span></button>
+          <button class="modal__close" type="button" @click="hide">
+            <span v-svg symbol="close_modal"></span>
+          </button>
         </header>
 
         <div class="modal__content">
@@ -65,7 +78,7 @@
         }
       },
       ...mapState({
-        browserTitle: state => state.browser.title
+        browserTitle: (state) => state.browser.title
       })
     },
     watch: {
@@ -89,13 +102,17 @@
         // auto focus first field
         this.$nextTick(function () {
           if (focusable) {
-            const focusableSelector = 'textarea, input:not([type="hidden"]), select, button[type="submit"]'
+            const focusableSelector =
+              'textarea, input:not([type="hidden"]), select, button[type="submit"]'
             const focusableNodes = this.$el.querySelectorAll(focusableSelector)
-            const allFocusableNodes = this.$el.querySelectorAll(focusableSelector + ', a, button[type="button"]')
+            const allFocusableNodes = this.$el.querySelectorAll(
+              focusableSelector + ', a, button[type="button"]'
+            )
 
             // Trap focus inside the modal
             this.firstFocusableEl = this.$el.querySelector('.modal__close')
-            this.lastFocusableEl = allFocusableNodes[allFocusableNodes.length - 1]
+            this.lastFocusableEl =
+              allFocusableNodes[allFocusableNodes.length - 1]
 
             // init focus
             if (focusableNodes.length) focusableNodes[0].focus()
@@ -170,14 +187,13 @@
 </script>
 
 <style lang="scss" scoped>
-
   .modal {
-    position:fixed;
+    position: fixed;
     top: 0;
     right: 0;
     height: 0;
     left: 0;
-    background: rgba(0,0,0,.66);
+    background: rgba(0, 0, 0, 0.66);
     z-index: $zindex__modal;
 
     display: flex;
@@ -195,56 +211,56 @@
   }
 
   .modal__window {
-    background:$color__background;
+    background: $color__background;
     width: calc(100vw - 40px);
-    max-width:650px;
+    max-width: 650px;
     position: relative;
-    border-radius:2px;
-    display:flex;
+    border-radius: 2px;
+    display: flex;
     flex-flow: column nowrap;
-    margin:auto;
+    margin: auto;
   }
 
   .modal__content {
-    overflow:hidden;
+    overflow: hidden;
     overflow-y: auto;
     flex-grow: 1;
-    max-height:100%;
+    max-height: 100%;
   }
 
   .modal__header {
-    border-top-left-radius:2px;
-    border-top-right-radius:2px;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
     background: $color__modal--header;
-    padding:0 20px;
-    height:50px;
-    line-height:50px;
-    position:relative;
-    font-weight:600;
+    padding: 0 20px;
+    height: 50px;
+    line-height: 50px;
+    position: relative;
+    font-weight: 600;
   }
 
   .modal__close {
     @include btn-reset;
-    position:absolute;
-    right:5px;
-    top:2px;
-    background:transparent;
-    height:16px + 30px;
-    width:16px + 30px;
-    color:$color__icons;
-    padding:15px;
+    position: absolute;
+    right: 5px;
+    top: 2px;
+    background: transparent;
+    height: 16px + 30px;
+    width: 16px + 30px;
+    color: $color__icons;
+    padding: 15px;
 
     &:hover,
     &:focus {
-      color:$color__text;
+      color: $color__text;
     }
   }
 
   .modal__content {
-    padding:0 20px;
+    padding: 0 20px;
 
     > button {
-      margin-bottom:20px;
+      margin-bottom: 20px;
     }
   }
 
@@ -265,7 +281,6 @@
       @include breakpoint(xsmall) {
         border-radius: 0;
       }
-
     }
 
     @include breakpoint(small) {
@@ -281,7 +296,6 @@
 
   /* Modal Medium Size */
   .modal--medium {
-
     .modal__window {
       width: calc(100vw - 40px);
       max-width: 830px;
@@ -298,12 +312,11 @@
 
   /* Modal Tiny Size */
   .modal--tiny {
-
     .modal__window {
       width: calc(100vw - 40px);
       max-width: 350px;
       height: auto;
-      margin-bottom:40vh;
+      margin-bottom: 40vh;
     }
 
     .modal__content {
@@ -312,29 +325,29 @@
     }
 
     .modal__header {
-      display:none;
+      display: none;
     }
   }
 
   /* Modal with form */
   .modal--form {
     .modal__content {
-      padding-bottom:20px;
+      padding-bottom: 20px;
     }
   }
 
   /* Modal with strating Intro */
   .modal--withintro {
     .modal__content {
-      padding-top:20px;
+      padding-top: 20px;
     }
   }
 
   /* Modal used for the browser */
   .modal--browser {
     .modal__content {
-      padding-left:0;
-      padding-right:0;
+      padding-left: 0;
+      padding-right: 0;
     }
   }
 
@@ -344,10 +357,11 @@
   }
 
   /* Active Modal */
-  .modal--active { // centered into the page
+  .modal--active {
+    // centered into the page
     opacity: 1;
     visibility: visible;
-    height:100%;
+    height: 100%;
     transition: opacity 0.35s;
   }
 

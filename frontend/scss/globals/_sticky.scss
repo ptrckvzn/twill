@@ -7,30 +7,28 @@ Sticky elements default style
 
 ***/
 
-
 @include breakpoint('medium+') {
-
   .sticky {
-    position:relative;
+    position: relative;
   }
 
   .sticky__fixed,
   .sticky__fixedTop {
-    width:inherit;
-    position:fixed;
-    top:20px; /* see sticky.js : default offset value */
+    width: inherit;
+    position: fixed;
+    top: 20px; /* see sticky.js : default offset value */
   }
 
   .sticky__fixedBottom {
-    width:inherit;
-    position:fixed;
-    bottom:0; /* see sticky.js : default topMargin value */
+    width: inherit;
+    position: fixed;
+    bottom: 0; /* see sticky.js : default topMargin value */
   }
 
   .sticky__abs {
-    width:inherit;
-    position:absolute;
-    bottom:0;
+    width: inherit;
+    position: absolute;
+    bottom: 0;
   }
 
   .sticky__scrolled {
@@ -40,7 +38,7 @@ Sticky elements default style
   .publisher {
     &.sticky__fixed,
     &.sticky__fixedTop {
-      top:80px; /* see sticky.js : topMargin value */
+      top: 80px; /* see sticky.js : topMargin value */
     }
   }
 
@@ -48,7 +46,7 @@ Sticky elements default style
   .stickyNav {
     &.sticky__fixed,
     &.sticky__fixedTop {
-      top:0; /* see sticky.js : topMargin value */
+      top: 0; /* see sticky.js : topMargin value */
     }
   }
 }

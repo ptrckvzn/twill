@@ -1,19 +1,19 @@
 <template>
   <span>
     <!--Todo: check formatDateLabel logic-->
-    <span v-if="formatDateLabel.length > 0"
+    <span
+      v-if="formatDateLabel.length > 0"
       class="tablecell__datePub"
-      :class="{ 's--expired' : formatDateLabel === textExpired }">
+      :class="{ 's--expired': formatDateLabel === textExpired }"
+    >
       {{ startDate | formatDatatableDate }}
-      <br>
+      <br />
       <span>{{ formatDateLabel }}</span>
     </span>
     <span v-else>
-      <template v-if="!startDate">
-        —
-      </template>
+      <template v-if="!startDate"> — </template>
       <template v-else>
-      {{ startDate | formatDatatableDate }}
+        {{ startDate | formatDatatableDate }}
       </template>
     </span>
   </span>
@@ -49,10 +49,14 @@
         return label
       },
       startDate: function () {
-        return this.row.hasOwnProperty('publish_start_date') ? this.row.publish_start_date : ''
+        return this.row.hasOwnProperty('publish_start_date')
+          ? this.row.publish_start_date
+          : ''
       },
       endDate: function () {
-        return this.row.hasOwnProperty('publish_end_date') ? this.row.publish_end_date : ''
+        return this.row.hasOwnProperty('publish_end_date')
+          ? this.row.publish_end_date
+          : ''
       }
     },
     filters: a17VueFilters
@@ -60,7 +64,6 @@
 </script>
 
 <style lang="scss" scoped>
-
   /* Publication dates */
   .tablecell__datePub {
     color: $color__text--light;

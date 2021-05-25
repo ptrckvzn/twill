@@ -1,16 +1,35 @@
 <template>
   <div class="nested-item">
-    <span v-for="col in columns" :key="col.name" class="nested-item__cell" :class="cellClasses(col, 'nested-item__cell')">
+    <span
+      v-for="col in columns"
+      :key="col.name"
+      class="nested-item__cell"
+      :class="cellClasses(col, 'nested-item__cell')"
+    >
       <template v-if="isSpecificColumn(col)">
-        <component :is="currentComponent(col.name)"
-                   v-bind="currentComponentProps(col)"
-                   @update="tableCellUpdate"
-                   @editInPlace="editInPlace"/>
+        <component
+          :is="currentComponent(col.name)"
+          v-bind="currentComponentProps(col)"
+          @update="tableCellUpdate"
+          @editInPlace="editInPlace"
+        />
       </template>
-      <a17-table-cell-generic v-else v-bind="currentComponentProps(col)" @editInPlace="editInPlace" @update="tableCellUpdate"/>
+      <a17-table-cell-generic
+        v-else
+        v-bind="currentComponentProps(col)"
+        @editInPlace="editInPlace"
+        @update="tableCellUpdate"
+      />
     </span>
     <span class="nested-item__cell nested-item__cell--actions">
-      <a17-table-cell-actions v-bind="currentComponentProps()" @editInPlace="editInPlace" @update="tableCellUpdate" @restoreRow=" restoreRow" @deleteRow="deleteRow" @duplicateRow="duplicateRow"/>
+      <a17-table-cell-actions
+        v-bind="currentComponentProps()"
+        @editInPlace="editInPlace"
+        @update="tableCellUpdate"
+        @restoreRow="restoreRow"
+        @deleteRow="deleteRow"
+        @duplicateRow="duplicateRow"
+      />
     </span>
   </div>
 </template>
@@ -29,7 +48,6 @@
 </script>
 
 <style lang="scss" scoped>
-
   .nested-item {
     position: relative;
     display: flex;

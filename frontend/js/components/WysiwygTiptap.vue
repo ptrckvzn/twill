@@ -1,53 +1,60 @@
 <template>
-  <a17-inputframe :error="error"
-                  :note="note"
-                  :label="label"
-                  :locale="locale"
-                  @localize="updateLocale"
-                  :size="size"
-                  :name="name"
-                  :required="required">
+  <a17-inputframe
+    :error="error"
+    :note="note"
+    :label="label"
+    :locale="locale"
+    @localize="updateLocale"
+    :size="size"
+    :name="name"
+    :required="required"
+  >
     <div class="wysiwyg__outer">
-      <div class="wysiwyg"
-           :class="textfieldClasses"
-           v-show="!activeSource">
-        <input :name="name"
-               type="hidden"
-               v-model="value"/>
-        <div class="wysiwyg__editor"
-             ref="editor">
-          <editor-menu-bar :editor="editor"
-                           v-slot="{ commands, isActive }">
+      <div class="wysiwyg" :class="textfieldClasses" v-show="!activeSource">
+        <input :name="name" type="hidden" v-model="value" />
+        <div class="wysiwyg__editor" ref="editor">
+          <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
             <div class="wysiwyg__menubar">
-
               <template v-if="toolbar.header">
-                <wysiwyg-menu-bar-btn icon="paragraph"
-                                      v-if="toolbar.header"
-                                      :isActive="isActive.paragraph()"
-                                      @btn:click="commands.paragraph"/>
-                <wysiwyg-menu-bar-btn v-for="headingLevel in headingOptions"
-                                      :key="headingLevel"
-                                      :icon="headingLevel > 1 ? `header-${headingLevel}` : 'header'"
-                                      :isActive="isActive.heading({ level: headingLevel })"
-                                      @btn:click="commands.heading({ level: headingLevel })"/>
+                <wysiwyg-menu-bar-btn
+                  icon="paragraph"
+                  v-if="toolbar.header"
+                  :isActive="isActive.paragraph()"
+                  @btn:click="commands.paragraph"
+                />
+                <wysiwyg-menu-bar-btn
+                  v-for="headingLevel in headingOptions"
+                  :key="headingLevel"
+                  :icon="headingLevel > 1 ? `header-${headingLevel}` : 'header'"
+                  :isActive="isActive.heading({ level: headingLevel })"
+                  @btn:click="commands.heading({ level: headingLevel })"
+                />
               </template>
 
-              <wysiwyg-menu-bar-btn icon="bold"
-                                    v-if="toolbar.bold"
-                                    :isActive="isActive.bold()"
-                                    @btn:click="commands.bold"/>
-              <wysiwyg-menu-bar-btn icon="italic"
-                                    v-if="toolbar.italic"
-                                    :isActive="isActive.italic()"
-                                    @btn:click="commands.italic"/>
-              <wysiwyg-menu-bar-btn icon="strike"
-                                    v-if="toolbar.strike"
-                                    :isActive="isActive.strike()"
-                                    @btn:click="commands.strike"/>
-              <wysiwyg-menu-bar-btn icon="underline"
-                                    v-if="toolbar.underline"
-                                    :isActive="isActive.underline()"
-                                    @btn:click="commands.underline"/>
+              <wysiwyg-menu-bar-btn
+                icon="bold"
+                v-if="toolbar.bold"
+                :isActive="isActive.bold()"
+                @btn:click="commands.bold"
+              />
+              <wysiwyg-menu-bar-btn
+                icon="italic"
+                v-if="toolbar.italic"
+                :isActive="isActive.italic()"
+                @btn:click="commands.italic"
+              />
+              <wysiwyg-menu-bar-btn
+                icon="strike"
+                v-if="toolbar.strike"
+                :isActive="isActive.strike()"
+                @btn:click="commands.strike"
+              />
+              <wysiwyg-menu-bar-btn
+                icon="underline"
+                v-if="toolbar.underline"
+                :isActive="isActive.underline()"
+                @btn:click="commands.underline"
+              />
               <!-- Disabling link option for now as Tiptap does
                    not support it by default in the menu bar, only
                    in the bubble mode. -->
@@ -56,89 +63,130 @@
                                     :isActive="isActive.link()"
                                     @btn:click="commands.link"/> -->
 
-              <wysiwyg-menu-bar-btn icon="ul"
-                                    v-if="toolbar.bullet"
-                                    :isActive="isActive.bullet_list()"
-                                    @btn:click="commands.bullet_list"/>
+              <wysiwyg-menu-bar-btn
+                icon="ul"
+                v-if="toolbar.bullet"
+                :isActive="isActive.bullet_list()"
+                @btn:click="commands.bullet_list"
+              />
 
-              <wysiwyg-menu-bar-btn icon="ol"
-                                    v-if="toolbar.ordered"
-                                    :isActive="isActive.ordered_list()"
-                                    @btn:click="commands.ordered_list"/>
+              <wysiwyg-menu-bar-btn
+                icon="ol"
+                v-if="toolbar.ordered"
+                :isActive="isActive.ordered_list()"
+                @btn:click="commands.ordered_list"
+              />
 
-              <wysiwyg-menu-bar-btn icon="quote"
-                                    v-if="toolbar.blockquote"
-                                    :isActive="isActive.blockquote()"
-                                    @btn:click="commands.blockquote"/>
+              <wysiwyg-menu-bar-btn
+                icon="quote"
+                v-if="toolbar.blockquote"
+                :isActive="isActive.blockquote()"
+                @btn:click="commands.blockquote"
+              />
 
-              <wysiwyg-menu-bar-btn icon="code"
-                                    v-if="toolbar['code-block']"
-                                    :isActive="isActive.code_block()"
-                                    @btn:click="commands.code_block"/>
+              <wysiwyg-menu-bar-btn
+                icon="code"
+                v-if="toolbar['code-block']"
+                :isActive="isActive.code_block()"
+                @btn:click="commands.code_block"
+              />
 
-              <wysiwyg-menu-bar-btn icon="code"
-                                    v-if="toolbar['code']"
-                                    :isActive="isActive.code()"
-                                    @btn:click="commands.code"/>
+              <wysiwyg-menu-bar-btn
+                icon="code"
+                v-if="toolbar['code']"
+                :isActive="isActive.code()"
+                @btn:click="commands.code"
+              />
 
               <template v-if="toolbar.table">
-                <wysiwyg-menu-bar-btn icon="table"
-                                      @btn:click="commands.createTable({rowsCount: 3, colsCount: 3, withHeaderRow: true })"/>
+                <wysiwyg-menu-bar-btn
+                  icon="table"
+                  @btn:click="
+                    commands.createTable({
+                      rowsCount: 3,
+                      colsCount: 3,
+                      withHeaderRow: true
+                    })
+                  "
+                />
 
-                <div class="wysiwyg__menubar-table-buttons"
-                     v-if="isActive.table()">
+                <div
+                  class="wysiwyg__menubar-table-buttons"
+                  v-if="isActive.table()"
+                >
+                  <wysiwyg-menu-bar-btn
+                    icon="delete_table"
+                    @btn:click="commands.deleteTable"
+                  />
 
-                  <wysiwyg-menu-bar-btn icon="delete_table"
-                                        @btn:click="commands.deleteTable"/>
+                  <wysiwyg-menu-bar-btn
+                    icon="add_col_before"
+                    @btn:click="commands.addColumnBefore"
+                  />
 
-                  <wysiwyg-menu-bar-btn icon="add_col_before"
-                                        @btn:click="commands.addColumnBefore"/>
+                  <wysiwyg-menu-bar-btn
+                    icon="add_col_after"
+                    @btn:click="commands.addColumnAfter"
+                  />
 
-                  <wysiwyg-menu-bar-btn icon="add_col_after"
-                                        @btn:click="commands.addColumnAfter"/>
+                  <wysiwyg-menu-bar-btn
+                    icon="delete_col"
+                    @btn:click="commands.deleteColumn"
+                  />
 
-                  <wysiwyg-menu-bar-btn icon="delete_col"
-                                        @btn:click="commands.deleteColumn"/>
+                  <wysiwyg-menu-bar-btn
+                    icon="add_row_before"
+                    @btn:click="commands.addRowBefore"
+                  />
 
-                  <wysiwyg-menu-bar-btn icon="add_row_before"
-                                        @btn:click="commands.addRowBefore"/>
+                  <wysiwyg-menu-bar-btn
+                    icon="add_row_after"
+                    @btn:click="commands.addRowAfter"
+                  />
 
-                  <wysiwyg-menu-bar-btn icon="add_row_after"
-                                        @btn:click="commands.addRowAfter"/>
+                  <wysiwyg-menu-bar-btn
+                    icon="delete_row"
+                    @btn:click="commands.deleteRow"
+                  />
 
-                  <wysiwyg-menu-bar-btn icon="delete_row"
-                                        @btn:click="commands.deleteRow"/>
-
-                  <wysiwyg-menu-bar-btn icon="combine_cells"
-                                        @btn:click="commands.toggleCellMerge"/>
+                  <wysiwyg-menu-bar-btn
+                    icon="combine_cells"
+                    @btn:click="commands.toggleCellMerge"
+                  />
                 </div>
               </template>
-              <wysiwyg-menu-bar-btn icon="undo"
-                                    @btn:click="commands.undo"/>
-              <wysiwyg-menu-bar-btn icon="redo"
-                                    @btn:click="commands.redo"/>
+              <wysiwyg-menu-bar-btn icon="undo" @btn:click="commands.undo" />
+              <wysiwyg-menu-bar-btn icon="redo" @btn:click="commands.redo" />
             </div>
           </editor-menu-bar>
-          <div class="wysiwyg__contentWrapper" :class="{ 'wysiwyg__contentWrapper--limitHeight' : limitHeight }">
-            <editor-content class="wysiwyg__content"
-                            :editor="editor"/>
+          <div
+            class="wysiwyg__contentWrapper"
+            :class="{ 'wysiwyg__contentWrapper--limitHeight': limitHeight }"
+          >
+            <editor-content class="wysiwyg__content" :editor="editor" />
           </div>
         </div>
-        <span v-if="shouldShowCounter"
-              class="input__limit f--tiny"
-              :class="limitClasses">{{ counter }}</span>
+        <span
+          v-if="shouldShowCounter"
+          class="input__limit f--tiny"
+          :class="limitClasses"
+          >{{ counter }}</span
+        >
       </div>
       <template v-if="editSource">
-        <div class="form__field form__field--textarea"
-             v-show="activeSource">
-          <textarea :placeholder="placeholder"
-                    :autofocus="autofocus"
-                    v-model="value"
-                    :style="textareaHeight"></textarea>
+        <div class="form__field form__field--textarea" v-show="activeSource">
+          <textarea
+            :placeholder="placeholder"
+            :autofocus="autofocus"
+            v-model="value"
+            :style="textareaHeight"
+          ></textarea>
         </div>
-        <a17-button variant="ghost"
-                    @click="toggleSourcecode"
-                    class="wysiwyg__button">Source code
+        <a17-button
+          variant="ghost"
+          @click="toggleSourcecode"
+          class="wysiwyg__button"
+          >Source code
         </a17-button>
       </template>
     </div>
@@ -248,7 +296,7 @@
         }
       },
       ...mapState({
-        baseUrl: state => state.form.baseUrl
+        baseUrl: (state) => state.form.baseUrl
       })
     },
     components: {
@@ -256,14 +304,13 @@
       EditorMenuBar,
       'wysiwyg-menu-bar-btn': WysiwygMenuBarBtn
     },
-    data () {
+    data() {
       return {
         value: this.initialValue,
         editorHeight: 50,
         toolbarHeight: 52,
         toolbar: this.options.modules.toolbar
-          ? this.options.modules.toolbar
-            .reduce((obj, item) => {
+          ? this.options.modules.toolbar.reduce((obj, item) => {
               if (item.list) {
                 obj[item.list] = true
                 return obj
@@ -278,11 +325,11 @@
               }
             }, {})
           : {
-            bold: true,
-            italic: true,
-            underline: true,
-            link: true
-          },
+              bold: true,
+              italic: true,
+              underline: true,
+              link: true
+            },
         headingOptions: [],
         focused: false,
         activeSource: false,
@@ -308,51 +355,58 @@
         this.saveIntoStore() // see formStore mixin
       }, 600),
       toggleSourcecode: function () {
-        this.editorHeight = (Math.max(50, this.$refs.editor.clientHeight) + this.toolbarHeight - 1) + 'px'
+        this.editorHeight =
+          Math.max(50, this.$refs.editor.clientHeight) +
+          this.toolbarHeight -
+          1 +
+          'px'
         this.activeSource = !this.activeSource
 
         // set editor content
         this.updateEditor(this.value)
         this.saveIntoStore() // see formStore mixin
       },
-      updateCounter () {
+      updateCounter() {
         if (this.showCounter && this.hasMaxlength) {
           this.counter = this.maxlength - this.getTextLength()
         }
       },
-      getTextLength () {
+      getTextLength() {
         return this.editor.getHTML().replace(/<[^>]+>/g, '').length
       }
     },
-    beforeMount () {
+    beforeMount() {
       const content = this.value || ''
-      const extensions = [
-        new History(),
-        new HardBreak()
-      ]
+      const extensions = [new History(), new HardBreak()]
 
       if (this.placeholder && this.placeholder.length > 0) {
-        extensions.push(new Placeholder({
-          emptyNodeClass: 'is-empty',
-          emptyNodeText: this.placeHolder,
-          showOnlyWhenEditable: true
-        }))
+        extensions.push(
+          new Placeholder({
+            emptyNodeClass: 'is-empty',
+            emptyNodeText: this.placeHolder,
+            showOnlyWhenEditable: true
+          })
+        )
       }
 
       if (this.toolbar.ordered || this.toolbar.bullet) {
         extensions.push(new ListItem())
       }
 
-      Object.keys(this.toolbar).forEach(tool => {
+      Object.keys(this.toolbar).forEach((tool) => {
         switch (tool) {
           case 'header': {
-            const levels = this.toolbar[tool].filter(level => typeof level === 'number')
-            levels.forEach(level => {
+            const levels = this.toolbar[tool].filter(
+              (level) => typeof level === 'number'
+            )
+            levels.forEach((level) => {
               this.headingOptions.push(level)
             })
-            extensions.push(new Heading({
-              levels: levels
-            }))
+            extensions.push(
+              new Heading({
+                levels: levels
+              })
+            )
             break
           }
           case 'bold': {
@@ -396,9 +450,11 @@
             break
           }
           case 'table': {
-            extensions.push(new Table({
-              resizable: false
-            }))
+            extensions.push(
+              new Table({
+                resizable: false
+              })
+            )
             extensions.push(new TableHeader())
             extensions.push(new TableCell())
             extensions.push(new TableRow())
@@ -419,7 +475,7 @@
 
       this.updateCounter()
     },
-    beforeDestroy () {
+    beforeDestroy() {
       this.editor.destroy()
     }
   }
@@ -510,15 +566,30 @@
     .ProseMirror {
       color: $color__text;
 
-      h1, h2, h3, h4, h5, h6 {
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
         font-weight: 700;
       }
 
-      b, p b, p strong, strong {
-        font-weight:700;
+      b,
+      p b,
+      p strong,
+      strong {
+        font-weight: 700;
       }
 
-      p, ul, ol, h1, h2, h3, h4, h5 {
+      p,
+      ul,
+      ol,
+      h1,
+      h2,
+      h3,
+      h4,
+      h5 {
         margin-bottom: 1em;
       }
 
@@ -570,7 +641,8 @@
         overflow: auto;
         background-color: $color__wysiwyg-codeBg;
         border-radius: 3px;
-        font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+        font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo,
+          Courier, monospace;
       }
 
       a {
@@ -600,13 +672,13 @@
         overflow: hidden;
 
         .selectedCell:after {
-          content: "";
+          content: '';
           position: absolute;
           left: 0;
           right: 0;
           top: 0;
           bottom: 0;
-          background: rgba(234, 244, 250, .8);
+          background: rgba(234, 244, 250, 0.8);
           pointer-events: none;
           z-index: 2;
         }
@@ -626,8 +698,8 @@
 
       blockquote {
         border-left: 3px solid $color__border;
-        color: rgba(0, 0, 0, .8);
-        padding-left: .8rem;
+        color: rgba(0, 0, 0, 0.8);
+        padding-left: 0.8rem;
       }
 
       p.is-empty:first-child:before {

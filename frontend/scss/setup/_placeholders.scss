@@ -8,7 +8,9 @@
       @if (map-get($main-col-widths, $name) == 'fluid') {
         width: auto;
       } @else {
-        width: map-get($main-col-widths, $name) + map-get($outer-gutters, $name) + map-get($outer-gutters, $name);
+        width: map-get($main-col-widths, $name) +
+          map-get($outer-gutters, $name) +
+          map-get($outer-gutters, $name);
       }
       padding-right: map-get($outer-gutters, $name);
       padding-left: map-get($outer-gutters, $name);

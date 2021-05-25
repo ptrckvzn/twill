@@ -1,5 +1,10 @@
 <template>
-  <a17-modal ref="modal" class="modal--form" :title="modalTitle" :forceClose="true">
+  <a17-modal
+    ref="modal"
+    class="modal--form"
+    :title="modalTitle"
+    :forceClose="true"
+  >
     <form :action="actionForm" @submit.prevent="submit">
       <slot></slot>
       <a17-modal-validation
@@ -31,13 +36,13 @@
       },
       publishedLabel: {
         type: String,
-        default () {
+        default() {
           return this.$trans('main.published', 'Live')
         }
       },
       draftLabel: {
         type: String,
-        default () {
+        default() {
           return this.$trans('main.draft', 'Draft')
         }
       }
@@ -53,24 +58,26 @@
         return this.createMode ? this.formCreate : this.action
       },
       modalTitle: function () {
-        return this.createMode ? this.$trans('modal.create.title', 'Add new') : this.$trans('modal.update.title', 'Update')
+        return this.createMode
+          ? this.$trans('modal.create.title', 'Add new')
+          : this.$trans('modal.update.title', 'Update')
       },
       published: function () {
         return !this.createMode && !!this.fieldValueByName('published')
       },
       withPublicationToggle: function () {
-        return this.columns.find(c => {
-          return c.name === 'published'
-        }) !== undefined
+        return (
+          this.columns.find((c) => {
+            return c.name === 'published'
+          }) !== undefined
+        )
       },
       ...mapState({
-        action: state => state.modalEdition.action,
-        mode: state => state.modalEdition.mode,
-        columns: state => state.datatable.columns
+        action: (state) => state.modalEdition.action,
+        mode: (state) => state.modalEdition.mode,
+        columns: (state) => state.datatable.columns
       }),
-      ...mapGetters([
-        'fieldValueByName'
-      ])
+      ...mapGetters(['fieldValueByName'])
     },
     methods: {
       open: function () {
@@ -87,25 +94,33 @@
         const submitMode = document.activeElement.name
 
         this.$nextTick(function () {
-          this.$store.dispatch(ACTIONS.UPDATE_FORM_IN_LISTING, {
-            endpoint: this.actionForm,
-            method: this.mode === 'create' ? 'post' : 'put',
-            redirect: submitMode !== 'create-another'
-          }).then(() => {
-            if (self.$refs.modal) self.$refs.modal.close()
+          this.$store
+            .dispatch(ACTIONS.UPDATE_FORM_IN_LISTING, {
+              endpoint: this.actionForm,
+              method: this.mode === 'create' ? 'post' : 'put',
+              redirect: submitMode !== 'create-another'
+            })
+            .then(
+              () => {
+                if (self.$refs.modal) self.$refs.modal.close()
 
-            self.$nextTick(function () {
-              if (submitMode === 'create-another' && self.$refs.modal) self.$refs.modal.open()
-              if (this.mode === 'create') this.$store.commit(DATATABLE.UPDATE_DATATABLE_PAGE, 1)
-              this.$store.commit(FORM.REMOVE_FORM_FIELD, 'published')
-              this.$emit('reload')
-            })
-          }, (errorResponse) => {
-            self.$store.commit(NOTIFICATION.SET_NOTIF, {
-              message: 'Your submission could not be validated, please fix and retry',
-              variant: 'error'
-            })
-          })
+                self.$nextTick(function () {
+                  if (submitMode === 'create-another' && self.$refs.modal)
+                    self.$refs.modal.open()
+                  if (this.mode === 'create')
+                    this.$store.commit(DATATABLE.UPDATE_DATATABLE_PAGE, 1)
+                  this.$store.commit(FORM.REMOVE_FORM_FIELD, 'published')
+                  this.$emit('reload')
+                })
+              },
+              (errorResponse) => {
+                self.$store.commit(NOTIFICATION.SET_NOTIF, {
+                  message:
+                    'Your submission could not be validated, please fix and retry',
+                  variant: 'error'
+                })
+              }
+            )
         })
       }
     }

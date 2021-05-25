@@ -1,5 +1,13 @@
 <template>
-  <a17-button variant="icon" size="smallIcon" :data-tooltip-title="text" data-tooltip-theme="large" data-tooltip-placement="right" v-tooltip><span v-svg symbol="info"></span></a17-button>
+  <a17-button
+    variant="icon"
+    size="smallIcon"
+    :data-tooltip-title="text"
+    data-tooltip-theme="large"
+    data-tooltip-placement="right"
+    v-tooltip
+    ><span v-svg symbol="info"></span
+  ></a17-button>
 </template>
 
 <script>
@@ -10,8 +18,7 @@
         default: ''
       }
     },
-    computed: {
-    },
+    computed: {},
     methods: {
       onClick: function () {
         this.$emit('click')
@@ -28,9 +35,8 @@
     margin-right: 7px;
 
     .icon {
-      display:block;
-      margin:-1px;
+      display: block;
+      margin: -1px;
     }
   }
-
 </style>

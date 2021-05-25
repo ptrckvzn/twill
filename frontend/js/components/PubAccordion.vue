@@ -25,7 +25,8 @@
         @input="updateStartDate"
         :clear="true"
       ></a17-datepicker>
-      <a17-datepicker name="end_date"
+      <a17-datepicker
+        name="end_date"
         :place-holder="$trans('publisher.end-date')"
         :time_24hr="date_24h"
         :altFormat="dateFormat"
@@ -47,7 +48,10 @@
   import { mapState } from 'vuex'
   import { PUBLICATION } from '@/store/mutations'
   import a17VueFilters from '@/utils/filters.js'
-  import { getTimeFormatForCurrentLocale, isCurrentLocale24HrFormatted } from '@/utils/locale'
+  import {
+    getTimeFormatForCurrentLocale,
+    isCurrentLocale24HrFormatted
+  } from '@/utils/locale'
 
   import a17Accordion from './Accordion.vue'
   import VisibilityMixin from '@/mixins/toggleVisibility'
@@ -85,8 +89,8 @@
     filters: a17VueFilters,
     computed: {
       ...mapState({
-        startDate: state => state.publication.startDate,
-        endDate: state => state.publication.endDate
+        startDate: (state) => state.publication.startDate,
+        endDate: (state) => state.publication.endDate
       })
     },
     methods: {
@@ -101,7 +105,9 @@
       },
       openCalendar: function () {
         setTimeout(function () {
-          const accordions = document.querySelectorAll('.accordion.s--open, .accordion.s--open .accordion__dropdown')
+          const accordions = document.querySelectorAll(
+            '.accordion.s--open, .accordion.s--open .accordion__dropdown'
+          )
 
           accordions.forEach(function (accordion) {
             accordion.style.overflow = 'visible'
@@ -115,7 +121,9 @@
         this.openCalendar()
       },
       closeCalendar: function () {
-        const accordions = document.querySelectorAll('.accordion.s--open, .accordion.s--open .accordion__dropdown')
+        const accordions = document.querySelectorAll(
+          '.accordion.s--open, .accordion.s--open .accordion__dropdown'
+        )
 
         accordions.forEach(function (accordion) {
           accordion.style.overflow = ''

@@ -10,9 +10,9 @@ Header contextual navigation
 $height__nav: 60px;
 
 .breadcrumb {
-  background-color:$color__border;
-  overflow:hidden;
-  height:$height__nav;
+  background-color: $color__border;
+  overflow: hidden;
+  height: $height__nav;
 }
 
 .breadcrumb__item {
@@ -49,11 +49,11 @@ $height__nav: 60px;
   &:first-child {
     a,
     span {
-      padding-left:0;
+      padding-left: 0;
     }
 
     &::before {
-      display:none;
+      display: none;
     }
   }
 }

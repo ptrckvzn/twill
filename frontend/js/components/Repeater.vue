@@ -1,21 +1,53 @@
 <template>
   <div class="content">
     <draggable class="content__content" v-model="blocks" :options="dragOptions">
-      <transition-group name="draggable_list" tag='div'>
-        <div class="content__item" v-for="(block, index) in blocks" :key="block.id">
-          <a17-block :block="block" :index="index" :size="blockSize" :opened="opened" @open="setOpened">
-            <a17-button slot="block-actions" variant="icon" data-action @click="duplicateBlock(index)"  v-if="hasRemainingBlocks"><span v-svg symbol="add"></span></a17-button>
+      <transition-group name="draggable_list" tag="div">
+        <div
+          class="content__item"
+          v-for="(block, index) in blocks"
+          :key="block.id"
+        >
+          <a17-block
+            :block="block"
+            :index="index"
+            :size="blockSize"
+            :opened="opened"
+            @open="setOpened"
+          >
+            <a17-button
+              slot="block-actions"
+              variant="icon"
+              data-action
+              @click="duplicateBlock(index)"
+              v-if="hasRemainingBlocks"
+              ><span v-svg symbol="add"></span
+            ></a17-button>
             <div slot="dropdown-action">
-              <button type="button" @click="collapseAllBlocks()">Collapse All</button>
+              <button type="button" @click="collapseAllBlocks()">
+                Collapse All
+              </button>
               <button type="button" @click="deleteBlock(index)">Delete</button>
-              <button type="button" @click="duplicateBlock(index)" v-if="hasRemainingBlocks">Duplicate</button>
+              <button
+                type="button"
+                @click="duplicateBlock(index)"
+                v-if="hasRemainingBlocks"
+              >
+                Duplicate
+              </button>
             </div>
           </a17-block>
         </div>
       </transition-group>
     </draggable>
     <div class="content__trigger">
-      <a17-button :class="triggerClass" :variant="triggerVariant" :size="triggerSize" @click="addBlock()" v-if="hasRemainingBlocks && blockType.trigger">{{ blockType.trigger }}</a17-button>
+      <a17-button
+        :class="triggerClass"
+        :variant="triggerVariant"
+        :size="triggerSize"
+        @click="addBlock()"
+        v-if="hasRemainingBlocks && blockType.trigger"
+        >{{ blockType.trigger }}</a17-button
+      >
       <div class="content__note f--note f--small"><slot></slot></div>
     </div>
   </div>
@@ -69,20 +101,25 @@
         return typeof this.$parent.repeaterName !== 'undefined'
       },
       hasRemainingBlocks: function () {
-        return !this.blockType.hasOwnProperty('max') || (this.blockType.max > this.blocks.length)
+        return (
+          !this.blockType.hasOwnProperty('max') ||
+          this.blockType.max > this.blocks.length
+        )
       },
       blockType: function () {
-        return this.availableBlocks[this.type] ? this.availableBlocks[this.type] : {}
+        return this.availableBlocks[this.type]
+          ? this.availableBlocks[this.type]
+          : {}
       },
       blocks: {
-        get () {
+        get() {
           if (this.savedBlocks.hasOwnProperty(this.name)) {
             return this.savedBlocks[this.name] || []
           } else {
             return []
           }
         },
-        set (value) {
+        set(value) {
           this.$store.commit(FORM.REORDER_FORM_BLOCKS, {
             type: this.type,
             name: this.name,
@@ -91,8 +128,8 @@
         }
       },
       ...mapState({
-        savedBlocks: state => state.repeaters.repeaters,
-        availableBlocks: state => state.repeaters.availableRepeaters
+        savedBlocks: (state) => state.repeaters.repeaters,
+        availableBlocks: (state) => state.repeaters.availableRepeaters
       })
     },
     methods: {
@@ -101,7 +138,10 @@
       },
       addBlock: function () {
         this.opened = true
-        this.$store.commit(FORM.ADD_FORM_BLOCK, { type: this.type, name: this.name })
+        this.$store.commit(FORM.ADD_FORM_BLOCK, {
+          type: this.type,
+          name: this.name
+        })
       },
       duplicateBlock: function (index) {
         this.opened = true
@@ -133,45 +173,44 @@
 </script>
 
 <style lang="scss" scoped>
-
   .content {
-    margin-top:20px; // margin-top:35px;
+    margin-top: 20px; // margin-top:35px;
   }
 
   .content__content {
-    margin-bottom:20px;
+    margin-bottom: 20px;
 
     + .dropdown {
-      display:inline-block;
+      display: inline-block;
     }
   }
 
   .content__item {
-    border:1px solid $color__border;
-    border-top:0 none;
+    border: 1px solid $color__border;
+    border-top: 0 none;
 
     &.sortable-ghost {
-      opacity:0.5;
+      opacity: 0.5;
     }
   }
 
   .content__item:first-child {
-    border-top:1px solid $color__border;
+    border-top: 1px solid $color__border;
   }
 
   .content__trigger {
-    display:flex;
+    display: flex;
   }
 
   .content__button {
-    display:block;
-    width:100%;
-    text-align:center;
-    margin-top:-5px;
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin-top: -5px;
   }
 
   .content__note {
-    flex-grow:1;
-    text-align:right;
+    flex-grow: 1;
+    text-align: right;
   }
 </style>

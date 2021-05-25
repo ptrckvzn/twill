@@ -1,12 +1,23 @@
 <template>
-  <div class="language"
-       :class="languageClass"
-       v-if="languages.length > 1">
-    <span class="language__label f--small" v-if="!inModal">{{ $trans('lang-switcher.edit-in') }}</span>
+  <div class="language" :class="languageClass" v-if="languages.length > 1">
+    <span class="language__label f--small" v-if="!inModal">{{
+      $trans('lang-switcher.edit-in')
+    }}</span>
     <span class="language__toolbar">
-      <button type="button" class="language__button" :key="language.value" v-for="language in languages"
-              :class="{ 'selected': language.value === localeValue.value, 'published': language.published, 'no-state': allPublished }"
-              @click="onClick(language.value)">{{ language.shortlabel }}</button>
+      <button
+        type="button"
+        class="language__button"
+        :key="language.value"
+        v-for="language in languages"
+        :class="{
+          selected: language.value === localeValue.value,
+          published: language.published,
+          'no-state': allPublished
+        }"
+        @click="onClick(language.value)"
+      >
+        {{ language.shortlabel }}
+      </button>
     </span>
   </div>
 </template>
@@ -34,17 +45,15 @@
       }
     },
     computed: {
-      languageClass () {
+      languageClass() {
         return {
           'language--in-modal': this.inModal
         }
       },
-      localeValue () {
+      localeValue() {
         return this.$store.state.language.active
       },
-      ...mapGetters([
-        'publishedLanguages'
-      ])
+      ...mapGetters(['publishedLanguages'])
     },
     methods: {
       onClick: function (newValue) {
@@ -55,7 +64,6 @@
 </script>
 
 <style lang="scss" scoped>
-
   $toolbar__height: 35px;
   $border__radius: 2px;
 
@@ -160,7 +168,7 @@
     color: $color__f--text;
     background: $color__background;
     white-space: nowrap;
-    transition: background-color .25s linear, border-color .25s linear;
+    transition: background-color 0.25s linear, border-color 0.25s linear;
     margin-left: 0;
     margin-right: 0;
 

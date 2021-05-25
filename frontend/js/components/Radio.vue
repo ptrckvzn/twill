@@ -1,6 +1,14 @@
 <template>
   <span class="radio" :class="customClass">
-    <input type="radio" class="radio__input" :value="value" :name="name" :id="uniqId(value)" :disabled="disabled" v-model="selectedValue">
+    <input
+      type="radio"
+      class="radio__input"
+      :value="value"
+      :name="name"
+      :id="uniqId(value)"
+      :disabled="disabled"
+      v-model="selectedValue"
+    />
     <label class="radio__label" :for="uniqId(value)">{{ label }}</label>
   </span>
 </template>
@@ -60,9 +68,8 @@
 </script>
 
 <style lang="scss" scoped>
-
   .radio {
-    color:$color__text;
+    color: $color__text;
   }
 
   .radio__input {
@@ -94,7 +101,7 @@
     width: 18px;
     height: 18px;
     border-radius: 50%;
-    transition: all .25s $bezier__bounce;
+    transition: all 0.25s $bezier__bounce;
   }
 
   .radio__label::before {
@@ -105,8 +112,8 @@
   .radio__label::after {
     border: 0 none;
     background-color: $color__icons;
-    opacity:0;
-    transform: scale(.1);
+    opacity: 0;
+    transform: scale(0.1);
   }
 
   .radio__label:hover::before {
@@ -114,9 +121,9 @@
   }
 
   .radio__label:hover,
-  .radio__input:hover   + .radio__label,
+  .radio__input:hover + .radio__label,
   .radio__input:checked + .radio__label {
-    color:$color__text;
+    color: $color__text;
   }
 
   .radio__input:focus + .radio__label::before {
@@ -124,7 +131,7 @@
   }
 
   .radio__input:checked + .radio__label {
-    color:$color__text;
+    color: $color__text;
   }
 
   .radio__input:focus:checked + .radio__label::before,
@@ -135,12 +142,12 @@
 
   .radio__input:checked + .radio__label::after {
     opacity: 1;
-    transform: scale(.33);
+    transform: scale(0.33);
     background-color: $color__background;
   }
 
   .radio__input:disabled + .radio__label {
-    opacity: .5;
+    opacity: 0.5;
     pointer-events: none;
   }
 
@@ -149,10 +156,9 @@
   @each $current-color in $colors__bucket--list {
     $i: index($colors__bucket--list, $current-color);
     .radio__bucket--#{$i} {
-
       .radio__input:hover + .radio__label::after {
         opacity: 1;
-        transform: scale(.33);
+        transform: scale(0.33);
         background-color: $color__background;
       }
 

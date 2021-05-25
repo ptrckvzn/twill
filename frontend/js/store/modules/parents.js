@@ -20,10 +20,10 @@ const state = {
 }
 
 // getters
-const getters = { }
+const getters = {}
 
 const mutations = {
-  [PARENTS.UPDATE_PARENT] (state, newValue) {
+  [PARENTS.UPDATE_PARENT](state, newValue) {
     if (newValue) state.active = newValue
     else state.active = 0
   }

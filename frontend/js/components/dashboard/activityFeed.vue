@@ -4,13 +4,25 @@
       <slot></slot>
 
       <ul class="box__filter">
-        <li v-for="(navItem, index) in navFilters" :key="index"><a href="#" :class="{ 's--on' : navActive === index }" @click.prevent="filterStatus(index, navItem.slug)">{{ navItem.name }}</a></li>
+        <li v-for="(navItem, index) in navFilters" :key="index">
+          <a
+            href="#"
+            :class="{ 's--on': navActive === index }"
+            @click.prevent="filterStatus(index, navItem.slug)"
+            >{{ navItem.name }}</a
+          >
+        </li>
       </ul>
     </header>
     <div class="box__body">
       <table class="activityFeed__table" v-if="rows.length > 0">
         <template v-for="(row, index) in rows">
-          <a17-activity-row :row="row" :index="index" :columns="columns" :key="row.id"></a17-activity-row>
+          <a17-activity-row
+            :row="row"
+            :index="index"
+            :columns="columns"
+            :key="row.id"
+          ></a17-activity-row>
         </template>
       </table>
       <template v-else="">
@@ -36,7 +48,7 @@
     props: {
       emptyMessage: {
         type: String,
-        default: 'You don\'t have any activity yet.'
+        default: "You don't have any activity yet."
       }
     },
     data: function () {
@@ -56,17 +68,17 @@
     },
     computed: {
       rows: {
-        get () {
+        get() {
           return this.$store.state.datatable.data
         },
-        set (value) {
+        set(value) {
           this.$store.commit(DATATABLE.UPDATE_DATATABLE_DATA, value)
         }
       },
       ...mapState({
-        page: state => state.datatable.page,
-        maxPage: state => state.datatable.maxPage,
-        columns: state => state.datatable.columns
+        page: (state) => state.datatable.page,
+        maxPage: (state) => state.datatable.maxPage,
+        columns: (state) => state.datatable.columns
       })
     },
     methods: {
@@ -79,7 +91,12 @@
         // this.$store.commit(DATATABLE.UPDATE_DATATABLE_PAGE, 1)
         // this.$store.commit(DATATABLE.UPDATE_DATATABLE_FILTER_STATUS, slug)
         if (window[process.env.VUE_APP_NAME].STORE.datatable) {
-          if (window[process.env.VUE_APP_NAME].STORE.datatable.hasOwnProperty(slug)) this.rows = window[process.env.VUE_APP_NAME].STORE.datatable[slug]
+          if (
+            window[process.env.VUE_APP_NAME].STORE.datatable.hasOwnProperty(
+              slug
+            )
+          )
+            this.rows = window[process.env.VUE_APP_NAME].STORE.datatable[slug]
         }
       }
     }
@@ -87,7 +104,6 @@
 </script>
 
 <style lang="scss" scoped>
-
   .activityFeed {
   }
 

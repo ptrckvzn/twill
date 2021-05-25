@@ -46,17 +46,17 @@ const state = {
 
 // getters
 const getters = {
-  previewsById (state) {
-    return id => state.previews[id] ? state.previews[id] : ''
+  previewsById(state) {
+    return (id) => (state.previews[id] ? state.previews[id] : '')
   }
 }
 
-function setBlockID () {
+function setBlockID() {
   return Date.now()
 }
 
 const mutations = {
-  [CONTENT.ADD_BLOCK] (state, blockInfos) {
+  [CONTENT.ADD_BLOCK](state, blockInfos) {
     const block = blockInfos.block
     block.id = setBlockID()
 
@@ -66,42 +66,46 @@ const mutations = {
       state.blocks.push(block) // or add a new block at the end of the list
     }
   },
-  [CONTENT.MOVE_BLOCK] (state, fromTo) {
+  [CONTENT.MOVE_BLOCK](state, fromTo) {
     if (fromTo.newIndex >= state.blocks.length) {
       let k = fromTo.newIndex - state.blocks.length
-      while ((k--) + 1) {
+      while (k-- + 1) {
         state.blocks.push(undefined)
       }
     }
-    state.blocks.splice(fromTo.newIndex, 0, state.blocks.splice(fromTo.oldIndex, 1)[0])
+    state.blocks.splice(
+      fromTo.newIndex,
+      0,
+      state.blocks.splice(fromTo.oldIndex, 1)[0]
+    )
   },
-  [CONTENT.DELETE_BLOCK] (state, index) {
+  [CONTENT.DELETE_BLOCK](state, index) {
     const id = state.blocks[index].id
     if (id) Vue.delete(state.previews, id)
     state.blocks.splice(index, 1)
   },
-  [CONTENT.DUPLICATE_BLOCK] (state, index) {
+  [CONTENT.DUPLICATE_BLOCK](state, index) {
     const clone = Object.assign({}, state.blocks[index])
     clone.id = setBlockID()
 
     state.blocks.splice(index + 1, 0, clone)
   },
-  [CONTENT.REORDER_BLOCKS] (state, newBlocks) {
+  [CONTENT.REORDER_BLOCKS](state, newBlocks) {
     state.blocks = newBlocks
   },
-  [CONTENT.ACTIVATE_BLOCK] (state, index) {
+  [CONTENT.ACTIVATE_BLOCK](state, index) {
     if (state.blocks[index]) state.active = state.blocks[index]
     else state.active = {}
   },
-  [CONTENT.ADD_BLOCK_PREVIEW] (state, data) {
+  [CONTENT.ADD_BLOCK_PREVIEW](state, data) {
     Vue.set(state.previews, data.id, data.html)
   },
-  [CONTENT.UPDATE_PREVIEW_LOADING] (state, loading) {
+  [CONTENT.UPDATE_PREVIEW_LOADING](state, loading) {
     state.loading = !state.loading
   }
 }
 
-function getBlockPreview (block, commit, rootState, callback) {
+function getBlockPreview(block, commit, rootState, callback) {
   if (block.hasOwnProperty('id')) {
     const blockData = buildBlock(block, rootState)
 
@@ -120,7 +124,7 @@ function getBlockPreview (block, commit, rootState, callback) {
       api.getBlockPreview(
         rootState.form.blockPreviewUrl,
         blockData,
-        data => {
+        (data) => {
           commit(CONTENT.ADD_BLOCK_PREVIEW, {
             id: block.id,
             html: data
@@ -128,14 +132,14 @@ function getBlockPreview (block, commit, rootState, callback) {
 
           if (callback && typeof callback === 'function') callback()
         },
-        errorResponse => {}
+        (errorResponse) => {}
       )
     }
   }
 }
 
 const actions = {
-  [ACTIONS.GET_PREVIEW] ({ commit, state, rootState }, index = -1) {
+  [ACTIONS.GET_PREVIEW]({ commit, state, rootState }, index = -1) {
     let block = index >= 0 ? state.blocks[index] : {}
 
     // refresh preview of the active block
@@ -143,7 +147,7 @@ const actions = {
 
     getBlockPreview(block, commit, rootState)
   },
-  [ACTIONS.GET_ALL_PREVIEWS] ({ commit, state, rootState }) {
+  [ACTIONS.GET_ALL_PREVIEWS]({ commit, state, rootState }) {
     if (state.blocks.length && !state.loading) {
       commit(CONTENT.UPDATE_PREVIEW_LOADING, true)
       let loadedPreview = 0
@@ -151,7 +155,8 @@ const actions = {
       state.blocks.forEach(function (block) {
         getBlockPreview(block, commit, rootState, function () {
           loadedPreview++
-          if (loadedPreview === state.blocks.length) commit(CONTENT.UPDATE_PREVIEW_LOADING, true)
+          if (loadedPreview === state.blocks.length)
+            commit(CONTENT.UPDATE_PREVIEW_LOADING, true)
         })
       })
     }

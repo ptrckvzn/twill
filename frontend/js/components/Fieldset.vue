@@ -1,14 +1,25 @@
 <template>
   <div class="fieldset" :class="visibilityClasses">
     <header v-if="title" class="fieldset__header" :class="activeClasses">
-      <h3 v-if="activeToggle" @click="onClickVisibility" role="button" :aria-expanded="visible ?  'true' : 'false'" >{{ title}} <span v-svg symbol="dropdown_module"></span></h3>
+      <h3
+        v-if="activeToggle"
+        @click="onClickVisibility"
+        role="button"
+        :aria-expanded="visible ? 'true' : 'false'"
+      >
+        {{ title }} <span v-svg symbol="dropdown_module"></span>
+      </h3>
       <h3 v-else>{{ title }}</h3>
     </header>
     <header v-else="" class="fieldset__header" :class="activeClasses">
       <slot name="header"></slot>
     </header>
 
-    <div class="fieldset__content" :hidden="!visible ?  true : null" :aria-hidden="!visible ?  true : null">
+    <div
+      class="fieldset__content"
+      :hidden="!visible ? true : null"
+      :aria-hidden="!visible ? true : null"
+    >
       <slot></slot>
     </div>
   </div>
@@ -42,12 +53,11 @@
 </script>
 
 <style lang="scss" scoped>
-
   .fieldset {
     border-radius: 2px;
     border: 1px solid $color__border;
     margin-bottom: 20px;
-    background:$color__background;
+    background: $color__background;
   }
 
   .fieldset__header {
@@ -58,14 +68,16 @@
     background: $color__border;
     border-radius: 2px;
 
-    h2, h3, h4 {
+    h2,
+    h3,
+    h4 {
       height: 50px;
       line-height: 50px;
       padding: 1px 21px 0 21px;
       margin: 0;
       font-weight: 600;
       border-radius: 2px;
-      user-select:none;
+      user-select: none;
     }
 
     .icon {
@@ -76,17 +88,19 @@
       top: 50%;
       margin-top: -3px;
       color: $color__icons;
-      transition: transform .25s linear;
+      transition: transform 0.25s linear;
     }
   }
 
   .fieldset--hoverable {
-    h2, h3, h4 {
+    h2,
+    h3,
+    h4 {
       cursor: pointer;
 
       &:hover,
       &:focus {
-        background: $color__border--hover
+        background: $color__border--hover;
       }
     }
   }
@@ -112,7 +126,7 @@
       border: 0 none;
 
       + .repeater {
-        margin-top:20px;
+        margin-top: 20px;
       }
     }
   }
@@ -127,7 +141,9 @@
       margin-bottom: 0;
       border-radius: 2px 2px 0 0;
 
-      h2, h3, h4 {
+      h2,
+      h3,
+      h4 {
         border-radius: 2px 2px 0 0;
       }
     }

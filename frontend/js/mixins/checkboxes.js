@@ -16,7 +16,9 @@ export default {
     },
     selected: {
       type: Array,
-      default: function () { return [] }
+      default: function () {
+        return []
+      }
     }
   },
   data: function () {
@@ -37,7 +39,8 @@ export default {
       set: function (value) {
         if (!isEqual(value, this.currentValue)) {
           this.currentValue = value
-          if (typeof this.saveIntoStore !== 'undefined') this.saveIntoStore(value)
+          if (typeof this.saveIntoStore !== 'undefined')
+            this.saveIntoStore(value)
           this.$emit('change', value)
         }
       }
@@ -45,10 +48,10 @@ export default {
   },
   methods: {
     isMax: function (arrayToTest) {
-      return (arrayToTest.length > this.max && this.max > 0)
+      return arrayToTest.length > this.max && this.max > 0
     },
     isMin: function (arrayToTest) {
-      return (arrayToTest.length < this.min && this.min > 0)
+      return arrayToTest.length < this.min && this.min > 0
     }
   }
 }

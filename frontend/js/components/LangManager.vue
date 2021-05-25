@@ -1,24 +1,30 @@
 <template>
   <div class="languageManager" v-if="languages.length > 1">
     <div class="languageManager__switcher">
-      <a17-langswitcher :in-modal="true"/>
+      <a17-langswitcher :in-modal="true" />
     </div>
-    <a17-dropdown class="languageManager__dropdown"
-                  ref="languageManagerDropdown"
-                  position="bottom-right"
-                  :clickable="true">
-      <button class="languageManager__button"
-              type="button"
-              @click="$refs.languageManagerDropdown.toggle()">
-        {{currentValue.length }} {{ $trans('lang-manager.published') }} <span v-svg symbol="dropdown_module"></span>
+    <a17-dropdown
+      class="languageManager__dropdown"
+      ref="languageManagerDropdown"
+      position="bottom-right"
+      :clickable="true"
+    >
+      <button
+        class="languageManager__button"
+        type="button"
+        @click="$refs.languageManagerDropdown.toggle()"
+      >
+        {{ currentValue.length }} {{ $trans('lang-manager.published') }}
+        <span v-svg symbol="dropdown_module"></span>
       </button>
       <div slot="dropdown__content" class="languageManager__dropdown-content">
-        <a17-checkboxgroup name="langManager"
-                           :options="languages"
-                           :selected="currentValue"
-                           :min="1"
-                           @change="changeValue"
-                           />
+        <a17-checkboxgroup
+          name="langManager"
+          :options="languages"
+          :selected="currentValue"
+          :min="1"
+          @change="changeValue"
+        />
       </div>
     </a17-dropdown>
   </div>
@@ -39,12 +45,14 @@
     },
     props: {
       value: {
-        default: function () { return [] }
+        default: function () {
+          return []
+        }
       }
     },
     computed: {
       currentValue: {
-        get () {
+        get() {
           const values = []
 
           if (this.publishedLanguages.length) {
@@ -57,11 +65,9 @@
         }
       },
       ...mapState({
-        languages: state => state.language.all
+        languages: (state) => state.language.all
       }),
-      ...mapGetters([
-        'publishedLanguages'
-      ])
+      ...mapGetters(['publishedLanguages'])
     },
     methods: {
       changeValue: function (newValue) {
@@ -72,7 +78,6 @@
 </script>
 
 <style lang="scss" scoped>
-
   .languageManager {
     margin: 0 -20px;
     background-color: $color__light;

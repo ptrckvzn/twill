@@ -1,7 +1,15 @@
 <template>
-  <transition name="fade_spinner" @before-enter="beforeEnter" @after-enter="afterEnter" @before-leave="beforeLeave">
+  <transition
+    name="fade_spinner"
+    @before-enter="beforeEnter"
+    @after-enter="afterEnter"
+    @before-leave="beforeLeave"
+  >
     <div class="a17spinner">
-      <div class="a17spinner__anim" :class="{ 'a17spinner__anim--visible' : isVisible }">
+      <div
+        class="a17spinner__anim"
+        :class="{ 'a17spinner__anim--visible': isVisible }"
+      >
         <span class="loader"><span></span></span>
         <!-- <slot></slot> -->
       </div>
@@ -37,7 +45,8 @@
   }
 </script>
 
-<style lang="scss"> // beware : not scoped
+<style lang="scss">
+  // beware : not scoped
 
   .a17spinner {
     display: flex;
@@ -59,13 +68,13 @@
     height: 20px;
     position: relative;
     text-align: center;
-    color:$color__text--light;
-    opacity:0;
-    transition: opacity .25s linear;
-    transition-delay:0.5s;
+    color: $color__text--light;
+    opacity: 0;
+    transition: opacity 0.25s linear;
+    transition-delay: 0.5s;
 
     &.a17spinner__anim--visible {
-      opacity:1;
+      opacity: 1;
     }
   }
 
@@ -76,7 +85,7 @@
   .s--in-editor .overlay .a17spinner {
     background-color: $color__background;
     .a17spinner__anim {
-      transition-delay:0s;
+      transition-delay: 0s;
     }
   }
 </style>

@@ -3,7 +3,7 @@
 // Should output : '<span class="icon icon--${id}"><svg><title>id</title><use xlink:href="#icon--${id}"></use></svg></span>';
 // <svg class="icon icon--${id}"><title>id</title><use xlink:href="#icon--${id}"></use></svg> if node is already a svg
 
-export function addSvg (el, binding, vnode) {
+export function addSvg(el, binding, vnode) {
   const classNames = ['icon']
   const id = binding.expression || vnode.data.attrs.symbol
   let svg = el
@@ -35,7 +35,7 @@ export function addSvg (el, binding, vnode) {
   svg.appendChild(use)
 }
 
-export function removeSvg (el) {
+export function removeSvg(el) {
   const svg = el.querySelector('svg')
 
   // remove svg

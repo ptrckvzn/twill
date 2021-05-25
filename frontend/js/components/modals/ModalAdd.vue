@@ -1,5 +1,10 @@
 <template>
-  <a17-modal ref="modal" class="modal--form" :title="modalTitle" :forceClose="true">
+  <a17-modal
+    ref="modal"
+    class="modal--form"
+    :title="modalTitle"
+    :forceClose="true"
+  >
     <form :action="formCreate" @submit.prevent="submit">
       <slot></slot>
       <a17-modal-validation :is-disable="true"></a17-modal-validation>
@@ -43,27 +48,33 @@
         const submitMode = document.activeElement.name
 
         this.$nextTick(function () {
-          this.$store.dispatch(ACTIONS.CREATE_FORM_IN_MODAL, {
-            name: this.name,
-            endpoint: this.formCreate,
-            method: 'post'
-          }).then(() => {
-            if (self.$refs.modal) self.$refs.modal.close()
-
-            self.$nextTick(function () {
-              self.$store.commit(NOTIFICATION.SET_NOTIF, {
-                message: 'Your content has been added',
-                variant: 'success'
-              })
-
-              if (submitMode === 'create-another' && self.$refs.modal) self.$refs.modal.open()
+          this.$store
+            .dispatch(ACTIONS.CREATE_FORM_IN_MODAL, {
+              name: this.name,
+              endpoint: this.formCreate,
+              method: 'post'
             })
-          }, (errorResponse) => {
-            self.$store.commit(NOTIFICATION.SET_NOTIF, {
-              message: 'Your content can not be added, please retry',
-              variant: 'error'
-            })
-          })
+            .then(
+              () => {
+                if (self.$refs.modal) self.$refs.modal.close()
+
+                self.$nextTick(function () {
+                  self.$store.commit(NOTIFICATION.SET_NOTIF, {
+                    message: 'Your content has been added',
+                    variant: 'success'
+                  })
+
+                  if (submitMode === 'create-another' && self.$refs.modal)
+                    self.$refs.modal.open()
+                })
+              },
+              (errorResponse) => {
+                self.$store.commit(NOTIFICATION.SET_NOTIF, {
+                  message: 'Your content can not be added, please retry',
+                  variant: 'error'
+                })
+              }
+            )
         })
       }
     }

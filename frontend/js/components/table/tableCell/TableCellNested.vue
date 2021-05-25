@@ -1,7 +1,5 @@
 <template>
-  <span class="tablecell__nested-depth"
-        :style="cellWidth">
-  </span>
+  <span class="tablecell__nested-depth" :style="cellWidth"> </span>
 </template>
 
 <script>
@@ -21,15 +19,16 @@
       }
     },
     computed: {
-      cellWidth () {
-        return this.depth > 0 ? { width: this.depth * 80 - 20 - this.offset + 'px' } : ''
+      cellWidth() {
+        return this.depth > 0
+          ? { width: this.depth * 80 - 20 - this.offset + 'px' }
+          : ''
       }
     }
   }
 </script>
 
 <style lang="scss" scoped>
-
   .tablecell__nested-depth {
     position: relative;
     display: block;
@@ -55,5 +54,4 @@
       background-color: $color__border--hover;
     }
   }
-
 </style>

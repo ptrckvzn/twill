@@ -5,11 +5,11 @@ import { globalError } from '@/utils/errors'
 const component = 'BUCKETS'
 
 export default {
-
   get: function (params, callback, errorCallback) {
-    axios.get(getURLWithoutQuery(), {
-      params: params
-    })
+    axios
+      .get(getURLWithoutQuery(), {
+        params: params
+      })
       .then((resp) => {
         if (callback && typeof callback === 'function') callback(resp.data)
       })
@@ -19,12 +19,14 @@ export default {
           value: resp
         }
         globalError(component, error)
-        if (errorCallback && typeof errorCallback === 'function') errorCallback(resp)
+        if (errorCallback && typeof errorCallback === 'function')
+          errorCallback(resp)
       })
   },
 
-  save (endpoint, params, callback, errorCallback) {
-    axios.post(endpoint, params)
+  save(endpoint, params, callback, errorCallback) {
+    axios
+      .post(endpoint, params)
       .then((resp) => {
         if (callback && typeof callback === 'function') callback(resp)
       })
@@ -35,7 +37,8 @@ export default {
           value: resp
         }
         globalError(component, error)
-        if (errorCallback && typeof errorCallback === 'function') errorCallback(resp)
+        if (errorCallback && typeof errorCallback === 'function')
+          errorCallback(resp)
       })
   }
 }

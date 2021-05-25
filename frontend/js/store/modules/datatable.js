@@ -11,7 +11,11 @@ const getObject = (container, id, callback) => {
   })
 }
 
-const deepRemoveFromObj = (items, keys = ['id', 'children'], deep = 'children') => {
+const deepRemoveFromObj = (
+  items,
+  keys = ['id', 'children'],
+  deep = 'children'
+) => {
   const deepItems = JSON.parse(JSON.stringify(items))
   deepItems.forEach((obj) => {
     for (const prop in obj) {
@@ -35,29 +39,33 @@ const state = {
   filtersNav: window[process.env.VUE_APP_NAME].STORE.datatable.navigation || [],
   page: window[process.env.VUE_APP_NAME].STORE.datatable.page || 1,
   maxPage: window[process.env.VUE_APP_NAME].STORE.datatable.maxPage || 1,
-  defaultMaxPage: window[process.env.VUE_APP_NAME].STORE.datatable.defaultMaxPage || 1,
+  defaultMaxPage:
+    window[process.env.VUE_APP_NAME].STORE.datatable.defaultMaxPage || 1,
   offset: window[process.env.VUE_APP_NAME].STORE.datatable.offset || 60,
-  defaultOffset: window[process.env.VUE_APP_NAME].STORE.datatable.defaultOffset || 60,
+  defaultOffset:
+    window[process.env.VUE_APP_NAME].STORE.datatable.defaultOffset || 60,
   sortKey: window[process.env.VUE_APP_NAME].STORE.datatable.sortKey || '',
   sortDir: window[process.env.VUE_APP_NAME].STORE.datatable.sortDir || 'asc',
   bulk: [],
-  localStorageKey: window[process.env.VUE_APP_NAME].STORE.datatable.localStorageKey || window.location.pathname,
+  localStorageKey:
+    window[process.env.VUE_APP_NAME].STORE.datatable.localStorageKey ||
+    window.location.pathname,
   loading: false,
   updateTracker: 0
 }
 
 // getters
 const getters = {
-  dataIds: state => {
-    return state.data.map(item => item.id)
+  dataIds: (state) => {
+    return state.data.map((item) => item.id)
   },
-  hideableColumns: state => {
-    return state.columns.filter(column => column.optional)
+  hideableColumns: (state) => {
+    return state.columns.filter((column) => column.optional)
   },
-  visibleColumns: state => {
-    return state.columns.filter(column => column.visible)
+  visibleColumns: (state) => {
+    return state.columns.filter((column) => column.visible)
   },
-  visibleColumnsNames: state => {
+  visibleColumnsNames: (state) => {
     const onlyActiveColumnsNames = []
 
     if (state.columns.length) {
@@ -71,13 +79,13 @@ const getters = {
 }
 
 const mutations = {
-  [DATATABLE.UPDATE_DATATABLE_DATA] (state, data) {
+  [DATATABLE.UPDATE_DATATABLE_DATA](state, data) {
     // Each time the data is changing, we reset the bulk ids
     state.bulk = []
 
     state.data = data
   },
-  [DATATABLE.UPDATE_DATATABLE_BULK] (state, id) {
+  [DATATABLE.UPDATE_DATATABLE_BULK](state, id) {
     if (state.bulk.indexOf(id) > -1) {
       state.bulk = state.bulk.filter(function (item) {
         return item !== id
@@ -86,42 +94,48 @@ const mutations = {
       state.bulk.push(id)
     }
   },
-  [DATATABLE.REPLACE_DATATABLE_BULK] (state, ids) {
+  [DATATABLE.REPLACE_DATATABLE_BULK](state, ids) {
     state.bulk = ids
   },
-  [DATATABLE.ADD_DATATABLE_COLUMN] (state, column) {
+  [DATATABLE.ADD_DATATABLE_COLUMN](state, column) {
     state.columns.splice(column.index, 0, column.data)
   },
-  [DATATABLE.REMOVE_DATATABLE_COLUMN] (state, columnName) {
+  [DATATABLE.REMOVE_DATATABLE_COLUMN](state, columnName) {
     state.columns.forEach(function (column, index) {
       if (column.name === columnName) state.columns.splice(index, 1)
     })
   },
-  [DATATABLE.UPDATE_DATATABLE_FILTER] (state, filter) {
+  [DATATABLE.UPDATE_DATATABLE_FILTER](state, filter) {
     state.filter = Object.assign({}, state.filter, filter)
   },
-  [DATATABLE.CLEAR_DATATABLE_FILTER] (state) {
-    state.filter = Object.assign({}, {
-      search: '',
-      status: state.filter.status
-    })
+  [DATATABLE.CLEAR_DATATABLE_FILTER](state) {
+    state.filter = Object.assign(
+      {},
+      {
+        search: '',
+        status: state.filter.status
+      }
+    )
   },
-  [DATATABLE.UPDATE_DATATABLE_FILTER_STATUS] (state, slug) {
+  [DATATABLE.UPDATE_DATATABLE_FILTER_STATUS](state, slug) {
     state.filter.status = slug
   },
-  [DATATABLE.UPDATE_DATATABLE_OFFSET] (state, offsetNumber) {
+  [DATATABLE.UPDATE_DATATABLE_OFFSET](state, offsetNumber) {
     state.offset = offsetNumber
     setStorage(state.localStorageKey + '_page-offset', state.offset)
   },
-  [DATATABLE.UPDATE_DATATABLE_PAGE] (state, pageNumber) {
+  [DATATABLE.UPDATE_DATATABLE_PAGE](state, pageNumber) {
     state.page = pageNumber
   },
-  [DATATABLE.UPDATE_DATATABLE_MAXPAGE] (state, maxPage) {
+  [DATATABLE.UPDATE_DATATABLE_MAXPAGE](state, maxPage) {
     if (state.page > maxPage) state.page = maxPage
     state.maxPage = maxPage
   },
-  [DATATABLE.UPDATE_DATATABLE_VISIBLITY] (state, columnNames) {
-    setStorage(state.localStorageKey + '_columns-visible', JSON.stringify(columnNames))
+  [DATATABLE.UPDATE_DATATABLE_VISIBLITY](state, columnNames) {
+    setStorage(
+      state.localStorageKey + '_columns-visible',
+      JSON.stringify(columnNames)
+    )
     state.columns.forEach(function (column) {
       for (let i = 0; i < columnNames.length; i++) {
         if (columnNames[i] === column.name) {
@@ -134,37 +148,41 @@ const mutations = {
       }
     })
   },
-  [DATATABLE.UPDATE_DATATABLE_SORT] (state, column) {
+  [DATATABLE.UPDATE_DATATABLE_SORT](state, column) {
     const defaultSortDirection = 'asc'
 
     if (state.sortKey === column.name) {
-      state.sortDir = state.sortDir === defaultSortDirection ? 'desc' : defaultSortDirection
+      state.sortDir =
+        state.sortDir === defaultSortDirection ? 'desc' : defaultSortDirection
     } else {
       state.sortDir = defaultSortDirection
     }
 
     state.sortKey = column.name
   },
-  [DATATABLE.UPDATE_DATATABLE_NAV] (state, navigation) {
+  [DATATABLE.UPDATE_DATATABLE_NAV](state, navigation) {
     navigation.forEach(function (navItem) {
       state.filtersNav.forEach(function (filterItem) {
         if (filterItem.name === navItem.name) filterItem.number = navItem.number
       })
     })
   },
-  [DATATABLE.PUBLISH_DATATABLE] (state, data) {
+  [DATATABLE.PUBLISH_DATATABLE](state, data) {
     const id = data.id
     const value = data.value
 
-    function updateState (index) {
+    function updateState(index) {
       if (index >= 0) {
-        if (value === 'toggle') state.data[index].published = !state.data[index].published
+        if (value === 'toggle')
+          state.data[index].published = !state.data[index].published
         else state.data[index].published = value
       }
     }
 
-    function getIndex (id) {
-      return state.data.findIndex(function (item, index) { return (item.id === id) })
+    function getIndex(id) {
+      return state.data.findIndex(function (item, index) {
+        return item.id === id
+      })
     }
 
     // bulk
@@ -180,19 +198,22 @@ const mutations = {
       updateState(index)
     }
   },
-  [DATATABLE.FEATURE_DATATABLE] (state, data) {
+  [DATATABLE.FEATURE_DATATABLE](state, data) {
     const id = data.id
     const value = data.value
 
-    function updateState (index) {
+    function updateState(index) {
       if (index >= 0) {
-        if (value === 'toggle') state.data[index].featured = !state.data[index].featured
+        if (value === 'toggle')
+          state.data[index].featured = !state.data[index].featured
         else state.data[index].featured = value
       }
     }
 
-    function getIndex (id) {
-      return state.data.findIndex(function (item, index) { return (item.id === id) })
+    function getIndex(id) {
+      return state.data.findIndex(function (item, index) {
+        return item.id === id
+      })
     }
 
     // bulk
@@ -208,21 +229,21 @@ const mutations = {
       updateState(index)
     }
   },
-  [DATATABLE.UPDATE_DATATABLE_LOADING] (state, loading) {
+  [DATATABLE.UPDATE_DATATABLE_LOADING](state, loading) {
     state.loading = !state.loading
   },
-  [DATATABLE.UPDATE_DATATABLE_NESTED] (state, data) {
+  [DATATABLE.UPDATE_DATATABLE_NESTED](state, data) {
     getObject(state.data, data.parentId, (item) => {
       item.children = data.val
     })
   },
-  [DATATABLE.UPDATE_DATATABLE_TRACKER] (state, newTracker) {
+  [DATATABLE.UPDATE_DATATABLE_TRACKER](state, newTracker) {
     state.updateTracker = newTracker ? state.updateTracker + 1 : 0
   }
 }
 
 const actions = {
-  [ACTIONS.GET_DATATABLE] ({ commit, state, getters }) {
+  [ACTIONS.GET_DATATABLE]({ commit, state, getters }) {
     if (!state.loading) {
       commit(DATATABLE.UPDATE_DATATABLE_LOADING, true)
       const params = {
@@ -242,76 +263,110 @@ const actions = {
       })
     }
   },
-  [ACTIONS.SET_DATATABLE_NESTED] ({ commit, state, dispatch }) {
+  [ACTIONS.SET_DATATABLE_NESTED]({ commit, state, dispatch }) {
     // Get all ids and children ids if any
     const ids = deepRemoveFromObj(state.data)
     api.reorder(ids, function (resp) {
-      commit(NOTIFICATION.SET_NOTIF, { message: resp.data.message, variant: resp.data.variant })
+      commit(NOTIFICATION.SET_NOTIF, {
+        message: resp.data.message,
+        variant: resp.data.variant
+      })
     })
   },
-  [ACTIONS.SET_DATATABLE] ({ commit, state, dispatch }) {
+  [ACTIONS.SET_DATATABLE]({ commit, state, dispatch }) {
     const ids = state.data.map((row) => row.id)
 
     api.reorder(ids, function (resp) {
-      commit(NOTIFICATION.SET_NOTIF, { message: resp.data.message, variant: resp.data.variant })
+      commit(NOTIFICATION.SET_NOTIF, {
+        message: resp.data.message,
+        variant: resp.data.variant
+      })
     })
   },
-  [ACTIONS.TOGGLE_PUBLISH] ({ commit, state, dispatch }, row) {
-    api.togglePublished(row, function (resp) {
-      commit(NOTIFICATION.SET_NOTIF, { message: resp.data.message, variant: resp.data.variant })
-      dispatch(ACTIONS.GET_DATATABLE)
-    }, function (errorResp) {
-      commit(NOTIFICATION.SET_NOTIF, { message: errorResp.data.error.message, variant: 'error' })
-    })
+  [ACTIONS.TOGGLE_PUBLISH]({ commit, state, dispatch }, row) {
+    api.togglePublished(
+      row,
+      function (resp) {
+        commit(NOTIFICATION.SET_NOTIF, {
+          message: resp.data.message,
+          variant: resp.data.variant
+        })
+        dispatch(ACTIONS.GET_DATATABLE)
+      },
+      function (errorResp) {
+        commit(NOTIFICATION.SET_NOTIF, {
+          message: errorResp.data.error.message,
+          variant: 'error'
+        })
+      }
+    )
   },
-  [ACTIONS.DELETE_ROW] ({ commit, state, dispatch }, row) {
+  [ACTIONS.DELETE_ROW]({ commit, state, dispatch }, row) {
     api.delete(row, function (resp) {
-      commit(NOTIFICATION.SET_NOTIF, { message: resp.data.message, variant: resp.data.variant })
+      commit(NOTIFICATION.SET_NOTIF, {
+        message: resp.data.message,
+        variant: resp.data.variant
+      })
       dispatch(ACTIONS.GET_DATATABLE)
     })
   },
-  [ACTIONS.DUPLICATE_ROW] ({ commit, state, dispatch }, row) {
+  [ACTIONS.DUPLICATE_ROW]({ commit, state, dispatch }, row) {
     api.duplicate(row, function (resp) {
-      commit(NOTIFICATION.SET_NOTIF, { message: resp.data.message, variant: resp.data.variant })
+      commit(NOTIFICATION.SET_NOTIF, {
+        message: resp.data.message,
+        variant: resp.data.variant
+      })
       if (resp.data.hasOwnProperty('redirect')) {
         window.location.replace(resp.data.redirect)
       }
     })
   },
-  [ACTIONS.RESTORE_ROW] ({ commit, state, dispatch }, row) {
+  [ACTIONS.RESTORE_ROW]({ commit, state, dispatch }, row) {
     api.restore(row, function (resp) {
-      commit(NOTIFICATION.SET_NOTIF, { message: resp.data.message, variant: resp.data.variant })
+      commit(NOTIFICATION.SET_NOTIF, {
+        message: resp.data.message,
+        variant: resp.data.variant
+      })
       dispatch(ACTIONS.GET_DATATABLE)
     })
   },
-  [ACTIONS.DESTROY_ROW] ({ commit, state, dispatch }, row) {
+  [ACTIONS.DESTROY_ROW]({ commit, state, dispatch }, row) {
     api.destroy(row, function (resp) {
-      commit(NOTIFICATION.SET_NOTIF, { message: resp.data.message, variant: resp.data.variant })
+      commit(NOTIFICATION.SET_NOTIF, {
+        message: resp.data.message,
+        variant: resp.data.variant
+      })
       dispatch(ACTIONS.GET_DATATABLE)
     })
   },
-  [ACTIONS.BULK_PUBLISH] ({ commit, state, dispatch }, payload) {
+  [ACTIONS.BULK_PUBLISH]({ commit, state, dispatch }, payload) {
     api.bulkPublish(
       {
         ids: state.bulk.join(),
         toPublish: payload.toPublish
       },
       function (resp) {
-        commit(NOTIFICATION.SET_NOTIF, { message: resp.data.message, variant: resp.data.variant })
+        commit(NOTIFICATION.SET_NOTIF, {
+          message: resp.data.message,
+          variant: resp.data.variant
+        })
         dispatch(ACTIONS.GET_DATATABLE)
       }
     )
   },
-  [ACTIONS.TOGGLE_FEATURE] ({ commit, state }, row) {
-    api.toggleFeatured(row, resp => {
+  [ACTIONS.TOGGLE_FEATURE]({ commit, state }, row) {
+    api.toggleFeatured(row, (resp) => {
       commit(DATATABLE.FEATURE_DATATABLE, {
         id: row.id,
         value: 'toggle'
       })
-      commit(NOTIFICATION.SET_NOTIF, { message: resp.data.message, variant: resp.data.variant })
+      commit(NOTIFICATION.SET_NOTIF, {
+        message: resp.data.message,
+        variant: resp.data.variant
+      })
     })
   },
-  [ACTIONS.BULK_FEATURE] ({ commit, state }, payload) {
+  [ACTIONS.BULK_FEATURE]({ commit, state }, payload) {
     api.bulkFeature(
       {
         ids: state.bulk.join(),
@@ -322,25 +377,37 @@ const actions = {
           id: state.bulk,
           value: true
         })
-        commit(NOTIFICATION.SET_NOTIF, { message: resp.data.message, variant: resp.data.variant })
+        commit(NOTIFICATION.SET_NOTIF, {
+          message: resp.data.message,
+          variant: resp.data.variant
+        })
       }
     )
   },
-  [ACTIONS.BULK_DELETE] ({ commit, state, dispatch }) {
+  [ACTIONS.BULK_DELETE]({ commit, state, dispatch }) {
     api.bulkDelete(state.bulk.join(), function (resp) {
-      commit(NOTIFICATION.SET_NOTIF, { message: resp.data.message, variant: resp.data.variant })
+      commit(NOTIFICATION.SET_NOTIF, {
+        message: resp.data.message,
+        variant: resp.data.variant
+      })
       dispatch(ACTIONS.GET_DATATABLE)
     })
   },
-  [ACTIONS.BULK_RESTORE] ({ commit, state, dispatch }) {
+  [ACTIONS.BULK_RESTORE]({ commit, state, dispatch }) {
     api.bulkRestore(state.bulk.join(), function (resp) {
-      commit(NOTIFICATION.SET_NOTIF, { message: resp.data.message, variant: resp.data.variant })
+      commit(NOTIFICATION.SET_NOTIF, {
+        message: resp.data.message,
+        variant: resp.data.variant
+      })
       dispatch(ACTIONS.GET_DATATABLE)
     })
   },
-  [ACTIONS.BULK_DESTROY] ({ commit, state, dispatch }) {
+  [ACTIONS.BULK_DESTROY]({ commit, state, dispatch }) {
     api.bulkDestroy(state.bulk.join(), function (resp) {
-      commit(NOTIFICATION.SET_NOTIF, { message: resp.data.message, variant: resp.data.variant })
+      commit(NOTIFICATION.SET_NOTIF, {
+        message: resp.data.message,
+        variant: resp.data.variant
+      })
       dispatch(ACTIONS.GET_DATATABLE)
     })
   }

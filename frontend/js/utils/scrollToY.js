@@ -11,20 +11,27 @@ const scrollToY = function (options) {
   let from = 0
   let isDocument = false
   const easingEquations = {
-
     // Easing functions taken from: https://gist.github.com/gre/1650294
     // -
     // no easing, no acceleration
-    linear: function (t) { return t },
+    linear: function (t) {
+      return t
+    },
 
     // accelerating from zero velocity
-    easeIn: function (t) { return t * t * t },
+    easeIn: function (t) {
+      return t * t * t
+    },
 
     // decelerating to zero velocity
-    easeOut: function (t) { return (--t) * t * t + 1 },
+    easeOut: function (t) {
+      return --t * t * t + 1
+    },
 
     // acceleration until halfway, then deceleration
-    easeInOut: function (t) { return t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1 }
+    easeInOut: function (t) {
+      return t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1
+    }
   }
   const useRequestAnimationFrame = window.requestAnimationFrame
   let scrollInterval
@@ -37,7 +44,9 @@ const scrollToY = function (options) {
 
   if (settings.el === document) {
     isDocument = true
-    settings.el = document.documentElement.scrollTop ? document.documentElement : document.body
+    settings.el = document.documentElement.scrollTop
+      ? document.documentElement
+      : document.body
   }
 
   from = settings.el.scrollTop
@@ -47,11 +56,11 @@ const scrollToY = function (options) {
     return
   }
 
-  function min (a, b) {
+  function min(a, b) {
     return a < b ? a : b
   }
 
-  function cancelInterval () {
+  function cancelInterval() {
     if (useRequestAnimationFrame) {
       try {
         cancelAnimationFrame(scrollInterval)
@@ -63,20 +72,22 @@ const scrollToY = function (options) {
     }
   }
 
-  function scroll () {
+  function scroll() {
     if (isDocument && from === 0) {
       // eugh Firefox! (https://miketaylr.com/posts/2014/11/document-body-scrollTop.html)
       document.documentElement.scrollTop = 1
       document.body.scrollTop = 1
       from = 1
-      settings.el = document.documentElement.scrollTop ? document.documentElement : document.body
+      settings.el = document.documentElement.scrollTop
+        ? document.documentElement
+        : document.body
       requestAnimationFrame(scroll)
     } else {
       const currentTime = Date.now()
-      const time = min(1, ((currentTime - start) / settings.duration))
+      const time = min(1, (currentTime - start) / settings.duration)
       const easedT = easingEquations[settings.easing](time)
 
-      settings.el.scrollTop = (easedT * (settings.offset - from)) + from
+      settings.el.scrollTop = easedT * (settings.offset - from) + from
 
       if (time < 1) {
         doScroll()
@@ -89,13 +100,13 @@ const scrollToY = function (options) {
     }
   }
 
-  function doScroll () {
+  function doScroll() {
     if (useRequestAnimationFrame) {
       scrollInterval = requestAnimationFrame(scroll)
     } else {
       scrollInterval = setTimeout(function () {
         scroll()
-      }, (1000 / 60))
+      }, 1000 / 60)
     }
   }
 

@@ -3,7 +3,14 @@
     <div class="container">
       <div class="stickyNav__nav">
         <div class="stickyNav__links" v-if="navItems.length > 1">
-          <a href="#" v-for="(item, index) in navItems" :key="item.fieldset" @click.prevent="scrollToFieldset(index)" :class="{ 's--on' : item.active }">{{ item.label }}</a>
+          <a
+            href="#"
+            v-for="(item, index) in navItems"
+            :key="item.fieldset"
+            @click.prevent="scrollToFieldset(index)"
+            :class="{ 's--on': item.active }"
+            >{{ item.label }}</a
+          >
         </div>
         <slot name="title"></slot>
       </div>
@@ -49,7 +56,9 @@
 
         this.navItems.forEach(function (item, index) {
           const fieldset = self.fieldset[index]
-          const pos = fieldset ? (fieldset.getBoundingClientRect().top + self.lastScrollPos) : 0
+          const pos = fieldset
+            ? fieldset.getBoundingClientRect().top + self.lastScrollPos
+            : 0
 
           Vue.set(item, 'position', pos)
         })
@@ -60,14 +69,15 @@
 
         // desactivate all fieldset
         this.navItems.forEach(function (item, index) {
-          const isActive = ((item.position - self.topOffset) < self.lastScrollPos)
+          const isActive = item.position - self.topOffset < self.lastScrollPos
 
           Vue.set(item, 'active', false)
           if (isActive && index > 0) itemToActivate = index
         })
 
         // no active, let fallback on the first one or the last one the user clicked
-        if (this.clickedFieldset >= 0) Vue.set(self.navItems[self.clickedFieldset], 'active', true)
+        if (this.clickedFieldset >= 0)
+          Vue.set(self.navItems[self.clickedFieldset], 'active', true)
         else Vue.set(self.navItems[itemToActivate], 'active', true)
       },
       refresh: function () {
@@ -143,42 +153,41 @@
 </script>
 
 <style lang="scss" scoped>
-
   .stickyNav {
-    background-color:rgba($color__border--light, 0.95);
-    border-bottom:1px solid rgba($color__black, 0.05);
+    background-color: rgba($color__border--light, 0.95);
+    border-bottom: 1px solid rgba($color__black, 0.05);
     background-clip: padding-box;
   }
 
   @include breakpoint('medium+') {
     .stickyNav {
-      height:90px;
-      z-index:$zindex__stickyNav;
-      overflow:hidden;
+      height: 90px;
+      z-index: $zindex__stickyNav;
+      overflow: hidden;
 
       &.sticky__fixed,
       &.sticky__fixedTop,
       &.sticky__fixedBottom {
-        height:60px;
+        height: 60px;
 
         .container {
-          padding-top:14px;
+          padding-top: 14px;
         }
 
         .stickyNav__links {
-          opacity:1;
+          opacity: 1;
           visibility: visible;
           transition: opacity 0.25s;
         }
 
         .titleEditor {
-          opacity:0;
+          opacity: 0;
           visibility: hidden;
           transition: opacity 0.25s ease, visibility 0s 0.25s;
         }
 
         .titleEditor:first-child {
-          opacity:1;
+          opacity: 1;
           visibility: visible;
           transition: opacity 0.25s;
         }
@@ -187,52 +196,52 @@
   }
 
   .titleEditor {
-    opacity:1;
+    opacity: 1;
     visibility: visible;
     transition: opacity 0.25s;
   }
 
   .stickyNav__links {
-    opacity:0;
+    opacity: 0;
     visibility: hidden;
     transition: opacity 0.25s ease, visibility 0s 0.25s;
-    display:flex;
+    display: flex;
 
     a {
-      display:block;
-      height:35px;
-      line-height:35px;
-      border-radius:17px;
-      padding:0 17px;
-      text-decoration:none;
+      display: block;
+      height: 35px;
+      line-height: 35px;
+      border-radius: 17px;
+      padding: 0 17px;
+      text-decoration: none;
       color: $color__text--light;
-      background-color:rgba(white, 0);
+      background-color: rgba(white, 0);
       transition: background-color 0.25s linear;
 
       &:hover {
-        color:$color__text;
+        color: $color__text;
       }
 
       &.s--on {
-        background-color:white;
-        color:$color__text;
+        background-color: white;
+        color: $color__text;
       }
     }
   }
 
   .stickyNav__nav {
-    position:relative;
+    position: relative;
 
     .stickyNav__links {
-      position:absolute;
+      position: absolute;
     }
   }
 
   .stickyNav__actions > div {
-    display:flex;
+    display: flex;
 
     .button {
-      margin-left:20px;
+      margin-left: 20px;
 
       @include breakpoint('small-') {
         margin-left: 0;
@@ -247,8 +256,8 @@
 
   .stickyNav .container {
     display: block;
-    padding-top:26px;
-    padding-bottom:26px;
+    padding-top: 26px;
+    padding-bottom: 26px;
 
     @include breakpoint('medium+') {
       display: flex;

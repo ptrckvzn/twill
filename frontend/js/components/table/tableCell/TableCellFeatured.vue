@@ -1,16 +1,14 @@
 <template>
-  <span v-if="row.hasOwnProperty('featured')"
-        class="tablecell__feature"
-        :class="{'tablecell__feature--active': row[colName] }"
-        @click.prevent="toggleFeatured"
-        v-tooltip
-        :data-tooltip-title="row.featured ? 'Unfeature' : 'Feature'">
-    <span v-svg
-          symbol="star-feature_active">
-    </span>
-    <span v-svg
-          symbol="star-feature">
-    </span>
+  <span
+    v-if="row.hasOwnProperty('featured')"
+    class="tablecell__feature"
+    :class="{ 'tablecell__feature--active': row[colName] }"
+    @click.prevent="toggleFeatured"
+    v-tooltip
+    :data-tooltip-title="row.featured ? 'Unfeature' : 'Feature'"
+  >
+    <span v-svg symbol="star-feature_active"> </span>
+    <span v-svg symbol="star-feature"> </span>
   </span>
 </template>
 
@@ -29,7 +27,6 @@
 </script>
 
 <style lang="scss" scoped>
-
   /* Featuring content */
   .tablecell__feature {
     display: block;

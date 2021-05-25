@@ -1,4 +1,4 @@
-export function localStoreSupport () {
+export function localStoreSupport() {
   const mod = 'test'
   try {
     localStorage.setItem(mod, mod)
@@ -9,7 +9,7 @@ export function localStoreSupport () {
   }
 }
 
-export function setStorage (name, value) {
+export function setStorage(name, value) {
   const expires = ''
 
   if (localStoreSupport()) {
@@ -19,7 +19,7 @@ export function setStorage (name, value) {
   }
 }
 
-export function getStorage (name) {
+export function getStorage(name) {
   if (localStoreSupport()) {
     return localStorage.getItem(name)
   } else {
@@ -28,7 +28,8 @@ export function getStorage (name) {
     for (let i = 0; i < ca.length; i++) {
       let c = ca[i]
       while (c.charAt(0) === ' ') c = c.substring(1, c.length)
-      if (c.indexOf(cookieName) === 0) return c.substring(cookieName.length, c.length)
+      if (c.indexOf(cookieName) === 0)
+        return c.substring(cookieName.length, c.length)
     }
     return null
   }

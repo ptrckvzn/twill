@@ -1,6 +1,16 @@
 <template>
-  <a17-table-cell-name v-if="colName === 'name'" v-bind="childProps" @update="update" @editInPlace="editInPlace"/>
-  <a17-table-cell-html v-else-if="col.hasOwnProperty('html')" v-bind="childProps" @update="update" @editInPlace="editInPlace"/>
+  <a17-table-cell-name
+    v-if="colName === 'name'"
+    v-bind="childProps"
+    @update="update"
+    @editInPlace="editInPlace"
+  />
+  <a17-table-cell-html
+    v-else-if="col.hasOwnProperty('html')"
+    v-bind="childProps"
+    @update="update"
+    @editInPlace="editInPlace"
+  />
   <span v-else>{{ row[colName] }}</span>
 </template>
 
@@ -25,6 +35,4 @@
   }
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

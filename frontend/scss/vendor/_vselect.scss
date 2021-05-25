@@ -6,8 +6,8 @@ $multiSelectHeight: 45px;
   .v-select {
     font-family: inherit;
 
-    input[type=search],
-    input[type=search]:focus {
+    input[type='search'],
+    input[type='search']:focus {
       padding: 0 15px;
       @include font-regular;
       margin: 0;
@@ -18,60 +18,60 @@ $multiSelectHeight: 45px;
       right: 15px;
       width: 18px;
       height: 18px;
-      border-top: 2px solid rgba($color__icons,.2);
-      border-right: 2px solid rgba($color__icons,.2);
-      border-bottom: 2px solid rgba($color__icons,.2);
-      border-left: 2px solid rgba($color__icons,.8);
+      border-top: 2px solid rgba($color__icons, 0.2);
+      border-right: 2px solid rgba($color__icons, 0.2);
+      border-bottom: 2px solid rgba($color__icons, 0.2);
+      border-left: 2px solid rgba($color__icons, 0.8);
     }
 
     .dropdown-menu {
-      border:0 none;
-      padding:15px 0;
-      border-top:1px solid $color__border--light;
-      box-shadow:0 0px 8px rgba(0,0,0,0.3);
+      border: 0 none;
+      padding: 15px 0;
+      border-top: 1px solid $color__border--light;
+      box-shadow: 0 0px 8px rgba(0, 0, 0, 0.3);
       border-radius: 2px;
 
       li.no-options {
-        color:$color__text--light;
-        text-align:left;
-        padding:0 15px;
+        color: $color__text--light;
+        text-align: left;
+        padding: 0 15px;
       }
 
       li {
         > a {
-          padding:0 15px;
-          background:$color__background;
-          color:$color__text--light;
+          padding: 0 15px;
+          background: $color__background;
+          color: $color__text--light;
 
           &:hover,
           &:focus {
-            color:$color__text;
-            background:$color__light;
+            color: $color__text;
+            background: $color__light;
           }
         }
 
         &.highlight {
           > a {
-            color:$color__text;
-            background:$color__light;
+            color: $color__text;
+            background: $color__light;
 
             &:hover,
             &:focus {
-              color:$color__text;
-              background:$color__light;
+              color: $color__text;
+              background: $color__light;
             }
           }
         }
 
         &.active {
           > a {
-            color:$color__text;
-            background:$color__background;
+            color: $color__text;
+            background: $color__background;
 
             &:hover,
             &:focus {
-              color:$color__text;
-              background:$color__light;
+              color: $color__text;
+              background: $color__light;
             }
           }
         }
@@ -80,15 +80,15 @@ $multiSelectHeight: 45px;
   }
 
   .v-select .dropdown-menu li > a {
-    height:$singleSelectHeight;
-    line-height:$singleSelectHeight;
+    height: $singleSelectHeight;
+    line-height: $singleSelectHeight;
   }
 
   .v-select {
     /* Fix the placeholder not showing up */
-    input[type="search"] {
-        @include placeholder() {
-        color:$color__f--placeholder;
+    input[type='search'] {
+      @include placeholder() {
+        color: $color__f--placeholder;
       }
     }
   }
@@ -98,7 +98,7 @@ $multiSelectHeight: 45px;
     .dropdown-toggle {
       &::after {
         visibility: visible;
-        content: "";
+        content: '';
         position: absolute;
         display: block;
         top: 50%;
@@ -115,29 +115,29 @@ $multiSelectHeight: 45px;
     }
 
     .selected-tag {
-      cursor:pointer;
+      cursor: pointer;
     }
   }
 
   .loading .vselect--single .dropdown-toggle::after {
-    opacity:0;
+    opacity: 0;
   }
 
   .vselect__field {
     .dropdown-toggle {
-      border-radius:2px;
-      background:$color__background;
+      border-radius: 2px;
+      background: $color__background;
       overflow: hidden;
-      cursor:pointer;
+      cursor: pointer;
     }
 
     .selected-tag {
-      border:0 none;
-      background:transparent;
-      border-radius:0;
-      padding:0 0 0 15px;
-      margin:0;
-      color:$color__f--text;
+      border: 0 none;
+      background: transparent;
+      border-radius: 0;
+      padding: 0 0 0 15px;
+      margin: 0;
+      color: $color__f--text;
     }
 
     .dropdown {
@@ -150,25 +150,25 @@ $multiSelectHeight: 45px;
         }
 
         .selected-tag {
-          color:$color__text;
-          opacity:1;
+          color: $color__text;
+          opacity: 1;
         }
       }
     }
 
     .open-indicator {
-      display:none;
+      display: none;
     }
   }
 
   .vselect__field {
     .dropdown-toggle {
-      height:$singleSelectHeight - 2px;
+      height: $singleSelectHeight - 2px;
     }
 
     .selected-tag {
-      height:$singleSelectHeight - 2px;
-      line-height:$singleSelectHeight - 2px;
+      height: $singleSelectHeight - 2px;
+      line-height: $singleSelectHeight - 2px;
       @include font-regular;
     }
   }
@@ -179,43 +179,46 @@ $multiSelectHeight: 45px;
   */
   .vselect--large .vselect__field {
     .dropdown-toggle {
-      height:$singleLargeSelectHeight;
+      height: $singleLargeSelectHeight;
     }
 
     .selected-tag {
-      height:$singleLargeSelectHeight;
-      line-height:$singleLargeSelectHeight;
+      height: $singleLargeSelectHeight;
+      line-height: $singleLargeSelectHeight;
     }
 
-    input[type=search],
-    input[type=search]:focus {
-      height:$singleLargeSelectHeight - 1px;
-      line-height:$singleLargeSelectHeight - 1px;
+    input[type='search'],
+    input[type='search']:focus {
+      height: $singleLargeSelectHeight - 1px;
+      line-height: $singleLargeSelectHeight - 1px;
     }
   }
 
   .vselect--single {
     .selected-tag {
-      pointer-events:none;
+      pointer-events: none;
     }
   }
 
   /* Fix width UI : https://github.com/sagalbot/vue-select/issues/225 */
   .vselect {
-    .v-select.unsearchable input[type="search"] {
+    .v-select.unsearchable input[type='search'] {
       max-width: none;
       opacity: 1;
       min-width: 200px;
       margin: 0;
     }
 
-    &.vselect--has-value .v-select.unsearchable input[type="search"] {
+    &.vselect--has-value .v-select.unsearchable input[type='search'] {
       min-width: 0;
       width: 0;
       margin: 0;
     }
 
-    .v-select.unsearchable > .dropdown-toggle > .selected-tag + input[type="search"] {
+    .v-select.unsearchable
+      > .dropdown-toggle
+      > .selected-tag
+      + input[type='search'] {
       width: 1px;
       margin: 0;
     }
@@ -249,9 +252,9 @@ $multiSelectHeight: 45px;
   */
   .vselect--multiple {
     .dropdown-toggle {
-      min-height:$multiSelectHeight;
-      height:auto;
-      padding-bottom:7px;
+      min-height: $multiSelectHeight;
+      height: auto;
+      padding-bottom: 7px;
       @include defaultState;
       flex-wrap: wrap;
 
@@ -264,48 +267,48 @@ $multiSelectHeight: 45px;
       @include hoverState;
     }
 
-    input[type=search],
-    input[type=search]:focus {
-      height:$multiSelectHeight - 14px;
-      margin-top:7px;
+    input[type='search'],
+    input[type='search']:focus {
+      height: $multiSelectHeight - 14px;
+      margin-top: 7px;
     }
 
     .selected-tag {
-      border-radius:15px;
-      background:$color__border;
-      padding:0 #{5px + 18px + 10px} 0 15px;
-      color:$color__text;
-      height:30px;
-      line-height:30px;
-      margin:7px 0 0 10px;
-      position:relative;
+      border-radius: 15px;
+      background: $color__border;
+      padding: 0 #{5px + 18px + 10px} 0 15px;
+      color: $color__text;
+      height: 30px;
+      line-height: 30px;
+      margin: 7px 0 0 10px;
+      position: relative;
 
       .close {
-        border-radius:50%;
-        background-color:$color__fborder--hover;
+        border-radius: 50%;
+        background-color: $color__fborder--hover;
         height: 18px;
         width: 18px;
         line-height: 18px;
         overflow: hidden;
         display: inline-block;
-        opacity:1;
+        opacity: 1;
         text-shadow: none;
-        color:$color__border;
-        font-size:15px;
-        font-weight:normal;
-        position:absolute;
-        right:5px;
-        top:6px;
+        color: $color__border;
+        font-size: 15px;
+        font-weight: normal;
+        position: absolute;
+        right: 5px;
+        top: 6px;
         background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMCIgaGVpZ2h0PSIxMCIgdmlld0JveD0iMCAwIDEwIDEwIj48cGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiNFNUU1RTUiIGQ9Ik0yIDJsNiA2TTggMkwyIDgiLz48L3N2Zz4=);
         background-repeat: no-repeat;
         background-position: center;
 
         span {
-          display:none;
+          display: none;
         }
 
         &:hover {
-          background-color:$color__fborder--hover;
+          background-color: $color__fborder--hover;
         }
       }
     }
@@ -345,26 +348,26 @@ $multiSelectHeight: 45px;
         @include font-small;
 
         .close {
-          top:2px;
-          right:2px;
-          background-color:transparent;
+          top: 2px;
+          right: 2px;
+          background-color: transparent;
           background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMCIgaGVpZ2h0PSIxMCIgdmlld0JveD0iMCAwIDEwIDEwIj48cGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiNhNmE2YTYiIGQ9Ik0yIDJsNiA2TTggMkwyIDgiLz48L3N2Zz4=);
-          color:$color__fborder--hover;
+          color: $color__fborder--hover;
 
           span {
-            display:none
+            display: none;
           }
         }
       }
 
-      input[type=search],
-      input[type=search]:focus {
-        height:$singleSelectHeight - 14px;
-        margin-top:7px;
+      input[type='search'],
+      input[type='search']:focus {
+        height: $singleSelectHeight - 14px;
+        margin-top: 7px;
       }
 
       .dropdown-toggle {
-        min-height:$singleSelectHeight;
+        min-height: $singleSelectHeight;
       }
     }
   }
@@ -372,11 +375,11 @@ $multiSelectHeight: 45px;
   /* Error states */
   .input--error {
     .v-select .dropdown-toggle {
-      border-color:$color__error;
+      border-color: $color__error;
 
       &:hover,
       &:focus {
-        border-color:$color__error;
+        border-color: $color__error;
       }
     }
   }

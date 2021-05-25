@@ -1,23 +1,58 @@
 <template>
-  <a17-inputframe :error="error" :note="note" :label="label" :locale="locale" @localize="updateLocale" :size="size"
-                  :name="name" :required="required">
+  <a17-inputframe
+    :error="error"
+    :note="note"
+    :label="label"
+    :locale="locale"
+    @localize="updateLocale"
+    :size="size"
+    :name="name"
+    :required="required"
+  >
     <div class="wysiwyg__outer" :class="textfieldClasses">
-      <input :name="name" type="hidden" v-model="value"/>
+      <input :name="name" type="hidden" v-model="value" />
       <template v-if="editSource">
         <div class="wysiwyg" :class="textfieldClasses" v-show="!activeSource">
-          <div class="wysiwyg__editor" :class="{ 'wysiwyg__editor--limitHeight' : limitHeight }" ref="editor"></div>
-          <span v-if="shouldShowCounter" class="wysiwyg__limit f--tiny" :class="limitClasses">{{ counter }}</span>
+          <div
+            class="wysiwyg__editor"
+            :class="{ 'wysiwyg__editor--limitHeight': limitHeight }"
+            ref="editor"
+          ></div>
+          <span
+            v-if="shouldShowCounter"
+            class="wysiwyg__limit f--tiny"
+            :class="limitClasses"
+            >{{ counter }}</span
+          >
         </div>
         <div class="form__field form__field--textarea" v-show="activeSource">
-          <textarea :placeholder="placeholder" :autofocus="autofocus" v-model="value"
-                    :style="textareaHeight"></textarea>
+          <textarea
+            :placeholder="placeholder"
+            :autofocus="autofocus"
+            v-model="value"
+            :style="textareaHeight"
+          ></textarea>
         </div>
-        <a17-button variant="ghost" @click="toggleSourcecode" class="wysiwyg__button">Source code</a17-button>
+        <a17-button
+          variant="ghost"
+          @click="toggleSourcecode"
+          class="wysiwyg__button"
+          >Source code</a17-button
+        >
       </template>
       <template v-else>
         <div class="wysiwyg" :class="textfieldClasses">
-          <div class="wysiwyg__editor" :class="{ 'wysiwyg__editor--limitHeight' : limitHeight }" ref="editor"></div>
-          <span v-if="shouldShowCounter" class="wysiwyg__limit f--tiny" :class="limitClasses">{{ counter }}</span>
+          <div
+            class="wysiwyg__editor"
+            :class="{ 'wysiwyg__editor--limitHeight': limitHeight }"
+            ref="editor"
+          ></div>
+          <span
+            v-if="shouldShowCounter"
+            class="wysiwyg__limit f--tiny"
+            :class="limitClasses"
+            >{{ counter }}</span
+          >
         </div>
       </template>
     </div>
@@ -42,7 +77,8 @@
 
   import { loadScript } from '@/utils/loader'
 
-  const HIGHLIGHT = '//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.12.0/build/highlight.min.js'
+  const HIGHLIGHT =
+    '//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.12.0/build/highlight.min.js'
 
   export default {
     name: 'A17Wysiwyg',
@@ -107,7 +143,7 @@
         }
       },
       ...mapState({
-        baseUrl: state => state.form.baseUrl
+        baseUrl: (state) => state.form.baseUrl
       })
     },
     data: function () {
@@ -137,9 +173,7 @@
           // ['link', 'image', 'video']
           clipboard: {
             matchVisual: false,
-            matchers: [
-              QuillConfiguration.lineBreak.clipboard
-            ]
+            matchers: [QuillConfiguration.lineBreak.clipboard]
           },
           keyboard: {
             bindings: {
@@ -151,9 +185,12 @@
       }
     },
     methods: {
-      initQuill () {
+      initQuill() {
         // init Quill
-        this.quill = new QuillConfiguration.Quill(this.$refs.editor, this.options)
+        this.quill = new QuillConfiguration.Quill(
+          this.$refs.editor,
+          this.options
+        )
 
         // set editor content
         if (this.value) this.updateEditor(this.value)
@@ -210,7 +247,7 @@
         // emit ready
         this.$emit('ready', this.quill)
       },
-      anchorHandler (value) {
+      anchorHandler(value) {
         if (value === true) {
           value = prompt('Enter anchor:')
         } else {
@@ -225,7 +262,8 @@
         const htmlData = this.quill.clipboard.convert(newValue)
         this.quill.setContents(htmlData, 'silent')
       },
-      updateFromStore: function (newValue) { // called from the formStore mixin
+      updateFromStore: function (newValue) {
+        // called from the formStore mixin
         if (typeof newValue === 'undefined') newValue = ''
 
         if (this.value !== newValue) {
@@ -237,7 +275,11 @@
         this.saveIntoStore() // see formStore mixin
       }, 600),
       toggleSourcecode: function () {
-        this.editorHeight = (Math.max(50, this.$refs.editor.clientHeight) + this.toolbarHeight - 1) + 'px'
+        this.editorHeight =
+          Math.max(50, this.$refs.editor.clientHeight) +
+          this.toolbarHeight -
+          1 +
+          'px'
         this.activeSource = !this.activeSource
 
         // set editor content
@@ -262,15 +304,32 @@
       this.options.boundary = this.options.boundary || document.body
       this.options.modules = this.options.modules || this.defaultModules
       const toolbar = {
-        container: this.options.modules.toolbar !== undefined ? this.options.modules.toolbar : this.defaultModules.toolbar,
+        container:
+          this.options.modules.toolbar !== undefined
+            ? this.options.modules.toolbar
+            : this.defaultModules.toolbar,
         handlers: {}
       }
-      this.options.modules.clipboard = this.options.modules.clipboard !== undefined ? this.options.modules.clipboard : this.defaultModules.clipboard
-      this.options.modules.keyboard = this.options.modules.keyboard !== undefined ? this.options.modules.keyboard : this.defaultModules.keyboard
-      this.options.modules.syntax = this.options.modules.syntax !== undefined && this.options.modules.syntax ? { highlight: text => hljs.highlightAuto(text).value } : this.defaultModules.syntax
+      this.options.modules.clipboard =
+        this.options.modules.clipboard !== undefined
+          ? this.options.modules.clipboard
+          : this.defaultModules.clipboard
+      this.options.modules.keyboard =
+        this.options.modules.keyboard !== undefined
+          ? this.options.modules.keyboard
+          : this.defaultModules.keyboard
+      this.options.modules.syntax =
+        this.options.modules.syntax !== undefined && this.options.modules.syntax
+          ? { highlight: (text) => hljs.highlightAuto(text).value }
+          : this.defaultModules.syntax
       this.options.placeholder = this.options.placeholder || this.placeholder
-      this.options.readOnly = this.options.readOnly !== undefined ? this.options.readOnly : this.readonly
-      this.options.formats = QuillConfiguration.getFormats(this.options.modules.toolbar) // Formats are based on current toolbar configuration
+      this.options.readOnly =
+        this.options.readOnly !== undefined
+          ? this.options.readOnly
+          : this.readonly
+      this.options.formats = QuillConfiguration.getFormats(
+        this.options.modules.toolbar
+      ) // Formats are based on current toolbar configuration
       this.options.scrollingContainer = null
 
       // register custom handlers
@@ -290,7 +349,7 @@
         this.initQuill()
       }
     },
-    beforeDestroy () {
+    beforeDestroy() {
       this.quill = null
     }
   }
@@ -360,23 +419,45 @@
 
     /* Default content styling */
     .ql-snow .ql-editor {
-      h1, h2, h3, h4, h5, h6 {
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
         font-weight: 700;
       }
 
-      b, p b, p strong, strong {
-        font-weight:700;
+      b,
+      p b,
+      p strong,
+      strong {
+        font-weight: 700;
       }
 
-      i, p i, li i, em, p em, li em {
+      i,
+      p i,
+      li i,
+      em,
+      p em,
+      li em {
         font-style: italic;
       }
 
-      u, p u, li u {
+      u,
+      p u,
+      li u {
         text-decoration: underline;
       }
 
-      p, ul, ol, h1, h2, h3, h4, h5 {
+      p,
+      ul,
+      ol,
+      h1,
+      h2,
+      h3,
+      h4,
+      h5 {
         margin-bottom: 1em;
       }
 
@@ -412,7 +493,8 @@
         overflow: auto;
         background-color: $color__wysiwyg-codeBg;
         border-radius: 3px;
-        font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+        font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo,
+          Courier, monospace;
       }
 
       sup {
@@ -539,7 +621,7 @@
         /*padding-right: 30px;*/
 
         &::after {
-          content: " ";
+          content: ' ';
           position: absolute;
           top: 50%;
           right: 1em;
@@ -593,7 +675,7 @@
       white-space: nowrap;
 
       &::before {
-        line-height: 24px
+        line-height: 24px;
       }
     }
 
@@ -602,11 +684,11 @@
       min-width: 120px;
 
       .ql-picker-item,
-      .ql-picker-item[data-value="1"],
-      .ql-picker-item[data-value="2"],
-      .ql-picker-item[data-value="3"],
-      .ql-picker-item[data-value="4"],
-      .ql-picker-item[data-value="5"] {
+      .ql-picker-item[data-value='1'],
+      .ql-picker-item[data-value='2'],
+      .ql-picker-item[data-value='3'],
+      .ql-picker-item[data-value='4'],
+      .ql-picker-item[data-value='5'] {
         &::before {
           font-weight: normal;
           font-size: 1em;

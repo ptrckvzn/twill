@@ -12,7 +12,6 @@
 </script>
 
 <style lang="scss">
-
   /* With HTML */
   .tablecell__raw a {
     text-decoration: none;

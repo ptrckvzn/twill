@@ -27,41 +27,39 @@
       title: function () {
         return this.block.title || ''
       },
-      ...mapGetters([
-        'previewsById'
-      ]),
+      ...mapGetters(['previewsById']),
       ...mapState({
-        savedBlocks: state => state.content.blocks
+        savedBlocks: (state) => state.content.blocks
       })
     },
     methods: {
-      setIframeHeight () {
+      setIframeHeight() {
         if (!this.$refs.frame) return
         window.requestAnimationFrame(() => {
-          this.$refs.frame.style.height = this.$refs.frame.contentWindow.document.body.scrollHeight + 'px'
+          this.$refs.frame.style.height =
+            this.$refs.frame.contentWindow.document.body.scrollHeight + 'px'
         })
       },
-      loadedPreview (event) {
+      loadedPreview(event) {
         if (this.$refs.frame && this.$refs.frame.srcdoc) {
           this.$emit('loaded', this.$refs.frame)
           this.setIframeHeight()
         }
       },
-      handleResize () {
+      handleResize() {
         this.setIframeHeight()
       }
     },
-    mounted () {
+    mounted() {
       window.addEventListener('resize', this.handleResize)
     },
-    beforeDestroy () {
+    beforeDestroy() {
       window.removeEventListener('resize', this.handleResize)
     }
   }
 </script>
 
 <style lang="scss" scoped>
-
   .editorIframe {
     cursor: pointer;
 

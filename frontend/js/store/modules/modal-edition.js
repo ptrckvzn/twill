@@ -6,15 +6,13 @@ const state = {
 }
 
 // getters
-const getters = {
-
-}
+const getters = {}
 
 const mutations = {
-  [MODALEDITION.UPDATE_MODAL_ACTION] (state, newAction) {
+  [MODALEDITION.UPDATE_MODAL_ACTION](state, newAction) {
     state.action = newAction
   },
-  [MODALEDITION.UPDATE_MODAL_MODE] (state, newMode) {
+  [MODALEDITION.UPDATE_MODAL_MODE](state, newMode) {
     state.mode = newMode
   }
 }

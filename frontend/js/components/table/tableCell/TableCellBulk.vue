@@ -1,10 +1,6 @@
 <template>
-  <a href="#"
-     @click.prevent.stop="toggleBulk">
-    <a17-checkbox
-      name="bulkEdit"
-      :value="value"
-      :initialValue="initialValue"/>
+  <a href="#" @click.prevent.stop="toggleBulk">
+    <a17-checkbox name="bulkEdit" :value="value" :initialValue="initialValue" />
   </a>
 </template>
 
@@ -34,7 +30,6 @@
 </script>
 
 <style lang="scss" scoped>
-
   /* Bulk Edit checkboxes */
   a,
   .checkbox {

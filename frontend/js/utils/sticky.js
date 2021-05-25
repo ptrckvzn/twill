@@ -12,7 +12,7 @@ const DEFAULT_OPTIONS = {
 // import getCurrentMediaQuery from '../../frontend/js/helpers/getCurrentMediaQuery'
 
 export default class Sticky {
-  constructor (ref, options) {
+  constructor(ref, options) {
     options = { ...DEFAULT_OPTIONS, ...options }
 
     this.target = null
@@ -26,15 +26,25 @@ export default class Sticky {
 
     // Target is the thing we want to get sticky
     // get required target
-    if (this.options.target) this.target = this.container.querySelector('[' + this.options.target + '="' + this.containerID + '"]')
+    if (this.options.target)
+      this.target = this.container.querySelector(
+        '[' + this.options.target + '="' + this.containerID + '"]'
+      )
 
     // Toptarget is the thing that will limit the sticky to certain boundaries
     // get required toptarget
-    if (this.options.toptarget) this.toptarget = this.container.querySelector('[' + this.options.toptarget + '="' + this.containerID + '"]')
-    this.topMargin = this.container.hasAttribute('data-sticky-offset') ? parseInt(this.container.getAttribute('data-sticky-offset')) : this.options.offset
+    if (this.options.toptarget)
+      this.toptarget = this.container.querySelector(
+        '[' + this.options.toptarget + '="' + this.containerID + '"]'
+      )
+    this.topMargin = this.container.hasAttribute('data-sticky-offset')
+      ? parseInt(this.container.getAttribute('data-sticky-offset'))
+      : this.options.offset
 
     // TopOffset
-    this.topOffset = this.container.hasAttribute('data-sticky-topoffset') ? parseInt(this.container.getAttribute('data-sticky-topoffset')) : this.options.topOffset
+    this.topOffset = this.container.hasAttribute('data-sticky-topoffset')
+      ? parseInt(this.container.getAttribute('data-sticky-topoffset'))
+      : this.options.topOffset
 
     ref.classList.add(this.options.classContainer)
 
@@ -74,7 +84,7 @@ export default class Sticky {
   // Private methods
   //
 
-  _refresh () {
+  _refresh() {
     // console.log(getCurrentMediaQuery)
     // if (getCurrentMediaQuery.indexOf("small") !== -1) return false
     if (!this.target) return false
@@ -84,13 +94,28 @@ export default class Sticky {
     const asideHeight = this.container.offsetHeight
     const anchor = targetHeight + this.topMargin < window.innerHeight ? 0 : 1
 
-    let containerTop = (this.toptarget) ? this.toptarget.getBoundingClientRect().top + this.topOffset : this.container.getBoundingClientRect().top + this.topOffset
+    let containerTop = this.toptarget
+      ? this.toptarget.getBoundingClientRect().top + this.topOffset
+      : this.container.getBoundingClientRect().top + this.topOffset
     let containerBottom = containerTop + asideHeight - targetHeight
 
     // if the sticky target is smaller than the window height, adjust the containerTop position
-    containerTop = (containerTop - this.topMargin) + Math.max(0, targetHeight + this.topMargin - window.innerHeight) + scrollPos
+    containerTop =
+      containerTop -
+      this.topMargin +
+      Math.max(0, targetHeight + this.topMargin - window.innerHeight) +
+      scrollPos
 
-    if (this.toptarget) containerBottom = containerTop + asideHeight - targetHeight - Math.max(0, this.toptarget.getBoundingClientRect().top - this.container.getBoundingClientRect().top)
+    if (this.toptarget)
+      containerBottom =
+        containerTop +
+        asideHeight -
+        targetHeight -
+        Math.max(
+          0,
+          this.toptarget.getBoundingClientRect().top -
+            this.container.getBoundingClientRect().top
+        )
 
     if (this.target.offsetHeight < asideHeight) {
       // Top : we scrolled up
@@ -100,9 +125,15 @@ export default class Sticky {
       }
 
       // Scrolling : we are scrolling in the middle of the zone
-      if (this.status !== 'scrolling' && scrollPos >= containerTop && scrollPos < containerBottom) {
+      if (
+        this.status !== 'scrolling' &&
+        scrollPos >= containerTop &&
+        scrollPos < containerBottom
+      ) {
         this._removePositionClass()
-        this.target.classList.add(this.options.classFixed + this.anchors[anchor])
+        this.target.classList.add(
+          this.options.classFixed + this.anchors[anchor]
+        )
 
         this.status = 'scrolling'
       }
@@ -116,7 +147,10 @@ export default class Sticky {
       }
 
       // Bonus : The content after the container start to appear
-      if ((scrollPos + window.innerHeight) >= (this.container.getBoundingClientRect().top + scrollPos + asideHeight)) {
+      if (
+        scrollPos + window.innerHeight >=
+        this.container.getBoundingClientRect().top + scrollPos + asideHeight
+      ) {
         this.target.classList.add(this.options.classEnd)
       } else {
         this.target.classList.remove(this.options.classEnd)
@@ -126,7 +160,7 @@ export default class Sticky {
     return this
   }
 
-  _removePositionClass () {
+  _removePositionClass() {
     for (let i = 0; i < this.anchors.length; i++) {
       this.target.classList.remove(this.options.classFixed + this.anchors[i])
     }
@@ -134,7 +168,7 @@ export default class Sticky {
     this.target.classList.remove(this.options.classAbs)
   }
 
-  _scroll () {
+  _scroll() {
     const self = this
 
     self.lastScrollPos = window.pageYOffset
@@ -153,7 +187,7 @@ export default class Sticky {
     return this
   }
 
-  _resize () {
+  _resize() {
     this.lastScrollPos = window.pageYOffset
     this.status = ''
 
@@ -162,14 +196,14 @@ export default class Sticky {
     return this
   }
 
-  _dispose () {
+  _dispose() {
     window.removeEventListener('scroll', () => this._scroll())
     window.removeEventListener('resize', () => this._resize())
 
     return this
   }
 
-  _setEventListeners () {
+  _setEventListeners() {
     window.addEventListener('scroll', () => this._scroll())
     window.addEventListener('resize', () => this._resize())
     this._resize()

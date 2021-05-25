@@ -15,13 +15,14 @@ const DEFAULT_OPTIONS = {
   placement: 'top',
   theme: 'default',
   title: '',
-  template: '<div class="tooltip" role="tooltip"><div class="tooltip__arrow"></div><div class="tooltip__inner"></div></div>',
+  template:
+    '<div class="tooltip" role="tooltip"><div class="tooltip__arrow"></div><div class="tooltip__inner"></div></div>',
   trigger: 'hover focus',
   offset: 0
 }
 
 export default class Tooltip {
-  constructor (ref, options) {
+  constructor(ref, options) {
     options = { ...DEFAULT_OPTIONS, ...options }
 
     // save reference and options
@@ -29,9 +30,14 @@ export default class Tooltip {
     this.options = options
 
     // get events list
-    const events = typeof options.trigger === 'string'
-      ? options.trigger.split(' ').filter(trigger => ['click', 'hover', 'focus'].indexOf(trigger) !== -1)
-      : []
+    const events =
+      typeof options.trigger === 'string'
+        ? options.trigger
+            .split(' ')
+            .filter(
+              (trigger) => ['click', 'hover', 'focus'].indexOf(trigger) !== -1
+            )
+        : []
 
     // set initial state
     this._isOpen = false
@@ -100,7 +106,7 @@ export default class Tooltip {
    * @param {Boolean} allowHtml
    * @return {HTMLelement} tooltipNode
    */
-  _create (reference, template, theme, title, allowHtml) {
+  _create(reference, template, theme, title, allowHtml) {
     if (this._tooltipNode) {
       return this
     }
@@ -133,7 +139,7 @@ export default class Tooltip {
     return tooltipNode
   }
 
-  _position (reference, placement, budge) {
+  _position(reference, placement, budge) {
     let left = 0
     let top = 0
     let newPosition = placement
@@ -144,14 +150,30 @@ export default class Tooltip {
 
     // Calculates : top and left coordinates relative to the refBoundingRect
     // top, right, bottom, left
-    const topCoord = Math.round(refBoundingRect.top - this._tooltipNode.offsetHeight - budge)
-    const topCenteredCoord = Math.round(refBoundingRect.top + (refBoundingRect.height / 2) - (this._tooltipNode.offsetHeight / 2))
+    const topCoord = Math.round(
+      refBoundingRect.top - this._tooltipNode.offsetHeight - budge
+    )
+    const topCenteredCoord = Math.round(
+      refBoundingRect.top +
+        refBoundingRect.height / 2 -
+        this._tooltipNode.offsetHeight / 2
+    )
 
-    const rightCoord = Math.round(refBoundingRect.left + refBoundingRect.width + budge)
+    const rightCoord = Math.round(
+      refBoundingRect.left + refBoundingRect.width + budge
+    )
 
-    const bottomCoord = Math.round(refBoundingRect.top + refBoundingRect.height + budge)
-    const leftCoord = Math.round(refBoundingRect.left - this._tooltipNode.offsetWidth - budge)
-    const leftCenteredCoord = Math.round(refBoundingRect.left + (refBoundingRect.width / 2) - (this._tooltipNode.offsetWidth / 2))
+    const bottomCoord = Math.round(
+      refBoundingRect.top + refBoundingRect.height + budge
+    )
+    const leftCoord = Math.round(
+      refBoundingRect.left - this._tooltipNode.offsetWidth - budge
+    )
+    const leftCenteredCoord = Math.round(
+      refBoundingRect.left +
+        refBoundingRect.width / 2 -
+        this._tooltipNode.offsetWidth / 2
+    )
 
     if (placement === 'top') {
       left = leftCenteredCoord // horizontally centered
@@ -212,7 +234,7 @@ export default class Tooltip {
     this._tooltipNode.classList.add('tooltip--' + newPosition)
   }
 
-  _show (reference, options) {
+  _show(reference, options) {
     // don't show if it's already visible
     if (this._isOpen && !this._isOpening) {
       return this
@@ -226,7 +248,8 @@ export default class Tooltip {
     const theme = reference.getAttribute('data-tooltip-theme') || options.theme
 
     // get placement
-    const placement = reference.getAttribute('data-tooltip-placement') || options.placement
+    const placement =
+      reference.getAttribute('data-tooltip-placement') || options.placement
 
     // if the tooltipNode already exists, just show it
     if (this._tooltipNode) {
@@ -269,7 +292,7 @@ export default class Tooltip {
     return this
   }
 
-  _hide () {
+  _hide() {
     // don't hide if it's already hidden
     if (!this._isOpen) {
       return this
@@ -286,7 +309,7 @@ export default class Tooltip {
     return this
   }
 
-  _dispose () {
+  _dispose() {
     // remove event listeners
     if (this._events.length) {
       this._events.forEach(({ func, event }) => {
@@ -306,7 +329,7 @@ export default class Tooltip {
     return this
   }
 
-  _findContainer (container, reference) {
+  _findContainer(container, reference) {
     if (typeof container === 'string') {
       container = window.document.querySelector(container)
     } else if (container === false) {
@@ -323,15 +346,15 @@ export default class Tooltip {
    * @param {HTMLElement} tooltip
    * @param {HTMLElement|String|false} container
    */
-  _append (tooltipNode, container) {
+  _append(tooltipNode, container) {
     container.appendChild(tooltipNode)
   }
 
-  _setEventListeners (reference, events, options) {
+  _setEventListeners(reference, events, options) {
     const directEvents = []
     const oppositeEvents = []
 
-    events.forEach(event => {
+    events.forEach((event) => {
       switch (event) {
         case 'hover':
           directEvents.push('mouseenter')
@@ -349,8 +372,8 @@ export default class Tooltip {
     })
 
     // schedule show tooltip
-    directEvents.forEach(event => {
-      const func = evt => {
+    directEvents.forEach((event) => {
+      const func = (evt) => {
         if (this._isOpening === true) {
           return
         }
@@ -362,8 +385,8 @@ export default class Tooltip {
     })
 
     // schedule hide tooltip
-    oppositeEvents.forEach(event => {
-      const func = evt => {
+    oppositeEvents.forEach((event) => {
+      const func = (evt) => {
         if (evt.usedByTooltip === true) {
           return
         }
@@ -374,15 +397,16 @@ export default class Tooltip {
     })
   }
 
-  _scheduleShow (reference, delay, options /*, evt */) {
+  _scheduleShow(reference, delay, options /*, evt */) {
     this._isOpening = true
     // defaults to 0
     const computedDelay = (delay && delay.show) || delay || 0
-    if (computedDelay > 0) window.setTimeout(() => this._show(reference, options), computedDelay)
+    if (computedDelay > 0)
+      window.setTimeout(() => this._show(reference, options), computedDelay)
     else this._show(reference, options)
   }
 
-  _scheduleHide (reference, delay, options, evt) {
+  _scheduleHide(reference, delay, options, evt) {
     this._isOpening = false
     // defaults to 0
     const computedDelay = (delay && delay.hide) || delay || 0
@@ -413,7 +437,7 @@ export default class Tooltip {
   _setTooltipNodeEvent = (evt, reference, delay, options) => {
     const relatedreference = evt.relatedreference || evt.toElement
 
-    const callback = evt2 => {
+    const callback = (evt2) => {
       const relatedreference2 = evt2.relatedreference || evt2.toElement
 
       // Remove event listener after call

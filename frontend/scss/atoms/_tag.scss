@@ -13,41 +13,38 @@ The little tag
 
 ***/
 
-
 .tag {
-  text-transform:uppercase;
+  text-transform: uppercase;
   height: 15px;
   line-height: 15px;
   padding: 0 5px;
   display: inline-block;
   position: relative;
-  border-radius:2px;
-  background:black;
-  font-size:10px;
-  color:$color__background;
-  background:$color__tag;
+  border-radius: 2px;
+  background: black;
+  font-size: 10px;
+  color: $color__background;
+  background: $color__tag;
   letter-spacing: 0.05em;
   top: -2px;
-  margin:0 5px;
-  text-decoration:none;
+  margin: 0 5px;
+  text-decoration: none;
   /*font-weight:600;*/
 }
 
 .tag--rounded {
-  border-radius:7px;
+  border-radius: 7px;
   padding: 0 8px;
 }
 
 .tag--disabled {
-  background:$color__tag--disabled;
+  background: $color__tag--disabled;
 }
 
 .tag--enabled {
-  background:$color__tag;
+  background: $color__tag;
 }
 
 .tag--ok {
-  background:$color__ok;
+  background: $color__ok;
 }
-
-

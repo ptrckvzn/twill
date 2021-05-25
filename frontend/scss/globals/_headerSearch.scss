@@ -20,13 +20,13 @@ Every decent CMS need a search engine
 ***/
 
 .headerSearch {
-  height:$height__nav;
-  line-height:$height__nav;
+  height: $height__nav;
+  line-height: $height__nav;
 
   a {
-    text-decoration:none;
-    color:inherit;
-    white-space:nowrap;
+    text-decoration: none;
+    color: inherit;
+    white-space: nowrap;
   }
 }
 
@@ -67,7 +67,7 @@ Every decent CMS need a search engine
   left: 0;
   right: 0;
   width: 100%;
-  bottom:0;
+  bottom: 0;
   z-index: $zindex__search;
 }
 

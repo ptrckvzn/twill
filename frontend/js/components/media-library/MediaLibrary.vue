@@ -3,26 +3,71 @@
     <div class="medialibrary">
       <div class="medialibrary__frame">
         <div class="medialibrary__header" ref="form">
-          <a17-filter @submit="submitFilter" :clearOption="true" @clear="clearFilters">
-            <ul class="secondarynav secondarynav--desktop" slot="navigation" v-if="types.length">
-              <li class="secondarynav__item" v-for="navType in types" :key="navType.value"
-                  :class="{ 's--on': type === navType.value, 's--disabled' : type !== navType.value && strict }">
-                <a href="#" @click.prevent="updateType(navType.value)"><span class="secondarynav__link">{{ navType.text }}</span><span
-                  v-if="navType.total > 0" class="secondarynav__number">({{ navType.total }})</span></a>
+          <a17-filter
+            @submit="submitFilter"
+            :clearOption="true"
+            @clear="clearFilters"
+          >
+            <ul
+              class="secondarynav secondarynav--desktop"
+              slot="navigation"
+              v-if="types.length"
+            >
+              <li
+                class="secondarynav__item"
+                v-for="navType in types"
+                :key="navType.value"
+                :class="{
+                  's--on': type === navType.value,
+                  's--disabled': type !== navType.value && strict
+                }"
+              >
+                <a href="#" @click.prevent="updateType(navType.value)"
+                  ><span class="secondarynav__link">{{ navType.text }}</span
+                  ><span v-if="navType.total > 0" class="secondarynav__number"
+                    >({{ navType.total }})</span
+                  ></a
+                >
               </li>
             </ul>
 
-            <div class="secondarynav secondarynav--mobile secondarynav--dropdown" slot="navigation">
-              <a17-dropdown ref="secondaryNavDropdown" position="bottom-left" width="full" :offset="0">
-                <a17-button class="secondarynav__button" variant="dropdown-transparent" size="small"
-                            @click="$refs.secondaryNavDropdown.toggle()" v-if="selectedType">
-                  <span class="secondarynav__link">{{ selectedType.text }}</span><span class="secondarynav__number">{{ selectedType.total }}</span>
+            <div
+              class="secondarynav secondarynav--mobile secondarynav--dropdown"
+              slot="navigation"
+            >
+              <a17-dropdown
+                ref="secondaryNavDropdown"
+                position="bottom-left"
+                width="full"
+                :offset="0"
+              >
+                <a17-button
+                  class="secondarynav__button"
+                  variant="dropdown-transparent"
+                  size="small"
+                  @click="$refs.secondaryNavDropdown.toggle()"
+                  v-if="selectedType"
+                >
+                  <span class="secondarynav__link">{{ selectedType.text }}</span
+                  ><span class="secondarynav__number">{{
+                    selectedType.total
+                  }}</span>
                 </a17-button>
                 <div slot="dropdown__content">
                   <ul>
-                    <li v-for="navType in types" :key="navType.value" class="secondarynav__item">
-                      <a href="#" v-on:click.prevent="updateType(navType.value)"><span class="secondarynav__link">{{ navType.text }}</span><span
-                        class="secondarynav__number">{{ navType.total }}</span></a>
+                    <li
+                      v-for="navType in types"
+                      :key="navType.value"
+                      class="secondarynav__item"
+                    >
+                      <a href="#" v-on:click.prevent="updateType(navType.value)"
+                        ><span class="secondarynav__link">{{
+                          navType.text
+                        }}</span
+                        ><span class="secondarynav__number">{{
+                          navType.total
+                        }}</span></a
+                      >
                     </li>
                   </ul>
                 </div>
@@ -30,33 +75,90 @@
             </div>
 
             <div slot="hidden-filters">
-              <a17-vselect class="medialibrary__filter-item" ref="filter" name="tag" :options="tags"
-                           :placeholder="$trans('media-library.filter-select-label', 'Filter by tag')" :searchable="true" maxHeight="175px"/>
-              <a17-checkbox class="medialibrary__filter-item" ref="unused" name="unused" :initial-value="0" :value="1" :label="$trans('media-library.unused-filter-label', 'Show unused only')"/>
+              <a17-vselect
+                class="medialibrary__filter-item"
+                ref="filter"
+                name="tag"
+                :options="tags"
+                :placeholder="
+                  $trans('media-library.filter-select-label', 'Filter by tag')
+                "
+                :searchable="true"
+                maxHeight="175px"
+              />
+              <a17-checkbox
+                class="medialibrary__filter-item"
+                ref="unused"
+                name="unused"
+                :initial-value="0"
+                :value="1"
+                :label="
+                  $trans(
+                    'media-library.unused-filter-label',
+                    'Show unused only'
+                  )
+                "
+              />
             </div>
           </a17-filter>
         </div>
         <div class="medialibrary__inner">
           <div class="medialibrary__grid">
             <aside class="medialibrary__sidebar">
-              <a17-mediasidebar :medias="selectedMedias" :authorized="authorized" :extraMetadatas="extraMetadatas"
-                                @clear="clearSelectedMedias" @delete="deleteSelectedMedias" @tagUpdated="reloadTags"
-                                :type="currentTypeObject" :translatableMetadatas="translatableMetadatas" @triggerMediaReplace="replaceMedia" />
+              <a17-mediasidebar
+                :medias="selectedMedias"
+                :authorized="authorized"
+                :extraMetadatas="extraMetadatas"
+                @clear="clearSelectedMedias"
+                @delete="deleteSelectedMedias"
+                @tagUpdated="reloadTags"
+                :type="currentTypeObject"
+                :translatableMetadatas="translatableMetadatas"
+                @triggerMediaReplace="replaceMedia"
+              />
             </aside>
-            <footer class="medialibrary__footer" v-if="selectedMedias.length && showInsert && connector">
-              <a17-button v-if="canInsert" variant="action" @click="saveAndClose">{{ btnLabel }}</a17-button>
-              <a17-button v-else variant="action" :disabled="true">{{ btnLabel }}</a17-button>
+            <footer
+              class="medialibrary__footer"
+              v-if="selectedMedias.length && showInsert && connector"
+            >
+              <a17-button
+                v-if="canInsert"
+                variant="action"
+                @click="saveAndClose"
+                >{{ btnLabel }}</a17-button
+              >
+              <a17-button v-else variant="action" :disabled="true">{{
+                btnLabel
+              }}</a17-button>
             </footer>
             <div class="medialibrary__list" ref="list">
-              <a17-uploader ref="uploader" v-if="authorized" @loaded="addMedia" @clear="clearSelectedMedias"
-                            :type="currentTypeObject"/>
+              <a17-uploader
+                ref="uploader"
+                v-if="authorized"
+                @loaded="addMedia"
+                @clear="clearSelectedMedias"
+                :type="currentTypeObject"
+              />
               <div class="medialibrary__list-items">
-                <a17-itemlist v-if="type === 'file'" :items="renderedMediaItems" :selected-items="selectedMedias"
-                              :used-items="usedMedias" @change="updateSelectedMedias"
-                              @shiftChange="updateSelectedMedias"/>
-                <a17-mediagrid v-else :items="renderedMediaItems" :selected-items="selectedMedias" :used-items="usedMedias"
-                               @change="updateSelectedMedias" @shiftChange="updateSelectedMedias"/>
-                <a17-spinner v-if="loading" class="medialibrary__spinner">Loading&hellip;</a17-spinner>
+                <a17-itemlist
+                  v-if="type === 'file'"
+                  :items="renderedMediaItems"
+                  :selected-items="selectedMedias"
+                  :used-items="usedMedias"
+                  @change="updateSelectedMedias"
+                  @shiftChange="updateSelectedMedias"
+                />
+                <a17-mediagrid
+                  v-else
+                  :items="renderedMediaItems"
+                  :selected-items="selectedMedias"
+                  :used-items="usedMedias"
+                  @change="updateSelectedMedias"
+                  @shiftChange="updateSelectedMedias"
+                />
+                <a17-spinner v-if="loading" class="medialibrary__spinner"
+                  >Loading&hellip;</a17-spinner
+                >
               </div>
             </div>
           </div>
@@ -133,13 +235,13 @@
       },
       extraMetadatas: {
         type: Array,
-        default () {
+        default() {
           return []
         }
       },
       translatableMetadatas: {
         type: Array,
-        default () {
+        default() {
           return []
         }
       }
@@ -160,7 +262,8 @@
     computed: {
       renderedMediaItems: function () {
         return this.mediaItems.map((item) => {
-          item.disabled = (this.filesizeMax > 0 && item.filesizeInMb > this.filesizeMax) ||
+          item.disabled =
+            (this.filesizeMax > 0 && item.filesizeInMb > this.filesizeMax) ||
             (this.widthMin > 0 && item.width < this.widthMin) ||
             (this.heightMin > 0 && item.height < this.heightMin)
           return item
@@ -176,14 +279,20 @@
       },
       modalTitle: function () {
         if (this.connector) {
-          if (this.indexToReplace > -1) return this.modalTitlePrefix + ' – ' + this.btnLabelUpdate
-          return this.selectedMedias.length > 1 ? this.modalTitlePrefix + ' – ' + this.btnLabelMulti : this.modalTitlePrefix + ' – ' + this.btnLabelSingle
+          if (this.indexToReplace > -1)
+            return this.modalTitlePrefix + ' – ' + this.btnLabelUpdate
+          return this.selectedMedias.length > 1
+            ? this.modalTitlePrefix + ' – ' + this.btnLabelMulti
+            : this.modalTitlePrefix + ' – ' + this.btnLabelSingle
         }
         return this.modalTitlePrefix
       },
       btnLabel: function () {
-        if (this.indexToReplace > -1) return this.btnLabelUpdate + ' ' + this.type
-        return (this.selectedMedias.length > 1 ? this.btnLabelMulti + ' ' + this.type + 's' : this.btnLabelSingle + ' ' + this.type)
+        if (this.indexToReplace > -1)
+          return this.btnLabelUpdate + ' ' + this.type
+        return this.selectedMedias.length > 1
+          ? this.btnLabelMulti + ' ' + this.type + 's'
+          : this.btnLabelSingle + ' ' + this.type
       },
       usedMedias: function () {
         return this.selected[this.connector] || []
@@ -196,19 +305,22 @@
         return navItem[0]
       },
       canInsert: function () {
-        return !this.selectedMedias.some(sMedia => !!this.usedMedias.find(uMedia => uMedia.id === sMedia.id))
+        return !this.selectedMedias.some(
+          (sMedia) =>
+            !!this.usedMedias.find((uMedia) => uMedia.id === sMedia.id)
+        )
       },
       ...mapState({
-        connector: state => state.mediaLibrary.connector,
-        max: state => state.mediaLibrary.max,
-        filesizeMax: state => state.mediaLibrary.filesizeMax,
-        widthMin: state => state.mediaLibrary.widthMin,
-        heightMin: state => state.mediaLibrary.heightMin,
-        type: state => state.mediaLibrary.type, // image, video, file
-        types: state => state.mediaLibrary.types,
-        strict: state => state.mediaLibrary.strict,
-        selected: state => state.mediaLibrary.selected,
-        indexToReplace: state => state.mediaLibrary.indexToReplace
+        connector: (state) => state.mediaLibrary.connector,
+        max: (state) => state.mediaLibrary.max,
+        filesizeMax: (state) => state.mediaLibrary.filesizeMax,
+        widthMin: (state) => state.mediaLibrary.widthMin,
+        heightMin: (state) => state.mediaLibrary.heightMin,
+        type: (state) => state.mediaLibrary.type, // image, video, file
+        types: (state) => state.mediaLibrary.types,
+        strict: (state) => state.mediaLibrary.strict,
+        selected: (state) => state.mediaLibrary.selected,
+        indexToReplace: (state) => state.mediaLibrary.indexToReplace
       })
     },
     watch: {
@@ -237,7 +349,8 @@
 
         // in replace mode : select the media to replace when opening
         if (this.connector && this.indexToReplace > -1) {
-          const mediaInitSelect = this.selected[this.connector][this.indexToReplace]
+          const mediaInitSelect =
+            this.selected[this.connector][this.indexToReplace]
           if (mediaInitSelect) {
             this.selectedMedias.push(mediaInitSelect)
           }
@@ -265,11 +378,23 @@
 
                 for (const crop in mediaCrop.crops) {
                   crops[crop] = {
-                    height: media.height === mediaCrop.height ? mediaCrop.crops[crop].height : media.height,
+                    height:
+                      media.height === mediaCrop.height
+                        ? mediaCrop.crops[crop].height
+                        : media.height,
                     name: crop,
-                    width: media.width === mediaCrop.width ? mediaCrop.crops[crop].width : media.width,
-                    x: media.width === mediaCrop.width ? mediaCrop.crops[crop].x : 0,
-                    y: media.height === mediaCrop.height ? mediaCrop.crops[crop].y : 0
+                    width:
+                      media.width === mediaCrop.width
+                        ? mediaCrop.crops[crop].width
+                        : media.width,
+                    x:
+                      media.width === mediaCrop.width
+                        ? mediaCrop.crops[crop].x
+                        : 0,
+                    y:
+                      media.height === mediaCrop.height
+                        ? mediaCrop.crops[crop].y
+                        : 0
                   }
                 }
 
@@ -277,8 +402,14 @@
                   index,
                   media: {
                     ...media,
-                    width: media.width === mediaCrop.width ? mediaCrop.width : media.width,
-                    height: media.height === mediaCrop.height ? mediaCrop.height : media.height,
+                    width:
+                      media.width === mediaCrop.width
+                        ? mediaCrop.width
+                        : media.width,
+                    height:
+                      media.height === mediaCrop.height
+                        ? mediaCrop.height
+                        : media.height,
                     crops
                   },
                   mediaRole
@@ -292,14 +423,19 @@
         } else {
           // add media in first position of the available media
           this.mediaItems.unshift(media)
-          this.$store.commit(MEDIA_LIBRARY.INCREMENT_MEDIA_TYPE_TOTAL, this.type)
+          this.$store.commit(
+            MEDIA_LIBRARY.INCREMENT_MEDIA_TYPE_TOTAL,
+            this.type
+          )
           // select it
           this.updateSelectedMedias(media.id)
         }
       },
       updateSelectedMedias: function (item, shift = false) {
         const id = item.id
-        const alreadySelectedMedia = this.selectedMedias.filter(function (media) {
+        const alreadySelectedMedia = this.selectedMedias.filter(function (
+          media
+        ) {
           return media.id === id
         })
 
@@ -309,10 +445,16 @@
           if (this.selectedMedias.length >= this.max && this.max > 0) return
 
           if (shift && this.selectedMedias.length > 0) {
-            const lastSelectedMedia = this.selectedMedias[this.selectedMedias.length - 1]
-            const lastSelectedMediaIndex = this.mediaItems.findIndex((media) => media.id === lastSelectedMedia.id)
-            const selectedMediaIndex = this.mediaItems.findIndex((media) => media.id === id)
-            if (selectedMediaIndex === -1 && lastSelectedMediaIndex === -1) return
+            const lastSelectedMedia =
+              this.selectedMedias[this.selectedMedias.length - 1]
+            const lastSelectedMediaIndex = this.mediaItems.findIndex(
+              (media) => media.id === lastSelectedMedia.id
+            )
+            const selectedMediaIndex = this.mediaItems.findIndex(
+              (media) => media.id === id
+            )
+            if (selectedMediaIndex === -1 && lastSelectedMediaIndex === -1)
+              return
 
             let start = null
             let end = null
@@ -328,7 +470,9 @@
 
             selectedMedias.forEach((media) => {
               if (this.selectedMedias.length >= this.max && this.max > 0) return
-              const index = this.selectedMedias.findIndex((m) => m.id === media.id)
+              const index = this.selectedMedias.findIndex(
+                (m) => m.id === media.id
+              )
               if (index === -1) {
                 this.selectedMedias.push(media)
               }
@@ -382,13 +526,21 @@
       deleteSelectedMedias: function (mediasIds) {
         let keepSelectedMedias = []
         if (mediasIds && mediasIds.length !== this.selectedMedias.length) {
-          keepSelectedMedias = this.selectedMedias.filter((media) => !media.deleteUrl)
+          keepSelectedMedias = this.selectedMedias.filter(
+            (media) => !media.deleteUrl
+          )
         }
         mediasIds.forEach(() => {
-          this.$store.commit(MEDIA_LIBRARY.DECREMENT_MEDIA_TYPE_TOTAL, this.type)
+          this.$store.commit(
+            MEDIA_LIBRARY.DECREMENT_MEDIA_TYPE_TOTAL,
+            this.type
+          )
         })
         this.mediaItems = this.mediaItems.filter((media) => {
-          return !this.selectedMedias.includes(media) || keepSelectedMedias.includes(media)
+          return (
+            !this.selectedMedias.includes(media) ||
+            keepSelectedMedias.includes(media)
+          )
         })
         this.selectedMedias = keepSelectedMedias
         if (this.mediaItems.length <= 40) {
@@ -412,25 +564,33 @@
         // }
 
         // see api/media-library for actual ajax
-        api.get(this.endpoint, formdata, (resp) => {
-          // add medias here
-          resp.data.items.forEach(item => {
-            if (!this.mediaItems.find(media => media.id === item.id)) {
-              this.mediaItems.push(item)
-            }
-          })
-          this.maxPage = resp.data.maxPage || 1
-          this.tags = resp.data.tags || []
-          this.$store.commit(MEDIA_LIBRARY.UPDATE_MEDIA_TYPE_TOTAL, { type: this.type, total: resp.data.total })
-          this.loading = false
-          this.listenScrollPosition()
-          this.gridLoaded = true
-        }, (error) => {
-          this.$store.commit(NOTIFICATION.SET_NOTIF, {
-            message: error.data.message,
-            variant: 'error'
-          })
-        })
+        api.get(
+          this.endpoint,
+          formdata,
+          (resp) => {
+            // add medias here
+            resp.data.items.forEach((item) => {
+              if (!this.mediaItems.find((media) => media.id === item.id)) {
+                this.mediaItems.push(item)
+              }
+            })
+            this.maxPage = resp.data.maxPage || 1
+            this.tags = resp.data.tags || []
+            this.$store.commit(MEDIA_LIBRARY.UPDATE_MEDIA_TYPE_TOTAL, {
+              type: this.type,
+              total: resp.data.total
+            })
+            this.loading = false
+            this.listenScrollPosition()
+            this.gridLoaded = true
+          },
+          (error) => {
+            this.$store.commit(NOTIFICATION.SET_NOTIF, {
+              message: error.data.message,
+              variant: 'error'
+            })
+          }
+        )
       },
       reloadTags: function (tags = []) {
         this.tags = tags
@@ -475,7 +635,10 @@
         const list = this.$refs.list
         const offset = 10
 
-        if (list.scrollTop > this.lastScrollTop && list.scrollTop + list.offsetHeight > list.scrollHeight - offset) {
+        if (
+          list.scrollTop > this.lastScrollTop &&
+          list.scrollTop + list.offsetHeight > list.scrollHeight - offset
+        ) {
           list.removeEventListener('scroll', this.scrollToPaginate)
 
           if (this.maxPage > this.page) {
@@ -497,8 +660,11 @@
 </script>
 
 <style lang="scss" scoped>
-
-  $width_sidebar: (default: 290px, small: 250px, xsmall: 200px);
+  $width_sidebar: (
+    default: 290px,
+    small: 250px,
+    xsmall: 200px
+  );
 
   .medialibrary {
     display: block;
@@ -628,7 +794,6 @@
 </style>
 
 <style lang="scss">
-
   .medialibrary__filter-item {
     .vselect {
       min-width: 200px;

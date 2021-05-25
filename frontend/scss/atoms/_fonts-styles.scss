@@ -40,18 +40,18 @@ Text can be set as heading, regular (default), small or tiny
 }
 
 .f--note {
-  color:$color__text--light
+  color: $color__text--light;
 }
 
 .f--light-hover {
-  color:$color__text--light;
-  text-decoration:none;
+  color: $color__text--light;
+  text-decoration: none;
 
   &:hover {
-    color:$color__text;
+    color: $color__text;
   }
 }
 
 .f--link {
-  color:$color__link
+  color: $color__link;
 }

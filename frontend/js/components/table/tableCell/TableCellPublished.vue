@@ -1,10 +1,12 @@
 <template>
-  <span v-if="row.hasOwnProperty('published')"
+  <span
+    v-if="row.hasOwnProperty('published')"
     class="tablecell__pubstate"
-    :class="{'tablecell__pubstate--live': row[colName]}"
+    :class="{ 'tablecell__pubstate--live': row[colName] }"
     @click.prevent="togglePublish"
     v-tooltip
-    :data-tooltip-title="row.published ? 'Unpublish' : 'Publish'">
+    :data-tooltip-title="row.published ? 'Unpublish' : 'Publish'"
+  >
   </span>
 </template>
 
@@ -23,7 +25,6 @@
 </script>
 
 <style lang="scss" scoped>
-
   /* Publish/Unpublish content */
   .tablecell__pubstate {
     cursor: pointer;
@@ -40,5 +41,4 @@
   .tablecell__pubstate--live {
     background: $color__publish;
   }
-
 </style>

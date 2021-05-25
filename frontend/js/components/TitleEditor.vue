@@ -1,23 +1,53 @@
 <template>
   <div class="titleEditor" :class="titleEditorClasses">
     <div class="titleEditor__preview">
-      <h2 class="titleEditor__title" :class="{ 'titleEditor__title-only' : !permalink }">
-        <a v-if="editableTitle" @click.prevent="$refs.editModal.open()" href="#">
-          <span class="f--underlined--o">{{ title }}</span> <span v-svg symbol="edit"></span>
+      <h2
+        class="titleEditor__title"
+        :class="{ 'titleEditor__title-only': !permalink }"
+      >
+        <a
+          v-if="editableTitle"
+          @click.prevent="$refs.editModal.open()"
+          href="#"
+        >
+          <span class="f--underlined--o">{{ title }}</span>
+          <span v-svg symbol="edit"></span>
         </a>
         <span v-else>{{ customTitle ? customTitle : title }}</span>
       </h2>
-      <a v-if="(permalink || customPermalink) && !showModal" :href="fullUrl" target="_blank" class="titleEditor__permalink f--small">
-        <span class="f--note f--external f--underlined--o">{{ visibleUrl | prettierUrl }}</span>
+      <a
+        v-if="(permalink || customPermalink) && !showModal"
+        :href="fullUrl"
+        target="_blank"
+        class="titleEditor__permalink f--small"
+      >
+        <span class="f--note f--external f--underlined--o">{{
+          visibleUrl | prettierUrl
+        }}</span>
       </a>
-      <span v-if="showModal" class="titleEditor__permalink f--small f--note f--external f--underlined--o">{{ visibleUrl | prettierUrl }}</span>
+      <span
+        v-if="showModal"
+        class="
+          titleEditor__permalink
+          f--small f--note f--external f--underlined--o
+        "
+        >{{ visibleUrl | prettierUrl }}</span
+      >
 
       <!-- Editing modal -->
-      <a17-modal class="modal--form" ref="editModal" :title="modalTitle" :forceLock="disabled">
+      <a17-modal
+        class="modal--form"
+        ref="editModal"
+        :title="modalTitle"
+        :forceLock="disabled"
+      >
         <a17-langmanager></a17-langmanager>
         <form action="#" @submit.prevent="update" ref="modalForm">
           <slot name="modal-form"></slot>
-          <a17-modal-validation :mode="mode" @disable="lockModal"></a17-modal-validation>
+          <a17-modal-validation
+            :mode="mode"
+            @disable="lockModal"
+          ></a17-modal-validation>
         </form>
       </a17-modal>
     </div>
@@ -83,7 +113,7 @@
     computed: {
       titleEditorClasses: function () {
         return {
-          'titleEditor--error': this.error || (this.title === this.warningMessage)
+          'titleEditor--error': this.error || this.title === this.warningMessage
         }
       },
       mode: function () {
@@ -91,34 +121,42 @@
         return this.title.length > 0 ? 'update' : 'create'
       },
       fullUrl: function () {
-        return this.customPermalink || this.baseUrl
-          .replace('{language}', this.currentLocale.value)
-          .replace('{preview}/', this.published ? '' : 'admin-preview/') + this.permalink
+        return (
+          this.customPermalink ||
+          this.baseUrl
+            .replace('{language}', this.currentLocale.value)
+            .replace('{preview}/', this.published ? '' : 'admin-preview/') +
+            this.permalink
+        )
       },
       visibleUrl: function () {
-        return this.customPermalink || this.baseUrl
-          .replace('{language}', this.currentLocale.value)
-          .replace('{preview}/', '') + this.permalink
+        return (
+          this.customPermalink ||
+          this.baseUrl
+            .replace('{language}', this.currentLocale.value)
+            .replace('{preview}/', '') + this.permalink
+        )
       },
       title: function () {
         // Get the title from the store
-        const title = this.fieldValueByName(this.name) ? this.fieldValueByName(this.name) : ''
-        const titleValue = typeof title === 'string' ? title : title[this.currentLocale.value]
+        const title = this.fieldValueByName(this.name)
+          ? this.fieldValueByName(this.name)
+          : ''
+        const titleValue =
+          typeof title === 'string' ? title : title[this.currentLocale.value]
         return titleValue || this.warningMessage
       },
       permalink: function () {
         return this.fieldValueByName('slug')[this.currentLocale.value]
       },
       ...mapState({
-        baseUrl: state => state.form.baseUrl,
-        currentLocale: state => state.language.active,
-        languages: state => state.language.all,
-        fields: state => state.form.fields,
-        published: state => state.publication.published
+        baseUrl: (state) => state.form.baseUrl,
+        currentLocale: (state) => state.language.active,
+        languages: (state) => state.language.all,
+        fields: (state) => state.form.fields,
+        published: (state) => state.publication.published
       }),
-      ...mapGetters([
-        'fieldValueByName'
-      ])
+      ...mapGetters(['fieldValueByName'])
     },
     filters: a17VueFilters,
     methods: {
@@ -133,7 +171,6 @@
 </script>
 
 <style lang="scss" scoped>
-
   .titleEditor {
     margin-bottom: 20px;
 
@@ -166,7 +203,7 @@
   .titleEditor--error .titleEditor__title {
     .f--underlined--o,
     .icon {
-      color:$color__error;
+      color: $color__error;
     }
 
     &:hover {

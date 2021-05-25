@@ -1,5 +1,5 @@
 <script>
-// ExtendedVSelect.vue
+  // ExtendedVSelect.vue
   import vSelect from 'vue-select'
 
   export default {
@@ -30,19 +30,19 @@
         default: false
       }
     },
-    data () {
+    data() {
       return {
         // Set mutableValue with current props value to prevent from first watch and onchange call
         mutableValue: this.value
       }
     },
     computed: {
-      showClearButton () {
+      showClearButton() {
         return false
       }
     },
     watch: {
-      search () {
+      search() {
         this.onSearch(this.search, this.toggleLoading)
         this.$emit('search', this.search, this.toggleLoading)
       }
@@ -53,13 +53,15 @@
        * @param  {Event} e
        * @return {void}
        */
-      toggleDropdown (e) {
+      toggleDropdown(e) {
         if (!this.disabled) {
-          if (e.target === this.$refs.openIndicator ||
+          if (
+            e.target === this.$refs.openIndicator ||
             e.target === this.$refs.search ||
             e.target === this.$refs.toggle ||
             e.target === this.$refs.selectedOptions ||
-            e.target === this.$el) {
+            e.target === this.$el
+          ) {
             if (this.open) {
               this.$refs.search.blur() // dropdown will close on blur
             } else {
@@ -74,10 +76,16 @@
        * text in the search input, & there's tags to delete
        * @return {this.value}
        */
-      maybeDeleteValue () {
-        if (!this.requiredValue && !this.$refs.search.value.length && this.mutableValue) {
+      maybeDeleteValue() {
+        if (
+          !this.requiredValue &&
+          !this.$refs.search.value.length &&
+          this.mutableValue
+        ) {
           // eslint-disable-next-line no-return-assign
-          return this.multiple ? this.mutableValue.pop() : this.mutableValue = null
+          return this.multiple
+            ? this.mutableValue.pop()
+            : (this.mutableValue = null)
         }
       },
       /**
@@ -86,8 +94,8 @@
        * @return {Boolean}        True when selected | False otherwise
        * https://github.com/sagalbot/vue-select/commit/8a601c0ac3311adb89bc6e31b8cf215b1343d93c
        */
-      isOptionSelected (option) {
-        return this.valueAsArray.some(value => {
+      isOptionSelected(option) {
+        return this.valueAsArray.some((value) => {
           if (typeof value === 'object') {
             return this.optionObjectComparator(value, option)
           }
@@ -95,7 +103,7 @@
         })
       }
     },
-    mounted () {
+    mounted() {
       if (this.taggable) this.onSearch(this.search, this.toggleLoading)
     }
   }

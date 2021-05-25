@@ -4,7 +4,7 @@ import forEachNodelist from '../utils/forEachNodelist.js'
 const openMediaLibrary = function () {
   const bts = document.querySelectorAll('[data-medialib-btn]')
 
-  function _triggerOpenMediaLibrary () {
+  function _triggerOpenMediaLibrary() {
     if (window[process.env.VUE_APP_NAME].vm) {
       window[process.env.VUE_APP_NAME].vm.openFreeMediaLibrary()
     }

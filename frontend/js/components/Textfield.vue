@@ -1,9 +1,27 @@
 <template>
-  <a17-inputframe :error="error" :note="note" :label="label" :locale="locale" @localize="updateLocale" :size="size" :name="name" :label-for="uniqId" :required="required">
+  <a17-inputframe
+    :error="error"
+    :note="note"
+    :label="label"
+    :locale="locale"
+    @localize="updateLocale"
+    :size="size"
+    :name="name"
+    :label-for="uniqId"
+    :required="required"
+  >
     <div class="input__field" :class="textfieldClasses">
       <span class="input__prefix" v-if="hasPrefix">{{ prefix }}</span>
-      <textarea v-if="type === 'textarea'" ref="clone" :rows="rows" class="input__clone" disabled="true" v-model="value"></textarea>
-      <textarea v-if="type === 'textarea'"
+      <textarea
+        v-if="type === 'textarea'"
+        ref="clone"
+        :rows="rows"
+        class="input__clone"
+        disabled="true"
+        v-model="value"
+      ></textarea>
+      <textarea
+        v-if="type === 'textarea'"
         ref="input"
         :name="name"
         :id="uniqId"
@@ -18,7 +36,8 @@
         @input="onInput"
         v-model="value"
       ></textarea>
-      <input v-if="type == 'number'"
+      <input
+        v-if="type == 'number'"
         ref="input"
         type="number"
         :placeholder="placeholder"
@@ -35,7 +54,8 @@
         @blur="onBlur"
         @input="onInput"
       />
-      <input v-if="type == 'text'"
+      <input
+        v-if="type == 'text'"
         ref="input"
         type="text"
         :placeholder="placeholder"
@@ -52,7 +72,8 @@
         @blur="onBlur"
         @input="onInput"
       />
-      <input v-if="type == 'email'"
+      <input
+        v-if="type == 'email'"
         ref="input"
         type="email"
         :placeholder="placeholder"
@@ -70,7 +91,8 @@
         @blur="onBlur"
         @input="onInput"
       />
-      <input v-if="type == 'password'"
+      <input
+        v-if="type == 'password'"
         ref="input"
         type="password"
         :placeholder="placeholder"
@@ -87,7 +109,12 @@
         @blur="onBlur"
         @input="onInput"
       />
-      <span class="input__limit f--tiny" :class="limitClasses" v-if="hasMaxlength">{{ counter }}</span>
+      <span
+        class="input__limit f--tiny"
+        :class="limitClasses"
+        v-if="hasMaxlength"
+        >{{ counter }}</span
+      >
     </div>
   </a17-inputframe>
 </template>
@@ -103,7 +130,13 @@
 
   export default {
     name: 'A17Textfield',
-    mixins: [randKeyMixin, InputMixin, InputframeMixin, LocaleMixin, FormStoreMixin],
+    mixins: [
+      randKeyMixin,
+      InputMixin,
+      InputframeMixin,
+      LocaleMixin,
+      FormStoreMixin
+    ],
     props: {
       name: {
         type: String,
@@ -136,7 +169,8 @@
       textfieldClasses: function () {
         return {
           'input__field--textarea': this.type === 'textarea',
-          'input__field--small': this.size === 'small' && !this.type === 'textarea',
+          'input__field--small':
+            this.size === 'small' && !this.type === 'textarea',
           's--focus': this.focused,
           's--disabled': this.disabled
         }
@@ -171,7 +205,8 @@
       }
     },
     methods: {
-      updateFromStore: function (newValue) { // called from the formStore mixin
+      updateFromStore: function (newValue) {
+        // called from the formStore mixin
         if (typeof newValue === 'undefined') newValue = ''
 
         if (this.value !== newValue) {
@@ -188,7 +223,9 @@
         this.saveIntoStore() // see formStore mixin
       },
       updateCounter: function (newValue) {
-        if (this.maxlength > 0) this.counter = this.maxlength - (newValue ? newValue.toString().length : 0)
+        if (this.maxlength > 0)
+          this.counter =
+            this.maxlength - (newValue ? newValue.toString().length : 0)
       },
       onFocus: function (event) {
         this.focused = true
@@ -234,28 +271,28 @@
         })
       }
     },
-    beforeDestroy () {
-      if (this.type === 'textarea') window.removeEventListener('resize', this.resizeTextarea)
+    beforeDestroy() {
+      if (this.type === 'textarea')
+        window.removeEventListener('resize', this.resizeTextarea)
     }
   }
 </script>
 
 <style lang="scss" scoped>
-
   $height_input: 45px;
 
   .input__field {
-    position:relative;
+    position: relative;
     overflow: hidden;
-    padding:0 15px;
+    padding: 0 15px;
 
-    height:$height_input;
-    line-height:$height_input;
+    height: $height_input;
+    line-height: $height_input;
     @include textfield;
     @include defaultState;
     display: flex;
     flex-direction: row;
-    flex-wrap:no-wrap;
+    flex-wrap: no-wrap;
 
     &.s--focus {
       @include focusState;
@@ -269,100 +306,100 @@
       @include disabledState;
     }
 
-    input[type="search"],
-    input[type="number"],
-    input[type="text"],
-    input[type="email"],
-    input[type="password"] {
+    input[type='search'],
+    input[type='number'],
+    input[type='text'],
+    input[type='email'],
+    input[type='password'] {
       @include resetfield;
-      height:$height_input - 2px;
-      line-height:$height_input - 2px;
+      height: $height_input - 2px;
+      line-height: $height_input - 2px;
       flex-grow: 1;
-      color:inherit;
+      color: inherit;
 
       @include placeholder() {
-        color:$color__f--placeholder;
+        color: $color__f--placeholder;
       }
     }
 
     textarea {
       @include resetfield;
-      padding:10px;
-      line-height:inherit;
-      width:100%;
+      padding: 10px;
+      line-height: inherit;
+      width: 100%;
       box-sizing: border-box;
-      display:block;
+      display: block;
       resize: none;
       overflow: hidden;
-      z-index:1;
-      position:relative;
-      color:inherit;
+      z-index: 1;
+      position: relative;
+      color: inherit;
 
       @include placeholder() {
-        color:$color__f--placeholder;
+        color: $color__f--placeholder;
       }
     }
 
     .input__clone {
-      position:absolute;
-      width:100%;
-      pointer-events:none;
-      opacity:0;
+      position: absolute;
+      width: 100%;
+      pointer-events: none;
+      opacity: 0;
       height: auto;
-      z-index:0;
+      z-index: 0;
     }
   }
 
   .input__prefix {
-    height:$height_input - 2px;
-    line-height:$height_input - 2px;
-    user-select:none;
-    color:$color__icons;
+    height: $height_input - 2px;
+    line-height: $height_input - 2px;
+    user-select: none;
+    color: $color__icons;
     pointer-events: none;
     white-space: nowrap;
   }
 
   .input__limit {
-    height:$height_input - 2px;
-    line-height:$height_input - 2px;
-    color:$color__text--light;
+    height: $height_input - 2px;
+    line-height: $height_input - 2px;
+    color: $color__text--light;
     user-select: none;
-    pointer-events:none;
+    pointer-events: none;
   }
 
   .input__limit--red {
-    color:red;
+    color: red;
   }
 
   .input__field--textarea {
-    display:block;
-    padding:0;
-    height:auto;
-    line-height:inherit;
+    display: block;
+    padding: 0;
+    height: auto;
+    line-height: inherit;
 
     .input__prefix {
-      display:none;
+      display: none;
     }
 
     .input__limit {
-      position:absolute;
-      right:15px;
-      bottom:0;
+      position: absolute;
+      right: 15px;
+      bottom: 0;
     }
   }
 
   .input__field--small {
-    padding:0 13px;
-    height:$height_input - 10px;
-    line-height:$height_input - 10px;
+    padding: 0 13px;
+    height: $height_input - 10px;
+    line-height: $height_input - 10px;
 
-    input[type="search"],
-    input[type="number"],
-    input[type="text"],
-    input[type="email"],
-    input[type="password"] {
-      height:$height_input - 10px - 2px;
-      line-height:$height_input - 10px - 2px;
+    input[type='search'],
+    input[type='number'],
+    input[type='text'],
+    input[type='email'],
+    input[type='password'] {
+      height: $height_input - 10px - 2px;
+      line-height: $height_input - 10px - 2px;
     }
   }
 </style>

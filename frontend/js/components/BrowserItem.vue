@@ -1,23 +1,38 @@
 <template>
   <tr class="browserItem">
-    <td v-if="draggable && max > 1" class="browserItem__cell browserItem__cell--drag">
+    <td
+      v-if="draggable && max > 1"
+      class="browserItem__cell browserItem__cell--drag"
+    >
       <div class="drag__handle--drag"></div>
     </td>
-    <td class="browserItem__cell browserItem__cell--thumb" v-if="currentItem.hasOwnProperty('thumbnail')">
+    <td
+      class="browserItem__cell browserItem__cell--thumb"
+      v-if="currentItem.hasOwnProperty('thumbnail')"
+    >
       <a href="#" target="_blank"><img :src="currentItem.thumbnail" /></a>
     </td>
     <td class="browserItem__cell browserItem__cell--name">
       <a :href="currentItem.edit" target="_blank">
-        <span class="f--link-underlined--o" v-if="currentItem.hasOwnProperty('renderHtml')" v-html="currentItem.name"></span>
+        <span
+          class="f--link-underlined--o"
+          v-if="currentItem.hasOwnProperty('renderHtml')"
+          v-html="currentItem.name"
+        ></span>
         <span class="f--link-underlined--o" v-else>{{ currentItem.name }}</span>
       </a>
-      <input type="hidden" :name="name" :value="currentItem.id"/>
+      <input type="hidden" :name="name" :value="currentItem.id" />
     </td>
-    <td class="browserItem__cell browserItem__cell--type" v-if="currentItem.hasOwnProperty('endpointType') && showType">
+    <td
+      class="browserItem__cell browserItem__cell--type"
+      v-if="currentItem.hasOwnProperty('endpointType') && showType"
+    >
       <span>{{ currentItem.endpointType }}</span>
     </td>
     <td class="browserItem__cell browserItem__cell--icon">
-      <a17-button class="bucket__action" icon="close" @click="deleteItem()"><span v-svg symbol="close_icon"></span></a17-button>
+      <a17-button class="bucket__action" icon="close" @click="deleteItem()"
+        ><span v-svg symbol="close_icon"></span
+      ></a17-button>
     </td>
   </tr>
 </template>
@@ -68,9 +83,8 @@
 </script>
 
 <style lang="scss" scoped>
-
   .browserItem {
-    width:100%;
+    width: 100%;
     border-bottom: 1px solid $color__border--light;
 
     &:hover {
@@ -91,7 +105,7 @@
 
   .browserItem__cell--name {
     a {
-      color:$color__link;
+      color: $color__link;
       text-decoration: none;
     }
   }
@@ -99,17 +113,17 @@
   .browserItem__cell--thumb {
     padding-top: 16px;
     padding-bottom: 16px;
-    padding-left:15px;
-    width:50px;
+    padding-left: 15px;
+    width: 50px;
 
     a {
-      color:$color__link;
+      color: $color__link;
       text-decoration: none;
-      display:block;
+      display: block;
     }
 
     img {
-      display:block;
+      display: block;
       width: 50px;
       min-height: 50px;
       background: $color__border--light;
@@ -138,7 +152,7 @@
   }
 
   .browserItem__cell--drag {
-    padding:0;
+    padding: 0;
     width: 12px;
     min-width: 12px;
     background-color: $color__drag_bg;
@@ -155,15 +169,15 @@
   }
 
   .browserItem__cell--icon {
-    width:1px;
+    width: 1px;
   }
 
   .drag__handle--drag {
     position: relative;
     width: 10px;
     height: 42px;
-    margin-left:auto;
-    margin-right:auto;
+    margin-left: auto;
+    margin-right: auto;
     transition: background 250ms ease;
     @include dragGrid($color__drag, $color__drag_bg);
   }

@@ -1,5 +1,13 @@
 <template>
-  <a17-inputframe :error="error" :note="note" :locale="locale" @localize="updateLocale" :label="label" :name="name" :required="required">
+  <a17-inputframe
+    :error="error"
+    :note="note"
+    :locale="locale"
+    @localize="updateLocale"
+    :label="label"
+    :name="name"
+    :required="required"
+  >
     <div class="form__field" :class="textfieldClasses">
       <input
         type="search"
@@ -17,11 +25,13 @@
         @input="onInput"
       />
       <div v-if="showMap" class="form__field--showMap">
-        <a href="#" type="button" @click.prevent="toggleMap"><span v-svg symbol="location"></span><span v-html="mapMessage"></span></a>
+        <a href="#" type="button" @click.prevent="toggleMap"
+          ><span v-svg symbol="location"></span><span v-html="mapMessage"></span
+        ></a>
       </div>
 
-      <input type="hidden" :name="`${name}__lat`" :value="lat"/>
-      <input type="hidden" :name="`${name}__lng`" :value="lng"/>
+      <input type="hidden" :name="`${name}__lat`" :value="lat" />
+      <input type="hidden" :name="`${name}__lng`" :value="lng" />
     </div>
     <div class="form__mapContainer" v-if="showMap" v-show="isMapOpen"></div>
   </a17-inputframe>
@@ -39,8 +49,13 @@
     show: window.$trans('fields.map.show'),
     hide: window.$trans('fields.map.hide')
   }
-  const GOOGLEMAPURL = 'https://maps.googleapis.com/maps/api/js?libraries=places&key='
-  const APIKEY = window[process.env.VUE_APP_NAME].hasOwnProperty('APIKEYS') && window[process.env.VUE_APP_NAME].APIKEYS.hasOwnProperty('googleMapApi') ? window[process.env.VUE_APP_NAME].APIKEYS.googleMapApi : null
+  const GOOGLEMAPURL =
+    'https://maps.googleapis.com/maps/api/js?libraries=places&key='
+  const APIKEY =
+    window[process.env.VUE_APP_NAME].hasOwnProperty('APIKEYS') &&
+    window[process.env.VUE_APP_NAME].APIKEYS.hasOwnProperty('googleMapApi')
+      ? window[process.env.VUE_APP_NAME].APIKEYS.googleMapApi
+      : null
 
   /* global google */
 
@@ -95,7 +110,7 @@
     },
     computed: {
       value: {
-        get () {
+        get() {
           const resp = {
             latlng: this.lat + '|' + this.lng,
             address: this.address
@@ -108,7 +123,7 @@
 
           return resp
         },
-        set (value) {
+        set(value) {
           const coord = value.latlng.split('|')
           this.lat = parseFloat(coord[0])
           this.lng = parseFloat(coord[coord.length - 1])
@@ -128,7 +143,8 @@
       }
     },
     methods: {
-      updateFromStore: function (newValue) { // called from the formStore mixin
+      updateFromStore: function (newValue) {
+        // called from the formStore mixin
         if (!isEqual(newValue, this.value)) {
           this.value = newValue
 
@@ -262,28 +278,37 @@
       initGeocoder: function () {
         const self = this
         // Create the autocomplete object and associate it with the UI input control.
-        this.autocompletePlace = new google.maps.places.Autocomplete(this.$el.querySelector('input[type="search"]'))
+        this.autocompletePlace = new google.maps.places.Autocomplete(
+          this.$el.querySelector('input[type="search"]')
+        )
         // When a place is selected
-        google.maps.event.addListener(this.autocompletePlace, 'place_changed', this.onPlaceChanged)
+        google.maps.event.addListener(
+          this.autocompletePlace,
+          'place_changed',
+          this.onPlaceChanged
+        )
 
         if (this.address === '' && this.lat && this.lng) {
           const geocoder = new google.maps.Geocoder()
           const location = { lat: this.lat, lng: this.lng }
 
           // reverse geocoding
-          geocoder.geocode({
-            location: location
-          }, function (results, status) {
-            if (status === 'OK') {
-              if (results[1]) {
-                self.address = results[1].formatted_address
+          geocoder.geocode(
+            {
+              location: location
+            },
+            function (results, status) {
+              if (status === 'OK') {
+                if (results[1]) {
+                  self.address = results[1].formatted_address
+                } else {
+                  console.error('Geocoding - No results found')
+                }
               } else {
-                console.error('Geocoding - No results found')
+                console.error('Geocoding - Geocoder failed due to: ' + status)
               }
-            } else {
-              console.error('Geocoding - Geocoder failed due to: ' + status)
             }
-          })
+          )
         }
       },
       initGoogleApi: function () {
@@ -299,20 +324,23 @@
       } else {
         const id = 'google-map-api-script'
         const src = GOOGLEMAPURL + APIKEY
-        loadScript(id, src, 'text/javascript')
-          .then(() => {
-            this.initGoogleApi()
-          })
+        loadScript(id, src, 'text/javascript').then(() => {
+          this.initGoogleApi()
+        })
       }
     },
     beforeDestroy: function () {
-      if (typeof google !== 'undefined') google.maps.event.clearListeners(this.autocompletePlace, 'place_changed', this.onPlaceChanged)
+      if (typeof google !== 'undefined')
+        google.maps.event.clearListeners(
+          this.autocompletePlace,
+          'place_changed',
+          this.onPlaceChanged
+        )
     }
   }
 </script>
 
 <style lang="scss" scoped>
-
   .form__field {
     display: flex;
     align-items: center;
@@ -323,7 +351,6 @@
     }
 
     .form__field--showMap {
-
       a {
         @include font-tiny();
         display: flex;
@@ -342,5 +369,4 @@
       }
     }
   }
-
 </style>

@@ -11,24 +11,39 @@
 @function get-breakpoint-directions() {
   $_bps: ();
   @each $k, $bp in $breakpoints {
-    $_bps: map-merge($_bps, ($k: $bp));
+    $_bps: map-merge(
+      $_bps,
+      (
+        $k: $bp
+      )
+    );
     $start: map-get($bp, start);
     $end: map-get($bp, end);
 
     @if $end != null and $start != null {
       $down-key: unquote($k + '-');
-      $_bps: map-merge($_bps, ($down-key: (
-        start: null,
-        end: $end
-      )));
+      $_bps: map-merge(
+        $_bps,
+        (
+          $down-key: (
+            start: null,
+            end: $end
+          )
+        )
+      );
     }
 
     @if $start != null and $end != null {
       $up-key: unquote($k) + '+';
-      $_bps: map-merge($_bps, ($up-key: (
-        start: $start,
-        end: null
-      )));
+      $_bps: map-merge(
+        $_bps,
+        (
+          $up-key: (
+            start: $start,
+            end: null
+          )
+        )
+      );
     }
   }
 
@@ -59,13 +74,13 @@ $breakpoints-with-directions: get-breakpoint-directions();
     $start: map-get($media, 'start');
     $end: map-get($media, 'end');
     $str: 'screen and (';
-    @if($start != null) {
+    @if ($start != null) {
       $str: $str + 'min-width: ' + ($start * 1px);
     }
-    @if($start != null and $end != null) {
-      $str: $str + ') and ('
+    @if ($start != null and $end != null) {
+      $str: $str + ') and (';
     }
-    @if($end != null) {
+    @if ($end != null) {
       $str: $str + 'max-width: ' + ($end * 1px);
     }
     $str: $str + ')';
@@ -77,7 +92,6 @@ $breakpoints-with-directions: get-breakpoint-directions();
     @warn "Unknown breakpoint `#{$name}` in $breakpoints.";
   }
 }
-
 
 /*
   @function get-media
@@ -94,15 +108,12 @@ $breakpoints-with-directions: get-breakpoint-directions();
 
   $bp-start: map-get($bp, 'start');
   $bp-end: map-get($bp, 'end');
-  @if($bp-start != null and ($start == null or $bp-start < $start)) {
+  @if ($bp-start != null and ($start == null or $bp-start < $start)) {
     $start: $bp-start;
   }
-  @if($bp-end != null and ($end == null or $bp-end > $end)) {
+  @if ($bp-end != null and ($end == null or $bp-end > $end)) {
     $end: $bp-end;
   }
 
-  @return (
-    start: $start,
-    end: $end
-  );
+  @return (start: $start, end: $end);
 }

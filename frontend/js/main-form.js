@@ -104,37 +104,65 @@ Vue.component('a17-modal-add', a17ModalAdd)
 
 // Blocks
 const registerBlockComponent = (name, component) => {
-  return !Vue.options.components[name]
-    ? Vue.component(name, component)
-    : false
+  return !Vue.options.components[name] ? Vue.component(name, component) : false
 }
 
-if (typeof window[process.env.VUE_APP_NAME].TWILL_BLOCKS_COMPONENTS !== 'undefined') {
-  window[process.env.VUE_APP_NAME].TWILL_BLOCKS_COMPONENTS.map(componentName => {
-    return registerBlockComponent(componentName, {
-      template: '#' + componentName,
-      mixins: [BlockMixin]
-    })
-  })
+if (
+  typeof window[process.env.VUE_APP_NAME].TWILL_BLOCKS_COMPONENTS !==
+  'undefined'
+) {
+  window[process.env.VUE_APP_NAME].TWILL_BLOCKS_COMPONENTS.map(
+    (componentName) => {
+      return registerBlockComponent(componentName, {
+        template: '#' + componentName,
+        mixins: [BlockMixin]
+      })
+    }
+  )
 }
 
-const extractComponentNameFromContextKey = (contextKey) => `a17-${contextKey.match(/\w+/)[0].replace(/([a-z])([A-Z])/g, '$1-$2').replace(/\s+/g, '-').toLowerCase()}`
+const extractComponentNameFromContextKey = (contextKey) =>
+  `a17-${contextKey
+    .match(/\w+/)[0]
+    .replace(/([a-z])([A-Z])/g, '$1-$2')
+    .replace(/\s+/g, '-')
+    .toLowerCase()}`
 
-const importedCustomBlocks = require.context('@/components/blocks/customs/', false, /\.(js|vue)$/i)
-importedCustomBlocks.keys().map(block => {
-  const componentName = extractComponentNameFromContextKey(block.replace(/customs\//, ''))
-  return registerBlockComponent(componentName, importedCustomBlocks(block).default)
+const importedCustomBlocks = require.context(
+  '@/components/blocks/customs/',
+  false,
+  /\.(js|vue)$/i
+)
+importedCustomBlocks.keys().map((block) => {
+  const componentName = extractComponentNameFromContextKey(
+    block.replace(/customs\//, '')
+  )
+  return registerBlockComponent(
+    componentName,
+    importedCustomBlocks(block).default
+  )
 })
 
-const importedTwillBlocks = require.context('@/components/blocks/', false, /\.(js|vue)$/i)
-importedTwillBlocks.keys().map(block => {
+const importedTwillBlocks = require.context(
+  '@/components/blocks/',
+  false,
+  /\.(js|vue)$/i
+)
+importedTwillBlocks.keys().map((block) => {
   const componentName = extractComponentNameFromContextKey(block)
-  return registerBlockComponent(componentName, importedTwillBlocks(block).default)
+  return registerBlockComponent(
+    componentName,
+    importedTwillBlocks(block).default
+  )
 })
 
 // Custom form components
-const importedComponents = require.context('@/components/customs/', true, /\.(js|vue)$/i)
-importedComponents.keys().map(block => {
+const importedComponents = require.context(
+  '@/components/customs/',
+  true,
+  /\.(js|vue)$/i
+)
+importedComponents.keys().map((block) => {
   const componentName = extractComponentNameFromContextKey(block)
   return Vue.component(componentName, importedComponents(block).default)
 })
@@ -155,14 +183,11 @@ window[process.env.VUE_APP_NAME].vm = window.vm = new Vue({
   },
   computed: {
     ...mapState({
-      loading: state => state.form.loading,
-      editor: state => state.content.editor,
-      isCustom: state => state.form.isCustom
+      loading: (state) => state.form.loading,
+      editor: (state) => state.content.editor,
+      isCustom: (state) => state.form.isCustom
     }),
-    ...mapGetters([
-      'getSaveType',
-      'isEnabledSubmitOption'
-    ])
+    ...mapGetters(['getSaveType', 'isEnabledSubmitOption'])
   },
   methods: {
     submitForm: function (event) {
@@ -191,7 +216,9 @@ window[process.env.VUE_APP_NAME].vm = window.vm = new Vue({
       if (!this.isFormUpdated || this.isCustom) {
         if (window.event !== undefined) window.event.cancelBubble = true
         else event.cancelBubble = true
-      } else { return 'message' }
+      } else {
+        return 'message'
+      }
     },
     mutationsSubscribe: function () {
       // Subscribe to store mutation

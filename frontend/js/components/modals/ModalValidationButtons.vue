@@ -2,17 +2,58 @@
   <div class="modalValidation">
     <a17-inputframe>
       <template v-if="mode === 'create'">
-        <a17-button type="submit" name="create" variant="validate" :disabled="isDisabled">{{ $trans('modal.create.button', 'Create') }}</a17-button>
-        <a17-button type="submit" name="create-another" v-on:click.native="$event.currentTarget.focus()" v-if="!isDisabled" variant="aslink-grey"><span>{{ $trans('modal.create.create-another', 'Create and add another') }}</span></a17-button>
+        <a17-button
+          type="submit"
+          name="create"
+          variant="validate"
+          :disabled="isDisabled"
+          >{{ $trans('modal.create.button', 'Create') }}</a17-button
+        >
+        <a17-button
+          type="submit"
+          name="create-another"
+          v-on:click.native="$event.currentTarget.focus()"
+          v-if="!isDisabled"
+          variant="aslink-grey"
+          ><span>{{
+            $trans('modal.create.create-another', 'Create and add another')
+          }}</span></a17-button
+        >
       </template>
-      <a17-button type="submit" name="update" v-else-if="mode === 'update'" variant="validate" :disabled="isDisabled">{{ $trans('modal.update.button', 'Update') }}</a17-button>
-      <a17-button type="submit" name="done" v-else="" variant="validate" :disabled="isDisabled">{{ $trans('modal.done.button', 'Done') }}</a17-button>
+      <a17-button
+        type="submit"
+        name="update"
+        v-else-if="mode === 'update'"
+        variant="validate"
+        :disabled="isDisabled"
+        >{{ $trans('modal.update.button', 'Update') }}</a17-button
+      >
+      <a17-button
+        type="submit"
+        name="done"
+        v-else=""
+        variant="validate"
+        :disabled="isDisabled"
+        >{{ $trans('modal.done.button', 'Done') }}</a17-button
+      >
     </a17-inputframe>
-    <label v-if="activePublishState" :for="publishedName" class="switcher__button" :class="switcherClasses">
+    <label
+      v-if="activePublishState"
+      :for="publishedName"
+      class="switcher__button"
+      :class="switcherClasses"
+    >
       <span v-if="isChecked" class="switcher__label">{{ textEnabled }}</span>
       <span v-if="!isChecked" class="switcher__label">{{ textDisabled }}</span>
 
-      <input type="checkbox" :disabled="disabled" v-model="published" :name="publishedName" :id="publishedName" :value="1"/>
+      <input
+        type="checkbox"
+        :disabled="disabled"
+        v-model="published"
+        :name="publishedName"
+        :id="publishedName"
+        :value="1"
+      />
       <span class="switcher__switcher"></span>
     </label>
   </div>
@@ -74,9 +115,7 @@
     },
     computed: {
       switcherClasses: function () {
-        return [
-          this.isChecked ? 'switcher--active' : ''
-        ]
+        return [this.isChecked ? 'switcher--active' : '']
       },
       isChecked: function () {
         return this.published
@@ -127,7 +166,9 @@
     mounted: function () {
       const self = this
 
-      this.fields = [...this.$parent.$el.querySelectorAll('input, textarea, select')]
+      this.fields = [
+        ...this.$parent.$el.querySelectorAll('input, textarea, select')
+      ]
 
       // check disable state on init
       self.disable()
@@ -151,7 +192,6 @@
 </script>
 
 <style lang="scss" scoped>
-
   .modalValidation {
     display: flex;
     justify-content: space-between;
@@ -173,7 +213,7 @@
     background: $color__button_disabled-bg;
 
     cursor: pointer;
-    transition: background-color .25s linear, color .25s linear;
+    transition: background-color 0.25s linear, color 0.25s linear;
 
     input {
       position: absolute;
@@ -197,7 +237,7 @@
     // Big rounded thing
     &::after,
     &::before {
-      content: "";
+      content: '';
       position: absolute;
       display: block;
       height: 18px;
@@ -206,7 +246,7 @@
       left: 0;
       top: -3px;
       transform: translateX(0);
-      transition: all .25s $bezier__bounce;
+      transition: all 0.25s $bezier__bounce;
     }
 
     // Big rounded thing you want to click

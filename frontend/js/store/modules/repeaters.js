@@ -10,23 +10,24 @@ const state = {
    * An object with all the repeaters available to add
    * @type {Object}
    */
-  availableRepeaters: window[process.env.VUE_APP_NAME].STORE.form.availableRepeaters || {}
+  availableRepeaters:
+    window[process.env.VUE_APP_NAME].STORE.form.availableRepeaters || {}
 }
 
 // getters
 const getters = {}
 
-function setBlockID () {
+function setBlockID() {
   return Date.now()
 }
 
 const mutations = {
-  [FORM.ADD_FORM_BLOCK] (state, blockInfos) {
+  [FORM.ADD_FORM_BLOCK](state, blockInfos) {
     const blockName = blockInfos.name
     const blockType = blockInfos.type
     const block = {}
     const blockModel = state.availableRepeaters[blockType]
-    const isNew = (!state.repeaters[blockName])
+    const isNew = !state.repeaters[blockName]
 
     if (!blockModel) return
 
@@ -45,15 +46,18 @@ const mutations = {
       state.repeaters[blockName].push(block) // or add a new block at the end of the list
     }
   },
-  [FORM.DELETE_FORM_BLOCK] (state, blockInfos) {
+  [FORM.DELETE_FORM_BLOCK](state, blockInfos) {
     state.repeaters[blockInfos.name].splice(blockInfos.index, 1)
   },
-  [FORM.DUPLICATE_FORM_BLOCK] (state, blockInfos) {
-    const clone = Object.assign({}, state.repeaters[blockInfos.name][blockInfos.index])
+  [FORM.DUPLICATE_FORM_BLOCK](state, blockInfos) {
+    const clone = Object.assign(
+      {},
+      state.repeaters[blockInfos.name][blockInfos.index]
+    )
     clone.id = setBlockID()
     state.repeaters[blockInfos.name].splice(blockInfos.index + 1, 0, clone)
   },
-  [FORM.REORDER_FORM_BLOCKS] (state, newValues) {
+  [FORM.REORDER_FORM_BLOCKS](state, newValues) {
     const newBlocks = {}
     newBlocks[newValues.name] = newValues.blocks
     state.repeaters = Object.assign({}, state.repeaters, newBlocks)
