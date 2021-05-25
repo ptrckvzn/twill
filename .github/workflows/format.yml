@@ -22,6 +22,5 @@ jobs:
         uses: creyD/prettier_action@v3.3
         with:
           prettier_options: --write *.js .*.{js,yml} frontend/**/*.{js,vue,scss}
-          only_changed: True
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
