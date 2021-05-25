@@ -8,9 +8,7 @@
         </p>
         <p v-if="hasMultipleMedias" class="mediasidebar__info">
           {{ medias.length }}
-          {{
-            $trans('media-library.sidebar.files-selected', 'files selected')
-          }}
+          {{ $trans('media-library.sidebar.files-selected', 'files selected') }}
           <a href="#" @click.prevent="clear">{{
             $trans('media-library.sidebar.clear', 'Clear')
           }}</a>
