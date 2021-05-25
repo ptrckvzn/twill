@@ -1,20 +1,65 @@
 <template>
-  <form class="filter" :class="{ 'filter--opened' : opened, 'filter--single' : !withNavigation, 'filter--withHiddenFilters' : withHiddenFilters }" @submit.prevent="submitFilter" ref="form">
+  <form
+    class="filter"
+    :class="{
+      'filter--opened': opened,
+      'filter--single': !withNavigation,
+      'filter--withHiddenFilters': withHiddenFilters
+    }"
+    @submit.prevent="submitFilter"
+    ref="form"
+  >
     <div class="filter__inner">
       <div class="filter__navigation"><slot name="navigation"></slot></div>
 
       <div class="filter__search">
-        <input type="search" class="form__input form__input--small" name="search" :value="searchValue" :placeholder="placeholder" @input="onSearchInput" />
-        <a17-button class="filter__toggle" variant="ghost" @click="toggleFilter" v-if="withHiddenFilters" :aria-expanded="opened ?  'true' : 'false'" >{{ $trans('filter.toggle-label', 'Filter') }} <span v-svg symbol="dropdown_module"></span></a17-button>
+        <input
+          type="search"
+          class="form__input form__input--small"
+          name="search"
+          :value="searchValue"
+          :placeholder="placeholder"
+          @input="onSearchInput"
+        />
+        <a17-button
+          class="filter__toggle"
+          variant="ghost"
+          @click="toggleFilter"
+          v-if="withHiddenFilters"
+          :aria-expanded="opened ? 'true' : 'false'"
+          >{{ $trans('filter.toggle-label', 'Filter') }}
+          <span v-svg symbol="dropdown_module"></span
+        ></a17-button>
         <slot name="additional-actions"></slot>
       </div>
     </div>
-    <transition :css='false' :duration="275" @before-enter="beforeEnter" @enter="enter" @before-leave="beforeLeave" @leave="leave">
-      <div class="filter__more" v-show="opened" v-if="withHiddenFilters" :aria-hidden="!opened ? true : null" ref="more">
+    <transition
+      :css="false"
+      :duration="275"
+      @before-enter="beforeEnter"
+      @enter="enter"
+      @before-leave="beforeLeave"
+      @leave="leave"
+    >
+      <div
+        class="filter__more"
+        v-show="opened"
+        v-if="withHiddenFilters"
+        :aria-hidden="!opened ? true : null"
+        ref="more"
+      >
         <div class="filter__moreInner" ref="moreInner">
           <slot name="hidden-filters"></slot>
-          <a17-button variant="ghost" type="submit">{{ $trans('filter.apply-btn', 'Apply') }}</a17-button>
-          <a17-button v-if="clearOption" variant="ghost" type="button" @click="clear">{{ $trans('filter.clear-btn', 'Clear') }}</a17-button>
+          <a17-button variant="ghost" type="submit">{{
+            $trans('filter.apply-btn', 'Apply')
+          }}</a17-button>
+          <a17-button
+            v-if="clearOption"
+            variant="ghost"
+            type="button"
+            @click="clear"
+            >{{ $trans('filter.clear-btn', 'Clear') }}</a17-button
+          >
         </div>
       </div>
     </transition>
@@ -34,7 +79,7 @@
       },
       placeholder: {
         type: String,
-        default () {
+        default() {
           return this.$trans('filter.search-placeholder', 'Search')
         }
       },
@@ -148,37 +193,39 @@
 </script>
 
 <style lang="scss" scoped>
-
   .filter__inner {
     display: flex;
     justify-content: space-between;
   }
 
   .filter__search {
-    padding:20px 0;
+    padding: 20px 0;
     white-space: nowrap;
 
     input {
-      display:inline-block;
-      width:20vw;
-      max-width:300px;
+      display: inline-block;
+      width: 20vw;
+      max-width: 300px;
     }
 
     .icon {
-      position:relative;
-      top:-2px;
-      margin-left:9px;
+      position: relative;
+      top: -2px;
+      margin-left: 9px;
     }
 
     div {
-      display:inline-block;
+      display: inline-block;
 
-      button, a {
+      button,
+      a {
         vertical-align: middle;
       }
 
-      input, button, a {
-        margin-left:15px;
+      input,
+      button,
+      a {
+        margin-left: 15px;
       }
     }
   }
@@ -187,14 +234,14 @@
   @include breakpoint(xsmall) {
     .filter--withHiddenFilters {
       .filter__inner {
-        display:block;
+        display: block;
       }
 
       .filter__search {
-        display:flex;
+        display: flex;
 
         input {
-          flex-grow:1;
+          flex-grow: 1;
         }
       }
     }
@@ -207,7 +254,7 @@
 
   .filter__moreInner {
     padding: 20px 0 0 0;
-    border-top:1px solid $color__border;
+    border-top: 1px solid $color__border;
 
     button {
       margin-right: 10px;
@@ -224,11 +271,11 @@
 
   .filter__toggle {
     position: relative;
-    padding-right:  20px + 20px !important;
+    padding-right: 20px + 20px !important;
     margin-left: 15px !important;
 
     .icon {
-      transition: all .2s linear;
+      transition: all 0.2s linear;
       transform: rotate(0deg);
       position: absolute;
       right: 20px;
@@ -252,7 +299,6 @@
 </style>
 
 <style lang="scss">
-
   .filter {
     .filter__moreInner {
       .input {

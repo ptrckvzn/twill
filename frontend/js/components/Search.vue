@@ -1,10 +1,25 @@
 <template>
-  <div class="container search" :class="{ 'search--dashboard' : type === 'dashboard' }">
+  <div
+    class="container search"
+    :class="{ 'search--dashboard': type === 'dashboard' }"
+  >
     <transition name="fade_search-overlay" v-if="type === 'dashboard'">
-      <div class="search__overlay" v-show="readyToShowResult" @click="toggleSearch"></div>
+      <div
+        class="search__overlay"
+        v-show="readyToShowResult"
+        @click="toggleSearch"
+      ></div>
     </transition>
     <div class="search__input">
-      <input type="search" class="form__input" ref="search" name="search" autocomplete="off" :placeholder="placeholder" @input="onSearchInput" />
+      <input
+        type="search"
+        class="form__input"
+        ref="search"
+        name="search"
+        autocomplete="off"
+        :placeholder="placeholder"
+        @input="onSearchInput"
+      />
       <span v-svg symbol="search"></span>
     </div>
     <transition name="fade_search-overlay">
@@ -18,21 +33,30 @@
                 </figure>
               </div>
               <div class="search__cell search__cell--pubstate hide--xsmall">
-                <span class="search__pubstate" :class="{'search__pubstate--live': item.published }"></span>
+                <span
+                  class="search__pubstate"
+                  :class="{ 'search__pubstate--live': item.published }"
+                ></span>
               </div>
               <div class="search__cell">
                 <span class="search__title">{{ item.title }}</span>
                 <p class="f--note">
-                  {{ item.activity }} <timeago :auto-update="1" :datetime="new Date(item.date)"></timeago> by {{ item.author }}
+                  {{ item.activity }}
+                  <timeago
+                    :auto-update="1"
+                    :datetime="new Date(item.date)"
+                  ></timeago>
+                  by {{ item.author }}
                   <span class="search__type">{{ item.type }}</span>
                 </p>
               </div>
             </a>
           </li>
-          <li class="search__no-result" v-show="loading">
-            Loading…
-          </li>
-          <li class="search__no-result" v-show="readyToShowResult && !searchResults.length && !loading">
+          <li class="search__no-result" v-show="loading">Loading…</li>
+          <li
+            class="search__no-result"
+            v-show="readyToShowResult && !searchResults.length && !loading"
+          >
             No results found.
           </li>
         </ul>
@@ -65,8 +89,11 @@
       },
       placeholder: {
         type: String,
-        default () {
-          return this.$trans('dashboard.search-placeholder', 'Search everything…')
+        default() {
+          return this.$trans(
+            'dashboard.search-placeholder',
+            'Search everything…'
+          )
         }
       },
       endpoint: {
@@ -133,7 +160,8 @@
         const resultsLength = this.searchResults.length
         if (resultsLength) {
           setTimeout(function () {
-            lastFocusableEl = document.querySelectorAll('.search__result')[resultsLength - 1]
+            lastFocusableEl =
+              document.querySelectorAll('.search__result')[resultsLength - 1]
           }, 1)
         } else {
           lastFocusableEl = this.$refs.search
@@ -154,19 +182,24 @@
 
         this.readyToShowResult = true
 
-        this.$http.get(this.endpoint, {
-          params: data,
-          cancelToken: source.token
-        }).then(function (resp) {
-          self.searchResults = resp.data
-          self.loading = false
-          self.setLastFocusElement()
-        }, function (resp) {
-          // handle error
-          if (!axios.isCancel(resp)) {
-            self.loading = false
-          }
-        })
+        this.$http
+          .get(this.endpoint, {
+            params: data,
+            cancelToken: source.token
+          })
+          .then(
+            function (resp) {
+              self.searchResults = resp.data
+              self.loading = false
+              self.setLastFocusElement()
+            },
+            function (resp) {
+              // handle error
+              if (!axios.isCancel(resp)) {
+                self.loading = false
+              }
+            }
+          )
       },
       onSearchInput: debounce(function (event) {
         this.searchValue = event.target.value
@@ -193,7 +226,6 @@
 </script>
 
 <style lang="scss" scoped>
-
   .search {
     display: block;
     position: relative;
@@ -212,7 +244,7 @@
     left: 0;
     right: 0;
     width: 100%;
-    bottom:0;
+    bottom: 0;
     background: rgba($color__overlay--header, 0.9);
     z-index: $zindex__search - 1;
   }
@@ -239,16 +271,16 @@
 
     .search__input .form__input {
       background-color: $color__header--sep;
-      color:$color__black--40;
+      color: $color__black--40;
 
       @include placeholder() {
-        color:$color__black--40;
+        color: $color__black--40;
       }
     }
 
     .search__input .form__input:focus {
       background-color: $color__f--bg;
-      color:$color__text--forms;
+      color: $color__text--forms;
     }
 
     .search__input .form__input:focus + .icon--search {
@@ -350,7 +382,7 @@
 
   .search__type {
     &::before {
-      content: "•";
+      content: '•';
       display: inline;
       padding: 0 8px 0 5px;
       font-size: 11px;

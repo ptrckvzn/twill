@@ -17,7 +17,7 @@ export default {
   },
   computed: {
     ...mapState({
-      itemsLoading: state => state.mediaLibrary.loading
+      itemsLoading: (state) => state.mediaLibrary.loading
     }),
     replacingMediaIds: function () {
       return this.itemsLoading.reduce((agg, curr) => {
@@ -30,10 +30,18 @@ export default {
   },
   methods: {
     isSelected: function (item, keys = ['id']) {
-      return Boolean(this.selectedItems.find(sItem => keys.every(key => sItem[key] === item[key])))
+      return Boolean(
+        this.selectedItems.find((sItem) =>
+          keys.every((key) => sItem[key] === item[key])
+        )
+      )
     },
     isUsed: function (item, keys = ['id']) {
-      return Boolean(this.usedItems.find(uItem => keys.every(key => uItem[key] === item[key])))
+      return Boolean(
+        this.usedItems.find((uItem) =>
+          keys.every((key) => uItem[key] === item[key])
+        )
+      )
     },
     toggleSelection: function (item) {
       this.$emit('change', item)

@@ -6,7 +6,7 @@ export default {
   filters: a17VueFilters,
   computed: {
     ...mapState({
-      currentLocale: state => state.language.active
+      currentLocale: (state) => state.language.active
     })
   },
   methods: {
@@ -27,7 +27,9 @@ export default {
         const slug = this.$options.filters.slugify(text)
 
         const field = {
-          name: permalinkRef.attributes ? permalinkRef.attributes.name : permalinkRef.name,
+          name: permalinkRef.attributes
+            ? permalinkRef.attributes.name
+            : permalinkRef.name,
           value: slug
         }
 

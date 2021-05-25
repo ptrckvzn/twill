@@ -2,7 +2,7 @@
 
 /* Draggable options */
 .sortable-ghost {
-  cursor: grabbing!important;
+  cursor: grabbing !important;
 }
 
 .sortable-chosen {
@@ -14,12 +14,13 @@
 }
 
 .sortable-nodrag {
-  cursor: no-drop!important;
+  cursor: no-drop !important;
 }
 
 /* Draggable transitions */
 
-.draggable_list-enter-active, .draggable_list-leave-active {
+.draggable_list-enter-active,
+.draggable_list-leave-active {
   transition: opacity 250ms ease, transform 300ms linear;
 }
 

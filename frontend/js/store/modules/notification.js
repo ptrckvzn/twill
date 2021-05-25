@@ -9,19 +9,19 @@ const state = {
 
 // getters
 const getters = {
-  notifByVariant: state => {
-    return variant => state[variant]
+  notifByVariant: (state) => {
+    return (variant) => state[variant]
   },
-  notified: state => {
-    return Object.keys(state).filter(key => state[key] !== null).length === 0
+  notified: (state) => {
+    return Object.keys(state).filter((key) => state[key] !== null).length === 0
   }
 }
 
 const mutations = {
-  [NOTIFICATION.SET_NOTIF] (state, notif) {
+  [NOTIFICATION.SET_NOTIF](state, notif) {
     state[notif.variant] = notif.message
   },
-  [NOTIFICATION.CLEAR_NOTIF] (state, variant) {
+  [NOTIFICATION.CLEAR_NOTIF](state, variant) {
     if (state[variant]) {
       state[variant] = null
     }

@@ -4,7 +4,7 @@
     height: 100%;
 
     body .a17 {
-      position:fixed;
+      position: fixed;
       width: 100%;
       overflow: hidden;
     }
@@ -15,31 +15,31 @@
     }
 
     .ham {
-/*      position:fixed;*/
-      z-index:$zindex__headermobile + 2;
+      /*      position:fixed;*/
+      z-index: $zindex__headermobile + 2;
     }
 
     .ham__label,
     .ham__line {
-      opacity:0;
+      opacity: 0;
     }
 
     .ham__icon {
-        display:none;
+      display: none;
 
-        &:after {
-            // transform:translateY(-6px) rotate(45deg);
-            opacity:0;
-        }
+      &:after {
+        // transform:translateY(-6px) rotate(45deg);
+        opacity: 0;
+      }
 
-        &:before {
-            // transform:translateY(6px) rotate(-45deg);
-            opacity:0;
-        }
+      &:before {
+        // transform:translateY(6px) rotate(-45deg);
+        opacity: 0;
+      }
     }
 
     .ham .icon {
-      display:block;
+      display: block;
     }
   }
 }

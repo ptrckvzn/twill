@@ -6,13 +6,18 @@
     <slot v-else></slot>
     <transition name="fade_move_dropdown">
       <div class="dropdown__position" ref="dropdown__position" v-if="active">
-        <div class="dropdown__content" :style="offsetStyle" data-dropdown-content>
+        <div
+          class="dropdown__content"
+          :style="offsetStyle"
+          data-dropdown-content
+        >
           <div class="dropdown__inner">
             <span class="dropdown__arrow" v-if="arrow"></span>
             <div class="dropdown__scroller" :style="innerStyle">
-              <span class="dropdown__title f--small" v-if="title">{{ title }}</span>
-              <slot name="dropdown__content">
-              </slot>
+              <span class="dropdown__title f--small" v-if="title">{{
+                title
+              }}</span>
+              <slot name="dropdown__content"> </slot>
             </div>
           </div>
         </div>
@@ -53,7 +58,8 @@
         type: Boolean,
         default: false
       },
-      clickable: { // content inside should be clickable (without closing the dropdown, useful for checkboxes for example)
+      clickable: {
+        // content inside should be clickable (without closing the dropdown, useful for checkboxes for example)
         type: Boolean,
         default: false
       },
@@ -98,8 +104,13 @@
         return {
           'margin-top': this.isPosition('bottom') ? this.offset + 'px' : '',
           'margin-bottom': this.isPosition('top') ? this.offset + 'px' : '',
-          transform: this.sideOffset ? 'translateX(' + this.sideOffset + 'px)' : '',
-          'max-width': this.currentMaxWidth > 0 && this.width !== 'full' ? this.currentMaxWidth + 'px' : '',
+          transform: this.sideOffset
+            ? 'translateX(' + this.sideOffset + 'px)'
+            : '',
+          'max-width':
+            this.currentMaxWidth > 0 && this.width !== 'full'
+              ? this.currentMaxWidth + 'px'
+              : '',
           'min-width': this.minWidth > 0 ? this.minWidth + 'px' : ''
         }
       },
@@ -116,64 +127,113 @@
         return this.currentPosition.indexOf(type) !== -1
       },
       reposition: function () {
-        const yLimitBottom = this.$el.getBoundingClientRect().top + this.$el.offsetHeight + window.pageYOffset + this.offset
-        const yLimitTop = this.$el.getBoundingClientRect().top + window.pageYOffset - this.offset
+        const yLimitBottom =
+          this.$el.getBoundingClientRect().top +
+          this.$el.offsetHeight +
+          window.pageYOffset +
+          this.offset
+        const yLimitTop =
+          this.$el.getBoundingClientRect().top +
+          window.pageYOffset -
+          this.offset
         const yWin = window.pageYOffset + window.innerHeight
 
         // revert to original desired position
-        if (this.currentPosition !== this.position) this.currentPosition = this.position
+        if (this.currentPosition !== this.position)
+          this.currentPosition = this.position
 
         if (this.isPosition('bottom')) {
-          if ((yLimitBottom + this.currentHeight) > yWin) this.currentPosition = this.currentPosition.replace(/bottom/i, 'top') // reposition from bottom to top
+          if (yLimitBottom + this.currentHeight > yWin)
+            this.currentPosition = this.currentPosition.replace(
+              /bottom/i,
+              'top'
+            ) // reposition from bottom to top
         } else if (this.isPosition('top')) {
-          if ((yLimitTop - this.currentHeight) < window.pageYOffset) this.currentPosition = this.currentPosition.replace(/top/i, 'bottom') // reposition from top to bottom
+          if (yLimitTop - this.currentHeight < window.pageYOffset)
+            this.currentPosition = this.currentPosition.replace(
+              /top/i,
+              'bottom'
+            ) // reposition from top to bottom
         }
       },
       getHeight: function () {
         // save current height of the dropdown for positioning purpose
-        this.currentHeight = this.$el.querySelector('[data-dropdown-content]') ? this.$el.querySelector('[data-dropdown-content]').offsetHeight : 100
+        this.currentHeight = this.$el.querySelector('[data-dropdown-content]')
+          ? this.$el.querySelector('[data-dropdown-content]').offsetHeight
+          : 100
       },
       setMaxWidth: function () {
         // adjust max width if larger than the viewport
         const elPosition = this.$el.getBoundingClientRect()
 
-        if (this.isPosition('left')) this.currentMaxWidth = (this.maxWidth + elPosition.left) > window.innerWidth ? window.innerWidth - elPosition.left : this.maxWidth
-        else if (this.isPosition('right')) this.currentMaxWidth = (this.maxWidth + (window.innerWidth - elPosition.right)) > window.innerWidth ? window.innerWidth - (window.innerWidth - elPosition.right) : this.maxWidth
-        else this.currentMaxWidth = this.maxWidth > window.innerWidth ? window.innerWidth : this.maxWidth
+        if (this.isPosition('left'))
+          this.currentMaxWidth =
+            this.maxWidth + elPosition.left > window.innerWidth
+              ? window.innerWidth - elPosition.left
+              : this.maxWidth
+        else if (this.isPosition('right'))
+          this.currentMaxWidth =
+            this.maxWidth + (window.innerWidth - elPosition.right) >
+            window.innerWidth
+              ? window.innerWidth - (window.innerWidth - elPosition.right)
+              : this.maxWidth
+        else
+          this.currentMaxWidth =
+            this.maxWidth > window.innerWidth
+              ? window.innerWidth
+              : this.maxWidth
       },
       setFixedPosition: function () {
         const ctaPosition = this.$refs.dropdown__cta.getBoundingClientRect()
 
         // Top / Bottom position
         if (this.isPosition('top')) {
-          this.$refs.dropdown__position.style.bottom = Math.round(window.innerHeight - ctaPosition.bottom + ctaPosition.height) + 'px'
+          this.$refs.dropdown__position.style.bottom =
+            Math.round(
+              window.innerHeight - ctaPosition.bottom + ctaPosition.height
+            ) + 'px'
         } else {
-          this.$refs.dropdown__position.style.top = Math.round(ctaPosition.top + ctaPosition.height) + 'px'
+          this.$refs.dropdown__position.style.top =
+            Math.round(ctaPosition.top + ctaPosition.height) + 'px'
         }
 
         // Left / Right / Center position
         if (this.isPosition('left')) {
-          this.$refs.dropdown__position.style.left = Math.round(ctaPosition.left) + 'px'
+          this.$refs.dropdown__position.style.left =
+            Math.round(ctaPosition.left) + 'px'
         } else if (this.isPosition('right')) {
-          this.$refs.dropdown__position.style.right = Math.round(window.innerWidth - ctaPosition.right) + 'px'
+          this.$refs.dropdown__position.style.right =
+            Math.round(window.innerWidth - ctaPosition.right) + 'px'
         } else {
-          this.$refs.dropdown__position.style.left = Math.round(ctaPosition.left + ctaPosition.width / 2) + 'px'
+          this.$refs.dropdown__position.style.left =
+            Math.round(ctaPosition.left + ctaPosition.width / 2) + 'px'
         }
       },
       closeFromDoc: function (event) {
         const target = event.target
 
         if (event.type === 'scroll') {
-          if (this.$el.querySelector('[data-dropdown-content]').contains(target)) return
-          const scrollPos = window.pageYOffset || document.documentElement.scrollTop
-          if (scrollPos > this.originScrollPostion - this.scrollOffset && scrollPos < this.originScrollPostion + this.scrollOffset) {
+          if (
+            this.$el.querySelector('[data-dropdown-content]').contains(target)
+          )
+            return
+          const scrollPos =
+            window.pageYOffset || document.documentElement.scrollTop
+          if (
+            scrollPos > this.originScrollPostion - this.scrollOffset &&
+            scrollPos < this.originScrollPostion + this.scrollOffset
+          ) {
             this.setFixedPosition()
             return
           }
         }
 
         if (!this.clickable) this.close()
-        else if (!this.$el.querySelector('[data-dropdown-content]').contains(target) && this.clickable) this.close()
+        else if (
+          !this.$el.querySelector('[data-dropdown-content]').contains(target) &&
+          this.clickable
+        )
+          this.close()
       },
       open: function (onShow) {
         if (this.active) return
@@ -190,7 +250,8 @@
 
           if (this.fixed) {
             window.addEventListener('scroll', this.closeFromDoc, true)
-            this.originScrollPostion = window.pageYOffset || document.documentElement.scrollTop
+            this.originScrollPostion =
+              window.pageYOffset || document.documentElement.scrollTop
           }
 
           this.$nextTick(function () {
@@ -232,15 +293,14 @@
 </script>
 
 <style lang="scss" scoped>
-
   .dropdown {
-    display:inherit;
-    position:relative;
+    display: inherit;
+    position: relative;
   }
 
   .dropdown__position {
     position: absolute;
-    z-index:$zindex__dropdown;
+    z-index: $zindex__dropdown;
 
     .dropdown--fixed & {
       position: fixed;
@@ -256,88 +316,88 @@
   }
 
   .dropdown--left .dropdown__position {
-    left:0;
+    left: 0;
   }
 
   .dropdown--center .dropdown__position {
-    left:50%;
+    left: 50%;
 
     .dropdown__content {
-      transform:translateX(-50%);
+      transform: translateX(-50%);
     }
   }
 
   .dropdown--right .dropdown__position {
-    right:0;
+    right: 0;
   }
 
   .dropdown__title {
-    height:35px;
+    height: 35px;
     line-height: 35px;
     white-space: nowrap;
-    overflow:hidden;
-    padding:0 15px;
-    border-bottom:1px solid $color__border--light;
-    display:block;
-    margin-bottom:10px;
-    color:$color__text--light;
+    overflow: hidden;
+    padding: 0 15px;
+    border-bottom: 1px solid $color__border--light;
+    display: block;
+    margin-bottom: 10px;
+    color: $color__text--light;
   }
 
   .dropdown__content {
-    max-width:300px;
+    max-width: 300px;
   }
 
   .dropdown--full .dropdown__position {
-    max-width:100%;
-    width:100%;
+    max-width: 100%;
+    width: 100%;
 
     .dropdown__content {
-      max-width:100%;
-      width:100%;
+      max-width: 100%;
+      width: 100%;
     }
   }
 
   .dropdown__inner {
-    position:relative;
-    background:rgba($color__background,0.98);
-    border-radius:2px;
-    box-shadow:$box-shadow;
-    max-width:calc(100vw - 10px);
+    position: relative;
+    background: rgba($color__background, 0.98);
+    border-radius: 2px;
+    box-shadow: $box-shadow;
+    max-width: calc(100vw - 10px);
   }
 
   .dropdown__scroller {
-    padding:10px 0;
+    padding: 10px 0;
   }
 
   .dropdown--arrow.dropdown--bottom .dropdown__content {
-    margin-top:15px;
+    margin-top: 15px;
   }
 
   .dropdown--arrow.dropdown--top .dropdown__content {
-    margin-bottom:15px;
+    margin-bottom: 15px;
   }
 
   .dropdown--arrow .dropdown__arrow {
     left: 50%;
     pointer-events: none;
-    width:10px + 20px + 20px;
-    height:10px;
-    overflow:hidden;
+    width: 10px + 20px + 20px;
+    height: 10px;
+    overflow: hidden;
     position: absolute;
     // border-bottom:1px solid $color__background;
 
     &::after {
       border: solid transparent;
-      content: "";
-      left:50%;
-      display:block;
-      margin-top:5px;
-      margin-left:-5px;
+      content: '';
+      left: 50%;
+      display: block;
+      margin-top: 5px;
+      margin-left: -5px;
       position: absolute;
-      width:10px;
-      height:10px;
-      background-color:$color__background;
-      box-shadow:$box-shadow;
+      width: 10px;
+      height: 10px;
+      background-color: $color__background;
+      box-shadow: $box-shadow;
       transform: rotate(45deg);
     }
   }
@@ -356,22 +416,21 @@
   }
 
   .dropdown--left .dropdown__arrow {
-    left:0;
+    left: 0;
   }
 
   .dropdown--right .dropdown__arrow {
-    right:0;
-    left:auto;
+    right: 0;
+    left: auto;
   }
 
   .dropdown--center .dropdown__arrow {
     left: 50%;
-    margin-left:-25px;
+    margin-left: -25px;
   }
 </style>
 
 <style lang="scss">
-
   .dropdown {
     .dropdown__content {
       button {
@@ -383,12 +442,12 @@
         &:disabled {
           cursor: default;
           pointer-events: none;
-          opacity: .5;
+          opacity: 0.5;
         }
       }
 
-       a,
-       button {
+      a,
+      button {
         display: block;
         color: $color__text--light;
         font-size: 1em;
@@ -417,16 +476,16 @@
         }
       }
 
-       .checkboxGroup__item,
-       .radioGroup__item {
+      .checkboxGroup__item,
+      .radioGroup__item {
         margin: 0 -15px;
         padding-right: 50px;
         padding-left: 15px;
         display: block;
       }
 
-       .checkbox,
-       .checkbox label {
+      .checkbox,
+      .checkbox label {
         display: block;
       }
     }

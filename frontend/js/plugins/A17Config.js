@@ -50,7 +50,7 @@ import { locales } from '@/utils/locale'
 const isProd = process.env.NODE_ENV === 'production'
 
 const A17Config = {
-  install (Vue, opts) {
+  install(Vue, opts) {
     // Globals components
     Vue.component('a17-button', a17Button)
     Vue.component('a17-infotip', a17Infotip)
@@ -97,7 +97,8 @@ const A17Config = {
           this.$store.commit(MEDIA_LIBRARY.UPDATE_MEDIA_HEIGHT_MIN, 0) // set height min to 0
           this.$store.commit(MEDIA_LIBRARY.UPDATE_MEDIA_MODE, false) // set the strict to false (you can change the active type)
 
-          if (this.$root.$refs.mediaLibrary) this.$root.$refs.mediaLibrary.open()
+          if (this.$root.$refs.mediaLibrary)
+            this.$root.$refs.mediaLibrary.open()
         }
       }
     })
@@ -108,7 +109,11 @@ const A17Config = {
     Vue.prototype.$http = axios
 
     window.$trans = Vue.prototype.$trans = function (key, defaultValue) {
-      return get(window[process.env.VUE_APP_NAME].twillLocalization.lang, key, defaultValue)
+      return get(
+        window[process.env.VUE_APP_NAME].twillLocalization.lang,
+        key,
+        defaultValue
+      )
     }
 
     axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'

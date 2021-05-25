@@ -1,9 +1,37 @@
 <template>
-  <a17-inputframe :name="name" :error="error" :note="note" :label="label" :label-for="uniqId" class="datePicker" :class="{ 'datePicker--static' : staticMode, 'datePicker--mobile' : isMobile }" :required="required">
+  <a17-inputframe
+    :name="name"
+    :error="error"
+    :note="note"
+    :label="label"
+    :label-for="uniqId"
+    class="datePicker"
+    :class="{
+      'datePicker--static': staticMode,
+      'datePicker--mobile': isMobile
+    }"
+    :required="required"
+  >
     <div class="datePicker__group" :ref="refs.flatPicker">
       <div class="form__field datePicker__field">
-        <input type="text" :name="name" :id="uniqId" :required="required" :placeholder="placeHolder" data-input @blur="onBlur" v-model="date">
-        <a href="#" v-if="clear" class="datePicker__reset" :class="{ 'datePicker__reset--cleared' : !date }" @click.prevent="onClear"><span v-svg symbol="close_icon"></span></a>
+        <input
+          type="text"
+          :name="name"
+          :id="uniqId"
+          :required="required"
+          :placeholder="placeHolder"
+          data-input
+          @blur="onBlur"
+          v-model="date"
+        />
+        <a
+          href="#"
+          v-if="clear"
+          class="datePicker__reset"
+          :class="{ 'datePicker__reset--cleared': !date }"
+          @click.prevent="onClear"
+          ><span v-svg symbol="close_icon"></span
+        ></a>
       </div>
     </div>
   </a17-inputframe>
@@ -13,7 +41,11 @@
   import randKeyMixin from '@/mixins/randKey'
   import FormStoreMixin from '@/mixins/formStore'
   import InputframeMixin from '@/mixins/inputFrame'
-  import { locales, getCurrentLocale, isCurrentLocale24HrFormatted } from '@/utils/locale'
+  import {
+    locales,
+    getCurrentLocale,
+    isCurrentLocale24HrFormatted
+  } from '@/utils/locale'
   import FlatPickr from 'flatpickr'
   import 'flatpickr/dist/flatpickr.css'
 
@@ -22,7 +54,8 @@
     mixins: [randKeyMixin, InputframeMixin, FormStoreMixin],
     props: {
       /* @see: https://chmln.github.io/flatpickr/options/ */
-      name: { // FlatPicker hidden input name
+      name: {
+        // FlatPicker hidden input name
         type: String,
         default: 'date'
       },
@@ -70,7 +103,8 @@
         type: Number,
         default: 30
       },
-      staticMode: { // Set static when the input need to show inside a sticky element (in the publish module for example)
+      staticMode: {
+        // Set static when the input need to show inside a sticky element (in the publish module for example)
         type: Boolean,
         default: false
       },
@@ -112,7 +146,14 @@
         if (this.altFormat !== null) {
           return this.altFormat
         }
-        return 'F j, Y' + (this.enableTime ? (this.time_24hr || isCurrentLocale24HrFormatted() ? ' H:i' : ' h:i K') : '')
+        return (
+          'F j, Y' +
+          (this.enableTime
+            ? this.time_24hr || isCurrentLocale24HrFormatted()
+              ? ' H:i'
+              : ' h:i K'
+            : '')
+        )
       }
     },
     methods: {
@@ -123,7 +164,9 @@
           altInput: true,
           altFormat: self.altFormatComputed,
           static: self.staticMode,
-          appendTo: self.staticMode ? self.$refs[self.refs.flatPicker] : undefined,
+          appendTo: self.staticMode
+            ? self.$refs[self.refs.flatPicker]
+            : undefined,
           enableTime: self.enableTime,
           noCalendar: self.noCalendar,
           time_24hr: self.time_24hr,
@@ -143,7 +186,8 @@
             self.$emit('open', self.date)
           },
           onClose: function (selectedDates, dateStr, instance) {
-            self.$nextTick(function () { // wait for the datepicker to properly update the UI
+            self.$nextTick(function () {
+              // wait for the datepicker to properly update the UI
               self.$emit('input', self.date)
               self.$emit('close', self.date)
 
@@ -161,7 +205,8 @@
 
         return config
       },
-      updateFromStore: function (newValue) { // called from the formStore mixin
+      updateFromStore: function (newValue) {
+        // called from the formStore mixin
         if (newValue !== this.date) {
           this.date = newValue
           this.flatPicker.setDate(newValue)
@@ -198,25 +243,24 @@
 </script>
 
 <style lang="scss" scoped>
-
   .datePicker__field {
     display: flex;
   }
 
   .datePicker__reset {
-    $button-reset__width:45px - 13px - 14px;
-    display:block;
+    $button-reset__width: 45px - 13px - 14px;
+    display: block;
     width: $button-reset__width;
     flex: 0 0 $button-reset__width;
     height: $button-reset__width;
-    overflow:hidden;
+    overflow: hidden;
     color: $color__background;
-    background:$color__icons;
-    border-radius:#{$button-reset__width / 2};
-    margin-top:13px;
-    margin-right:13px;
-    line-height:$button-reset__width;
-    text-align:center;
+    background: $color__icons;
+    border-radius: #{$button-reset__width / 2};
+    margin-top: 13px;
+    margin-right: 13px;
+    line-height: $button-reset__width;
+    text-align: center;
     transition: opacity 0.2s ease;
 
     .icon {
@@ -228,32 +272,32 @@
 
     &:hover,
     &:focus {
-      background:$color__fborder--active;
+      background: $color__fborder--active;
     }
   }
 
   .datePicker__reset.datePicker__reset--cleared {
-    opacity:0;
-    pointer-events:none;
+    opacity: 0;
+    pointer-events: none;
   }
 
   /* Static variant (but not in the mobile version) */
   .datePicker--static:not(.datePicker--mobile) {
     .form__field {
-      height:0;
-      position:static;
-      overflow:visible;
-      border:0 none;
+      height: 0;
+      position: static;
+      overflow: visible;
+      border: 0 none;
     }
     .datePicker__reset {
-      position:absolute;
-      right:0;
-      top:0;
+      position: absolute;
+      right: 0;
+      top: 0;
     }
   }
 
   .flatpickr-wrapper {
-    display:block;
+    display: block;
   }
 </style>
 

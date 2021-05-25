@@ -11,7 +11,12 @@
 
   NB: only works with breakpoint names, not the +/- variants
 */
-@function colspan($number-of-columns:1, $breakpoint:'xsmall', $bump:0px, $inverse:false) {
+@function colspan(
+  $number-of-columns: 1,
+  $breakpoint: 'xsmall',
+  $bump: 0px,
+  $inverse: false
+) {
   @if map-has-key($breakpoints-with-directions, $breakpoint) {
     $this-bp-main-col-width: map-get($main-col-widths, $breakpoint);
     $this-bp-inner-gutter: map-get($inner-gutters, $breakpoint);
@@ -25,7 +30,6 @@
         @return $this-bp-main-col-width;
       }
     } @else {
-
       @if ($this-bp-main-col-width == 'fluid') {
         $this-calc: '((100vw - #{(($this-bp-total-cols - 1) * $this-bp-inner-gutter) + (2 * $this-bp-outer-gutter)}) / #{$this-bp-total-cols}) * #{$number-of-columns}';
 
@@ -33,25 +37,34 @@
           $this-calc: '(#{$this-calc}) + #{($number-of-columns - 1) * $this-bp-inner-gutter}';
         }
 
-        @if($bump != 0px) {
+        @if ($bump != 0px) {
           $this-calc: '(#{$this-calc}) + #{$bump}';
         }
 
-        @if($inverse) {
+        @if ($inverse) {
           $this-calc: '(#{$this-calc}) * -1';
         }
 
         @return calc(#{$this-calc});
-
       } @else {
         $this-multiplier: 1;
-        @if($inverse) {
+        @if ($inverse) {
           $this-multiplier: -1;
         }
 
-        @return #{((((($this-bp-main-col-width - ($this-bp-total-cols - 1) * $this-bp-inner-gutter) / $this-bp-total-cols) * $number-of-columns) + ($number-of-columns - 1) * $this-bp-inner-gutter) + $bump) * $this-multiplier};
+        @return #{(
+            (
+                (
+                    (
+                        (
+                            $this-bp-main-col-width - ($this-bp-total-cols - 1) *
+                              $this-bp-inner-gutter
+                          ) / $this-bp-total-cols
+                      ) * $number-of-columns
+                  ) + ($number-of-columns - 1) * $this-bp-inner-gutter
+              ) + $bump
+          ) * $this-multiplier};
       }
-
     }
   }
 }
@@ -70,7 +83,7 @@
   NB: only works with breakpoint names, not the +/- variants
 */
 
-@mixin width($number-of-columns:1, $breakpoint:'xsmall', $bump:0px) {
+@mixin width($number-of-columns: 1, $breakpoint: 'xsmall', $bump: 0px) {
   width: colspan($number-of-columns, $breakpoint, $bump);
 }
 
@@ -105,7 +118,7 @@
   NB: only works with breakpoint names, not the +/- variants
 */
 
-@mixin width-multi($colspans:false, $bump:0px) {
+@mixin width-multi($colspans: false, $bump: 0px) {
   @if $colspans {
     @each $name, $point in $breakpoints {
       $colspan: map-get($colspans, #{$name});
@@ -133,9 +146,14 @@
 
   NB: only works with breakpoint names, not the +/- variants
 */
-@mixin push($number-of-columns:1, $breakpoint:'xsmall', $bump:0px, $in-container:false) {
-  @if map-has-key($breakpoints-with-directions, $breakpoint){
-    @if($in-container){
+@mixin push(
+  $number-of-columns: 1,
+  $breakpoint: 'xsmall',
+  $bump: 0px,
+  $in-container: false
+) {
+  @if map-has-key($breakpoints-with-directions, $breakpoint) {
+    @if ($in-container) {
       $bump: $bump + (map-get($inner-gutters, $breakpoint) * 2);
     } @else {
       $bump: $bump + map-get($inner-gutters, $breakpoint);
@@ -174,7 +192,7 @@
   NB: only works with breakpoint names, not the +/- variants
 */
 
-@mixin push-multi($colspans:false, $bump:0px) {
+@mixin push-multi($colspans: false, $bump: 0px) {
   @if $colspans {
     @each $name, $point in $breakpoints {
       $colspan: map-get($colspans, #{$name});
@@ -200,7 +218,12 @@
 
   NB: only works with breakpoint names, not the +/- variants
 */
-@mixin push-gutter($sides:(left), $bps: $breakpoints) {
+@mixin push-gutter(
+  $sides: (
+    left
+  ),
+  $bps: $breakpoints
+) {
   @each $name, $point in $bps {
     @include breakpoint('#{$name}') {
       @each $dir in $sides {
@@ -229,7 +252,7 @@
 
   @each $name, $point in $breakpoints {
     @include breakpoint('#{$name}') {
-      margin-left: - map-get($inner-gutters, $name);
+      margin-left: -map-get($inner-gutters, $name);
     }
   }
 }
@@ -259,7 +282,7 @@
 
   NB: only works with breakpoint names, not the +/- variants
 */
-@mixin column($colspans:false) {
+@mixin column($colspans: false) {
   float: left;
 
   @each $name, $point in $breakpoints {
@@ -296,7 +319,7 @@
 
   @each $name, $point in $breakpoints {
     @include breakpoint('#{$name}') {
-      margin-left: (map-get($inner-gutters, $name)/-1);
+      margin-left: (map-get($inner-gutters, $name) / -1);
     }
   }
 }
@@ -327,7 +350,7 @@
   NB: only works with breakpoint names, not the +/- variants
 */
 
-@mixin column-flex($colspans:false) {
+@mixin column-flex($colspans: false) {
   flex: 0 0 auto;
   @each $name, $point in $breakpoints {
     @include breakpoint('#{$name}') {

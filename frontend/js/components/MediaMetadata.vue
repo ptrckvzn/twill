@@ -1,26 +1,33 @@
 <template>
-  <a17-locale v-if="languages.length > 1 && fieldType === 'text'"
-              type="a17-textfield"
-              :initialValues="initialValues"
-              :attributes="attributes"
-              @change="saveMetadata">
+  <a17-locale
+    v-if="languages.length > 1 && fieldType === 'text'"
+    type="a17-textfield"
+    :initialValues="initialValues"
+    :attributes="attributes"
+    @change="saveMetadata"
+  >
   </a17-locale>
-  <a17-textfield v-else-if="fieldType === 'text'"
-                 :label="label"
-                 :name="fieldName"
-                 type="text"
-                 :placeholder="placeholder"
-                 :initialValue="initialValue"
-                 in-store="value"
-                 :maxlength="maxlength"
-                 @change="saveMetadata">
+  <a17-textfield
+    v-else-if="fieldType === 'text'"
+    :label="label"
+    :name="fieldName"
+    type="text"
+    :placeholder="placeholder"
+    :initialValue="initialValue"
+    in-store="value"
+    :maxlength="maxlength"
+    @change="saveMetadata"
+  >
   </a17-textfield>
   <div class="mediaMetadata__checkbox" v-else-if="fieldType === 'checkbox'">
-    <a17-checkbox :label="label" :name="fieldName"
-                  :initialValue="initialValue"
-                  :value="1"
-                  @change="saveMetadata"
-                  inStore="value" />
+    <a17-checkbox
+      :label="label"
+      :name="fieldName"
+      :initialValue="initialValue"
+      :value="1"
+      @change="saveMetadata"
+      inStore="value"
+    />
   </div>
 </template>
 
@@ -97,7 +104,9 @@
       placeholder: function () {
         if (this.defaultMetadatas) {
           if (typeof this.defaultMetadatas === 'object') {
-            return this.defaultMetadatas.hasOwnProperty(this.currentLocale) ? this.defaultMetadatas[this.currentLocale] : ''
+            return this.defaultMetadatas.hasOwnProperty(this.currentLocale)
+              ? this.defaultMetadatas[this.currentLocale]
+              : ''
           } else {
             return this.defaultMetadatas !== null ? this.defaultMetadatas : ''
           }
@@ -106,8 +115,8 @@
         }
       },
       ...mapState({
-        languages: state => state.language.all,
-        currentLocale: state => state.language.active.value
+        languages: (state) => state.language.all,
+        currentLocale: (state) => state.language.active.value
       })
     },
     methods: {
@@ -134,7 +143,11 @@
         if (this.customMetadatas) {
           if (this.customMetadatas[langVal]) {
             initialValues[langVal] = this.customMetadatas[langVal]
-          } else if ((this.customMetadatas === true || typeof this.customMetadatas === 'string') && index === 0) {
+          } else if (
+            (this.customMetadatas === true ||
+              typeof this.customMetadatas === 'string') &&
+            index === 0
+          ) {
             initialValues[langVal] = this.customMetadatas
             initialValue = this.customMetadatas
           } else {

@@ -18,7 +18,7 @@ h3 {
 }
 
 p em {
-  font-style:italic;
+  font-style: italic;
 }
 
 strong,
@@ -51,8 +51,11 @@ a {
   display: block;
 }
 
-input, select, textarea, button {
-  font-family:inherit;
+input,
+select,
+textarea,
+button {
+  font-family: inherit;
 }
 
 .btn--reset {

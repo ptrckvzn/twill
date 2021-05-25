@@ -27,11 +27,11 @@ export default {
   },
   computed: {
     rows: {
-      get () {
+      get() {
         return this.$store.state.datatable.data
       },
-      set (value) {
-        const isChangingParents = (this.rows.length !== value.length)
+      set(value) {
+        const isChangingParents = this.rows.length !== value.length
         this.$store.commit(DATATABLE.UPDATE_DATATABLE_DATA, value)
         this.saveNewTree(isChangingParents)
       }
@@ -43,18 +43,16 @@ export default {
       return { 'datatable__table--empty': this.isEmpty }
     },
     ...mapState({
-      columns: state => state.datatable.columns
+      columns: (state) => state.datatable.columns
     }),
-    ...mapGetters([
-      'visibleColumns',
-      'hideableColumns',
-      'visibleColumnsNames'
-    ])
+    ...mapGetters(['visibleColumns', 'hideableColumns', 'visibleColumnsNames'])
   },
   methods: {
     saveNewTree: function (isChangingParents) {
       const isNestedAction = isChangingParents ? true : this.nested
-      const action = isNestedAction ? ACTIONS.SET_DATATABLE_NESTED : ACTIONS.SET_DATATABLE
+      const action = isNestedAction
+        ? ACTIONS.SET_DATATABLE_NESTED
+        : ACTIONS.SET_DATATABLE
 
       const save = () => {
         this.$store.commit(DATATABLE.UPDATE_DATATABLE_TRACKER, 0)

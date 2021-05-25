@@ -26,14 +26,11 @@ export default {
       if (this.inModal) return this.modalFieldValueByName(this.getFieldName())
       else return this.fieldValueByName(this.getFieldName())
     },
-    ...mapGetters([
-      'fieldValueByName',
-      'modalFieldValueByName'
-    ]),
+    ...mapGetters(['fieldValueByName', 'modalFieldValueByName']),
     ...mapState({
-      submitting: state => state.form.loading,
-      fields: state => state.form.fields, // Fields in the form
-      modalFields: state => state.form.modalFields // Fields in the create/edit modal
+      submitting: (state) => state.form.loading,
+      fields: (state) => state.form.fields, // Fields in the form
+      modalFields: (state) => state.form.modalFields // Fields in the create/edit modal
     })
   },
   watch: {
@@ -41,11 +38,14 @@ export default {
       if (this.inStore === '') return
 
       const currentValue = this[this.inStore]
-      const newValue = (this.locale) ? fieldInstore[this.locale.value] : fieldInstore
+      const newValue = this.locale
+        ? fieldInstore[this.locale.value]
+        : fieldInstore
 
       // new value detected, let's update the UI (updateFromStore method need to be present into the component so the value is properly updated)
       if (!isEqual(currentValue, newValue)) {
-        if (typeof this.updateFromStore !== 'undefined') this.updateFromStore(newValue)
+        if (typeof this.updateFromStore !== 'undefined')
+          this.updateFromStore(newValue)
       }
     }
   },
@@ -101,7 +101,8 @@ export default {
   beforeDestroy: function () {
     if (this.inStore !== '') {
       // Delete form field from store because the field has been removed
-      if (this.inModal) this.$store.commit(FORM.REMOVE_MODAL_FIELD, this.getFieldName())
+      if (this.inModal)
+        this.$store.commit(FORM.REMOVE_MODAL_FIELD, this.getFieldName())
       else this.$store.commit(FORM.REMOVE_FORM_FIELD, this.getFieldName())
     }
   }

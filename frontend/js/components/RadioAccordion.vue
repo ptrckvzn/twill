@@ -2,7 +2,12 @@
   <a17-accordion :open="open" @toggleVisibility="notifyOpen">
     <span slot="accordion__title"><slot></slot></span>
     <div slot="accordion__value">{{ currentLabel }}</div>
-    <a17-radiogroup :name="name" :radios="radios" @change="changeValue" :initialValue="currentValue"></a17-radiogroup>
+    <a17-radiogroup
+      :name="name"
+      :radios="radios"
+      @change="changeValue"
+      :initialValue="currentValue"
+    ></a17-radiogroup>
   </a17-accordion>
 </template>
 
@@ -27,7 +32,9 @@
         default: ''
       },
       radios: {
-        default: function () { return [] }
+        default: function () {
+          return []
+        }
       }
     },
     data: function () {

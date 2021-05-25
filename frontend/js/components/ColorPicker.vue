@@ -1,17 +1,31 @@
 <template>
   <div class="colorpicker">
     <div class="colorpicker__color">
-      <div class="colorpicker__saturation" ref="satContainer" :style="{background: bgColor}" @mousedown="handleMouseDown('saturation')">
+      <div
+        class="colorpicker__saturation"
+        ref="satContainer"
+        :style="{ background: bgColor }"
+        @mousedown="handleMouseDown('saturation')"
+      >
         <div class="colorpicker__saturation--white"></div>
         <div class="colorpicker__saturation--black"></div>
-        <div class="colorpicker__saturation-pointer" :style="{top: satPointerTop, left: satPointerLeft}">
+        <div
+          class="colorpicker__saturation-pointer"
+          :style="{ top: satPointerTop, left: satPointerLeft }"
+        >
           <div class="colorpicker__saturation-circle"></div>
         </div>
       </div>
       <div class="colorpicker__hue colorpicker__hue--vertical">
-        <div class="colorpicker__hue-container" ref="hueContainer"
-             @mousedown="handleMouseDown('hue')">
-          <div class="colorpicker__hue-pointer" :style="{top: huePointerTop, left: huePointerLeft}">
+        <div
+          class="colorpicker__hue-container"
+          ref="hueContainer"
+          @mousedown="handleMouseDown('hue')"
+        >
+          <div
+            class="colorpicker__hue-pointer"
+            :style="{ top: huePointerTop, left: huePointerLeft }"
+          >
             <div class="colorpicker__hue-picker"></div>
           </div>
         </div>
@@ -21,7 +35,7 @@
 </template>
 
 <script>
-// Hightly inspired by https://github.com/xiaokaike/vue-color
+  // Hightly inspired by https://github.com/xiaokaike/vue-color
   import tinyColor from 'tinycolor2'
   import throttle from 'lodash/throttle'
 
@@ -47,40 +61,46 @@
       }
     },
     computed: {
-      bgColor () {
+      bgColor() {
         return `hsl(${this.currentColorHue}, 100%, 50%)`
       },
-      satPointerTop () {
-        return (-(this.currentColor.toHsv().v * 100) + 1) + 100 + '%'
+      satPointerTop() {
+        return -(this.currentColor.toHsv().v * 100) + 1 + 100 + '%'
       },
-      satPointerLeft () {
+      satPointerLeft() {
         return this.currentColor.toHsv().s * 100 + '%'
       },
-      huePointerTop () {
+      huePointerTop() {
         if (this.direction === 'vertical') {
-          if (this.currentColorHue === 0 && this.pullDirection === 'right') return 0
+          if (this.currentColorHue === 0 && this.pullDirection === 'right')
+            return 0
           return -((this.currentColorHue * 100) / 360) + 100 + '%'
         } else {
           return 0
         }
       },
-      huePointerLeft () {
+      huePointerLeft() {
         if (this.direction === 'vertical') {
           return 0
         } else {
-          if (this.currentColorHue === 0 && this.pullDirection === 'right') return '100%'
+          if (this.currentColorHue === 0 && this.pullDirection === 'right')
+            return '100%'
           return (this.currentColorHue * 100) / 360 + '%'
         }
       }
     },
     methods: {
-      throttle: throttle((fn, data) => {
-        fn(data)
-      }, 20, {
-        leading: true,
-        trailing: false
-      }),
-      satHandleChange (event, skip) {
+      throttle: throttle(
+        (fn, data) => {
+          fn(data)
+        },
+        20,
+        {
+          leading: true,
+          trailing: false
+        }
+      ),
+      satHandleChange(event, skip) {
         !skip && event.preventDefault()
         const container = this.$refs.satContainer
 
@@ -88,10 +108,14 @@
 
         const containerWidth = container.clientWidth
         const containerHeight = container.clientHeight
-        const xOffset = container.getBoundingClientRect().left + window.pageXOffset
-        const yOffset = container.getBoundingClientRect().top + window.pageYOffset
-        const pageX = event.pageX || (event.touches ? event.touches[0].pageX : 0)
-        const pageY = event.pageY || (event.touches ? event.touches[0].pageY : 0)
+        const xOffset =
+          container.getBoundingClientRect().left + window.pageXOffset
+        const yOffset =
+          container.getBoundingClientRect().top + window.pageYOffset
+        const pageX =
+          event.pageX || (event.touches ? event.touches[0].pageX : 0)
+        const pageY =
+          event.pageY || (event.touches ? event.touches[0].pageY : 0)
 
         let left = pageX - xOffset
         let top = pageY - yOffset
@@ -119,15 +143,19 @@
           a: this.currentColor.toHsv().a
         })
       },
-      hueHandleChange (event, skip) {
+      hueHandleChange(event, skip) {
         !skip && event.preventDefault()
         const container = this.$refs.hueContainer
         const containerWidth = container.clientWidth
         const containerHeight = container.clientHeight
-        const xOffset = container.getBoundingClientRect().left + window.pageXOffset
-        const yOffset = container.getBoundingClientRect().top + window.pageYOffset
-        const pageX = event.pageX || (event.touches ? event.touches[0].pageX : 0)
-        const pageY = event.pageY || (event.touches ? event.touches[0].pageY : 0)
+        const xOffset =
+          container.getBoundingClientRect().left + window.pageXOffset
+        const yOffset =
+          container.getBoundingClientRect().top + window.pageYOffset
+        const pageX =
+          event.pageX || (event.touches ? event.touches[0].pageX : 0)
+        const pageY =
+          event.pageY || (event.touches ? event.touches[0].pageY : 0)
         const left = pageX - xOffset
         const top = pageY - yOffset
 
@@ -140,8 +168,8 @@
           } else if (top > containerHeight) {
             h = 0
           } else {
-            percent = -(top * 100 / containerHeight) + 100
-            h = (360 * percent / 100)
+            percent = -((top * 100) / containerHeight) + 100
+            h = (360 * percent) / 100
           }
         } else {
           if (left < 0) {
@@ -149,8 +177,8 @@
           } else if (left > containerWidth) {
             h = 360
           } else {
-            percent = left * 100 / containerWidth
-            h = (360 * percent / 100)
+            percent = (left * 100) / containerWidth
+            h = (360 * percent) / 100
           }
         }
 
@@ -164,7 +192,7 @@
           })
         }
       },
-      handleMouseDown (type) {
+      handleMouseDown(type) {
         // this.handleChange(e, true)
         this.currentTarget = type
         if (this.currentTarget === 'saturation') {
@@ -176,10 +204,10 @@
         }
         window.addEventListener('mouseup', this.handleMouseUp)
       },
-      handleMouseUp (e) {
+      handleMouseUp(e) {
         this.unbindEventListeners()
       },
-      unbindEventListeners () {
+      unbindEventListeners() {
         if (this.currentTarget === 'saturation') {
           window.removeEventListener('mousemove', this.satHandleChange)
           window.removeEventListener('mouseup', this.satHandleChange)
@@ -190,7 +218,7 @@
 
         window.removeEventListener('mouseup', this.handleMouseUp)
       },
-      onChange (param) {
+      onChange(param) {
         this.currentColor = tinyColor(param)
         this.currentColorHue = param.h
         this.$emit('change', this.currentColor.toHexString())
@@ -200,7 +228,6 @@
 </script>
 
 <style lang="scss">
-
   .colorpicker {
     position: relative;
     display: flex;
@@ -213,7 +240,7 @@
 
   .colorpicker__color {
     display: flex;
-    width:100%;
+    width: 100%;
     // width: 50%;
   }
 
@@ -222,7 +249,7 @@
     flex-grow: 1;
     margin-right: 5px;
     cursor: pointer;
-    overflow:hidden;
+    overflow: hidden;
 
     .colorpicker__saturation--white,
     .colorpicker__saturation--black {
@@ -250,7 +277,8 @@
       cursor: head;
       width: 8px;
       height: 8px;
-      box-shadow: 0 0 0 1.5px #fff, inset 0 0 1px 1px rgba(0, 0, 0, .3), 0 0 1px 2px rgba(0, 0, 0, .4);
+      box-shadow: 0 0 0 1.5px #fff, inset 0 0 1px 1px rgba(0, 0, 0, 0.3),
+        0 0 1px 2px rgba(0, 0, 0, 0.4);
       border-radius: 50%;
       transform: translate(-4px, -4px);
     }
@@ -263,11 +291,29 @@
   }
 
   .colorpicker__hue--horizontal {
-    background: linear-gradient(to right, #f00 0%, #ff0 17%, #0f0 33%, #0ff 50%, #00f 67%, #f0f 83%, #f00 100%);
+    background: linear-gradient(
+      to right,
+      #f00 0%,
+      #ff0 17%,
+      #0f0 33%,
+      #0ff 50%,
+      #00f 67%,
+      #f0f 83%,
+      #f00 100%
+    );
   }
 
   .colorpicker__hue--vertical {
-    background: linear-gradient(to top, #f00 0%, #ff0 17%, #0f0 33%, #0ff 50%, #00f 67%, #f0f 83%, #f00 100%);
+    background: linear-gradient(
+      to top,
+      #f00 0%,
+      #ff0 17%,
+      #0f0 33%,
+      #0ff 50%,
+      #00f 67%,
+      #f0f 83%,
+      #f00 100%
+    );
   }
 
   .colorpicker__hue-container {
@@ -288,9 +334,8 @@
     width: 14px;
     border-radius: 2px;
     height: 8px;
-    box-shadow: 0 0 2px rgba(0, 0, 0, .5);
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
     background: #fff;
     transform: translateX(-1px) translateY(-4px);
   }
-
 </style>

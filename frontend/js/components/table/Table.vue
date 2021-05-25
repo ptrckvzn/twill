@@ -1,13 +1,14 @@
 <template>
   <div class="table__scroller" @scroll="updateScroll">
-    <table class="table" :class="{'table--sized' : columnsWidth.length }">
+    <table class="table" :class="{ 'table--sized': columnsWidth.length }">
       <colgroup v-if="columnsWidth.length">
-        <col v-for="(width, index) in columnsWidth"
-             :key="index"
-             :style="colWidths[index]" />
+        <col
+          v-for="(width, index) in columnsWidth"
+          :key="index"
+          :style="colWidths[index]"
+        />
       </colgroup>
-      <slot>
-      </slot>
+      <slot> </slot>
     </table>
   </div>
 </template>
@@ -22,7 +23,9 @@
       },
       columnsWidth: {
         type: Array,
-        default: function () { return [] }
+        default: function () {
+          return []
+        }
       }
     },
     data: function () {
@@ -59,10 +62,9 @@
 </script>
 
 <style lang="scss" scoped>
-
   .table__scroller {
-    width:100%;
-    overflow:hidden;
+    width: 100%;
+    overflow: hidden;
     overflow-x: auto;
   }
 
@@ -82,6 +84,6 @@
   }
 
   .table__spacer {
-    width:50px;
+    width: 50px;
   }
 </style>

@@ -1,8 +1,21 @@
 <template>
   <transition name="move_down_notif">
-    <div v-if="show" :class="notifClasses" role="alert" aria-live="polite" aria-atomic="true">
+    <div
+      v-if="show"
+      :class="notifClasses"
+      role="alert"
+      aria-live="polite"
+      aria-atomic="true"
+    >
       <div class="notif__inner">
-        <button v-if="!important" type="button" class="notif__close" data-dismiss="alert" aria-label="alertClose" @click.stop.prevent="closeNotif" >
+        <button
+          v-if="!important"
+          type="button"
+          class="notif__close"
+          data-dismiss="alert"
+          aria-label="alertClose"
+          @click.stop.prevent="closeNotif"
+        >
           <span v-svg symbol="close_modal"></span>
         </button>
         <span v-html="message"></span>

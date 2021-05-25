@@ -1,17 +1,41 @@
 <template>
   <div>
-    <a17-inputframe :error="error" :note="note" :label="label" :locale="locale" @localize="updateLocale" :name="name" :label-for="uniqId" :required="required" :add-new="addNew">
+    <a17-inputframe
+      :error="error"
+      :note="note"
+      :label="label"
+      :locale="locale"
+      @localize="updateLocale"
+      :name="name"
+      :label-for="uniqId"
+      :required="required"
+      :add-new="addNew"
+    >
       <span class="select__input" :class="selectClasses">
-        <select v-model="selectedValue" :name="name" :id="uniqId" :disabled="disabled" :required="required" :readonly="readonly">
-          <option v-for="(option, index) in fullOptions"
-                  :key="index"
-                  :value="option.value"
-                  v-html="option.label"></option>
+        <select
+          v-model="selectedValue"
+          :name="name"
+          :id="uniqId"
+          :disabled="disabled"
+          :required="required"
+          :readonly="readonly"
+        >
+          <option
+            v-for="(option, index) in fullOptions"
+            :key="index"
+            :value="option.value"
+            v-html="option.label"
+          ></option>
         </select>
       </span>
     </a17-inputframe>
     <template v-if="addNew">
-      <a17-modal-add ref="addModal" :name="name" :form-create="addNew" :modal-title="'Add new ' + label">
+      <a17-modal-add
+        ref="addModal"
+        :name="name"
+        :form-create="addNew"
+        :modal-title="'Add new ' + label"
+      >
         <slot name="addModal"></slot>
       </a17-modal-add>
     </template>
@@ -28,7 +52,14 @@
 
   export default {
     name: 'A17Select',
-    mixins: [randKeyMixin, InputMixin, InputframeMixin, LocaleMixin, FormStoreMixin, AttributesMixin],
+    mixins: [
+      randKeyMixin,
+      InputMixin,
+      InputframeMixin,
+      LocaleMixin,
+      FormStoreMixin,
+      AttributesMixin
+    ],
     props: {
       size: {
         type: String,
@@ -38,7 +69,9 @@
         default: ''
       },
       options: {
-        default: function () { return [] } // Array of objects with : value & label keys
+        default: function () {
+          return []
+        } // Array of objects with : value & label keys
       }
     },
     data: function () {
@@ -71,7 +104,8 @@
       }
     },
     methods: {
-      updateFromStore: function (newValue) { // called from the formStore mixin
+      updateFromStore: function (newValue) {
+        // called from the formStore mixin
         this.value = newValue
       }
     },
@@ -82,7 +116,6 @@
 </script>
 
 <style lang="scss" scoped>
-
   // hightly inspired by Mike's select done in NEJM
 
   /*
@@ -103,7 +136,7 @@
     width: 100%;
     margin: 0;
     outline: none;
-    padding: .6em .8em .5em .8em;
+    padding: 0.6em 0.8em 0.5em 0.8em;
 
     /* Prefixed box-sizing rules necessary for older browsers */
     -webkit-box-sizing: border-box;
@@ -117,7 +150,7 @@
   /* Custom arrow sits on top of the select - could be an image, SVG, icon font,
    * etc. or the arrow could just baked into the bg image on the select. */
   .select__input::after {
-    content: " ";
+    content: ' ';
     position: absolute;
     top: 50%;
     right: 1em;
@@ -128,6 +161,32 @@
   }
 
   // @supports ( -webkit-appearance: none ) or ( appearance: none ) {
+
+  /* Show custom arrow */
+  .select__input::after {
+    display: block;
+  }
+
+  /* Remove select styling */
+  .select__input select {
+    padding-right: 2em; /* Match-01 */
+    /* inside @supports so that iOS <= 8 display the native arrow */
+    background: none; /* Match-04 */
+    /* inside @supports so that Android <= 4.3 display the native arrow */
+    border: 1px solid transparent; /* Match-05 */
+    appearance: none;
+    -webkit-appearance: none;
+  }
+
+  .select__input select:focus {
+    //border-color: #aaa; /* Match-03 */
+  }
+  // }
+
+  @supports (-moz-appearance: none) and (mask-type: alpha) {
+    /* Firefox <= 34 has a false positive on @supports( -moz-appearance: none )
+     * @supports ( mask-type: alpha ) is Firefox 35+
+     */
 
     /* Show custom arrow */
     .select__input::after {
@@ -142,37 +201,11 @@
       /* inside @supports so that Android <= 4.3 display the native arrow */
       border: 1px solid transparent; /* Match-05 */
       appearance: none;
-      -webkit-appearance: none;
     }
 
     .select__input select:focus {
       //border-color: #aaa; /* Match-03 */
     }
-  // }
-
-  @supports ( -moz-appearance: none ) and ( mask-type: alpha ) {
-    /* Firefox <= 34 has a false positive on @supports( -moz-appearance: none )
-     * @supports ( mask-type: alpha ) is Firefox 35+
-     */
-
-     /* Show custom arrow */
-     .select__input::after {
-       display: block;
-     }
-
-     /* Remove select styling */
-     .select__input select {
-       padding-right: 2em; /* Match-01 */
-       /* inside @supports so that iOS <= 8 display the native arrow */
-       background: none; /* Match-04 */
-       /* inside @supports so that Android <= 4.3 display the native arrow */
-       border: 1px solid transparent; /* Match-05 */
-       appearance: none;
-     }
-
-     .select__input select:focus {
-       //border-color: #aaa; /* Match-03 */
-     }
   }
 
   /* IE 10/11+ - This hides native dropdown button arrow so it will have the custom appearance. Targeting media query hack via http://browserhacks.com/#hack-28f493d247a12ab654f6c3637f6978d5 - looking for better ways to achieve this targeting */
@@ -224,8 +257,8 @@
   }
 
   .select__input select {
-    font-size:15px;
-    line-height:$nativeSelectHeight - 2px;
+    font-size: 15px;
+    line-height: $nativeSelectHeight - 2px;
     height: $nativeSelectHeight;
     padding: 0 35px 0 14px;
     border-radius: 2px;
@@ -235,7 +268,7 @@
     overflow: hidden;
     -webkit-padding-end: 35px !important;
     -webkit-padding-start: 14px !important;
-    margin-top:-1px;
+    margin-top: -1px;
   }
 
   .select__input:hover select {
@@ -261,7 +294,7 @@
   }
 
   .select__input select:disabled {
-    opacity: .5;
+    opacity: 0.5;
     pointer-events: none;
   }
 

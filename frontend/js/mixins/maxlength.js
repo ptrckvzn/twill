@@ -30,7 +30,8 @@ export default {
       this.$emit('localize', this.locale)
     },
     updateCounter: function (newValue) {
-      if (this.maxlength > 0) this.counter = this.maxlength - newValue.toString().length
+      if (this.maxlength > 0)
+        this.counter = this.maxlength - newValue.toString().length
     }
   }
 }

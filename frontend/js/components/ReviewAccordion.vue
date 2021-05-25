@@ -2,7 +2,12 @@
   <a17-accordion :open="open" @toggleVisibility="notifyOpen">
     <span slot="accordion__title"><slot></slot></span>
     <div slot="accordion__value">{{ currentLabel }}</div>
-    <a17-checkboxgroup :name="name" :options="currentOptions" @change="changeValue" :selected="currentValue"></a17-checkboxgroup>
+    <a17-checkboxgroup
+      :name="name"
+      :options="currentOptions"
+      @change="changeValue"
+      :selected="currentValue"
+    ></a17-checkboxgroup>
   </a17-accordion>
 </template>
 
@@ -19,7 +24,9 @@
     mixins: [VisibilityMixin],
     props: {
       value: {
-        default: function () { return [] }
+        default: function () {
+          return []
+        }
       },
       title: {
         type: String,
@@ -30,7 +37,9 @@
         default: ''
       },
       options: {
-        default: function () { return [] }
+        default: function () {
+          return []
+        }
       }
     },
     data: function () {

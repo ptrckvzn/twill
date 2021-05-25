@@ -37,7 +37,8 @@
       }
     },
     methods: {
-      updateFromStore: function (newValue) { // called from the formStore mixin
+      updateFromStore: function (newValue) {
+        // called from the formStore mixin
         if (typeof newValue === 'undefined') newValue = ''
 
         if (this.value !== newValue) {

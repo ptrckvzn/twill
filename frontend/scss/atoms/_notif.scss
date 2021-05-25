@@ -14,20 +14,20 @@ Self destructing notification showing at the bottom of the page
 ***/
 
 .notif {
-  position:fixed;
-  bottom:0;
-  min-height:60px;
-  width:100%;
-  left:0;
-  right:0;
-  z-index:$zindex__notif;
-  background:$color__notif--default;
+  position: fixed;
+  bottom: 0;
+  min-height: 60px;
+  width: 100%;
+  left: 0;
+  right: 0;
+  z-index: $zindex__notif;
+  background: $color__notif--default;
 }
 
 .notif__inner {
-  min-height:60px;
-  text-align:center;
-  position:relative;
+  min-height: 60px;
+  text-align: center;
+  position: relative;
 
   @each $name, $point in $breakpoints {
     @include breakpoint('#{$name}') {
@@ -36,39 +36,39 @@ Self destructing notification showing at the bottom of the page
   }
 
   @include breakpoint(xsmall) {
-    text-align:left;
+    text-align: left;
   }
 }
 
 .notif__close {
   @include btn-reset;
-  position:absolute;
-  right:(60px - 46px) / 2;
-  top:(60px - 46px) / 2;
-  background:transparent;
-  height:16px + 30px;
-  width:16px + 30px;
-  color:$color__text;
-  opacity:0.5;
-  padding:15px;
+  position: absolute;
+  right: (60px - 46px) / 2;
+  top: (60px - 46px) / 2;
+  background: transparent;
+  height: 16px + 30px;
+  width: 16px + 30px;
+  color: $color__text;
+  opacity: 0.5;
+  padding: 15px;
 
   &:hover {
-    color:$color__text;
-    opacity:0.25;
+    color: $color__text;
+    opacity: 0.25;
   }
 }
 
 @keyframes godown {
   0% {
     transform: translateY(0);
-    opacity:1;
+    opacity: 1;
   }
   90% {
-    opacity:1;
+    opacity: 1;
   }
   100% {
     transform: translateY(100%);
-    opacity:0;
+    opacity: 0;
   }
 }
 
@@ -77,10 +77,11 @@ Self destructing notification showing at the bottom of the page
 }
 
 .notif--success {
-  background:$color__notif--success;
+  background: $color__notif--success;
 }
 
-.notif--error, .notif--warning {
-  color:$color__background;
-  background:$color__notif--error;
+.notif--error,
+.notif--warning {
+  color: $color__background;
+  background: $color__notif--error;
 }

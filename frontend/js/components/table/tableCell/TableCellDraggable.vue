@@ -12,7 +12,6 @@
 </script>
 
 <style lang="scss" scoped>
-
   .tablecell__handle {
     display: none;
     position: absolute;

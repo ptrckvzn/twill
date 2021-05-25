@@ -2,11 +2,11 @@ export default {
   props: {
     col: {
       type: Object,
-      default: () => { }
+      default: () => {}
     },
     row: {
       type: Object,
-      default: () => { }
+      default: () => {}
     },
     editUrl: {
       type: String,

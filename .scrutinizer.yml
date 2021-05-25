@@ -20,10 +20,10 @@ checks:
 
 filter:
   paths: [src/*]
-  excluded_paths: ["tests/*"]
+  excluded_paths: ['tests/*']
 
 coding_style:
-  php: {  }
+  php: {}
 
 tools:
   external_code_coverage: false
@@ -38,5 +38,3 @@ tools:
   php_cpd:
     enabled: true
     excluded_dirs: [vendor, tests]
-
-

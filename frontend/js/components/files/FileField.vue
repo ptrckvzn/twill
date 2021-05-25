@@ -1,19 +1,45 @@
 <template>
-  <a17-inputframe :error="error" :label="label" :locale="locale" @localize="updateLocale" :size="size" :name="name" :note="fieldNote">
+  <a17-inputframe
+    :error="error"
+    :label="label"
+    :locale="locale"
+    @localize="updateLocale"
+    :size="size"
+    :name="name"
+    :note="fieldNote"
+  >
     <div class="fileField">
       <div class="fileField__trigger" v-if="buttonOnTop && remainingItems">
-        <input type="hidden" :name="name" :value="itemsIds"/>
-        <a17-button type="button" variant="ghost" @click="openMediaLibrary(remainingItems)">{{ addLabel }}</a17-button>
+        <input type="hidden" :name="name" :value="itemsIds" />
+        <a17-button
+          type="button"
+          variant="ghost"
+          @click="openMediaLibrary(remainingItems)"
+          >{{ addLabel }}</a17-button
+        >
         <span class="fileField__note f--small">{{ note }}</span>
       </div>
       <table class="fileField__list" v-if="items.length">
         <draggable :tag="'tbody'" v-model="items">
-          <a17-fileitem v-for="(item, index) in items" :key="item.id" class="item__content" :name="`${name}_${item.id}`" :draggable="isDraggable" :item="item" @delete="deleteItem(index)"></a17-fileitem>
+          <a17-fileitem
+            v-for="(item, index) in items"
+            :key="item.id"
+            class="item__content"
+            :name="`${name}_${item.id}`"
+            :draggable="isDraggable"
+            :item="item"
+            @delete="deleteItem(index)"
+          ></a17-fileitem>
         </draggable>
       </table>
       <div class="fileField__trigger" v-if="!buttonOnTop && remainingItems">
-        <input type="hidden" :name="name" :value="itemsIds"/>
-        <a17-button type="button" variant="ghost" @click="openMediaLibrary(remainingItems)">{{ addLabel }}</a17-button>
+        <input type="hidden" :name="name" :value="itemsIds" />
+        <a17-button
+          type="button"
+          variant="ghost"
+          @click="openMediaLibrary(remainingItems)"
+          >{{ addLabel }}</a17-button
+        >
         <span class="fileField__note f--small">{{ note }}</span>
       </div>
     </div>
@@ -88,14 +114,14 @@
         return this.max - this.items.length
       },
       items: {
-        get () {
+        get() {
           if (this.selectedFiles.hasOwnProperty(this.name)) {
             return this.selectedFiles[this.name] || []
           } else {
             return []
           }
         },
-        set (value) {
+        set(value) {
           this.$store.commit(MEDIA_LIBRARY.REORDER_MEDIAS, {
             name: this.name,
             medias: value
@@ -113,14 +139,14 @@
         }
       },
       addLabel: function () {
-        return this.$trans('fields.files.add-label', 'Add') + ' ' + this.itemLabel
+        return (
+          this.$trans('fields.files.add-label', 'Add') + ' ' + this.itemLabel
+        )
       },
       ...mapState({
-        selectedFiles: state => state.mediaLibrary.selected
+        selectedFiles: (state) => state.mediaLibrary.selected
       }),
-      ...mapGetters([
-        'selectedItemsByIds'
-      ])
+      ...mapGetters(['selectedItemsByIds'])
     },
     methods: {
       deleteAll: function (index) {
@@ -142,7 +168,6 @@
 </script>
 
 <style lang="scss" scoped>
-
   .fileField {
     // width: 100%;
     display: block;
@@ -157,7 +182,7 @@
     border-top: 1px solid $color__border--light;
 
     &:first-child {
-      border-top:0 none
+      border-top: 0 none;
     }
   }
 

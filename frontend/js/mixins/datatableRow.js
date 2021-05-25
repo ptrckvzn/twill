@@ -2,7 +2,10 @@ import { mapState } from 'vuex'
 import NOTIFICATION from '@/store/mutations/notification'
 import ACTIONS from '@/store/actions'
 import { DATATABLE, FORM, LANGUAGE, MODALEDITION } from '@/store/mutations'
-import { TableCellPrefix, TableCellSpecificColumns } from '@/components/table/tableCell'
+import {
+  TableCellPrefix,
+  TableCellSpecificColumns
+} from '@/components/table/tableCell'
 
 export default {
   props: {
@@ -25,7 +28,9 @@ export default {
   },
   computed: {
     editInModal: function () {
-      return this.row.hasOwnProperty('editInModal') ? this.row.editInModal : false
+      return this.row.hasOwnProperty('editInModal')
+        ? this.row.editInModal
+        : false
     },
     editUrl: function () {
       return this.row.hasOwnProperty('edit') ? this.row.edit : '#'
@@ -34,14 +39,14 @@ export default {
       return this.row.updateUrl ? this.row.updateUrl : '#'
     },
     ...mapState({
-      bulkIds: state => state.datatable.bulk
+      bulkIds: (state) => state.datatable.bulk
     })
   },
   methods: {
-    currentComponent (colName) {
+    currentComponent(colName) {
       return TableCellPrefix + colName.toLowerCase()
     },
-    currentComponentProps (col) {
+    currentComponentProps(col) {
       const props = {
         col: col || {},
         row: this.row,
@@ -57,7 +62,9 @@ export default {
           props.initialValue = this.bulkIds
           break
         case 'languages':
-          props.languages = this.row.hasOwnProperty('languages') ? this.row.languages : []
+          props.languages = this.row.hasOwnProperty('languages')
+            ? this.row.languages
+            : []
           props.editUrl = this.editUrl
           break
         case 'publish_start_date':
@@ -82,27 +89,33 @@ export default {
         this.$store.commit(MODALEDITION.UPDATE_MODAL_ACTION, this.updateUrl)
         this.$store.commit(FORM.UPDATE_FORM_LOADING, true)
 
-        this.$store.dispatch(ACTIONS.REPLACE_FORM, endpoint).then(() => {
-          this.$nextTick(function () {
-            if (this.$root.$refs.editionModal) this.$root.$refs.editionModal.open()
-          })
-        }, (errorResponse) => {
-          this.$store.commit(NOTIFICATION.SET_NOTIF, {
-            message: 'Your content can not be edited, please retry',
-            variant: 'error'
-          })
-        })
+        this.$store.dispatch(ACTIONS.REPLACE_FORM, endpoint).then(
+          () => {
+            this.$nextTick(function () {
+              if (this.$root.$refs.editionModal)
+                this.$root.$refs.editionModal.open()
+            })
+          },
+          (errorResponse) => {
+            this.$store.commit(NOTIFICATION.SET_NOTIF, {
+              message: 'Your content can not be edited, please retry',
+              variant: 'error'
+            })
+          }
+        )
       }
     },
     cellClasses: function (col, prefix) {
       return {
-        [prefix + '--icon']: col.name === 'featured' || col.name === 'published',
+        [prefix + '--icon']:
+          col.name === 'featured' || col.name === 'published',
         [prefix + '--bulk']: col.name === 'bulk',
         [prefix + '--thumb']: col.name === 'thumbnail',
         [prefix + '--draggable']: col.name === 'draggable',
         [prefix + '--languages']: col.name === 'languages',
         [prefix + '--nested']: col.name === 'nested',
-        [prefix + '--nested--parent']: col.name === 'nested' && this.nestedDepth === 0,
+        [prefix + '--nested--parent']:
+          col.name === 'nested' && this.nestedDepth === 0,
         [prefix + '--name']: col.name === 'name'
       }
     },
@@ -127,7 +140,8 @@ export default {
         this.$store.dispatch(ACTIONS.TOGGLE_FEATURE, row)
       } else {
         this.$store.commit(NOTIFICATION.SET_NOTIF, {
-          message: 'You can’t feature/unfeature a deleted item, please restore it first.',
+          message:
+            'You can’t feature/unfeature a deleted item, please restore it first.',
           variant: 'error'
         })
       }
@@ -141,7 +155,8 @@ export default {
         this.$store.dispatch(ACTIONS.TOGGLE_PUBLISH, row)
       } else {
         this.$store.commit(NOTIFICATION.SET_NOTIF, {
-          message: 'You can’t publish/unpublish a deleted item, please restore it first.',
+          message:
+            'You can’t publish/unpublish a deleted item, please restore it first.',
           variant: 'error'
         })
       }

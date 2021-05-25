@@ -18,7 +18,8 @@ const state = {
    * Display the file name of images
    * @type {Object}
    */
-  showFileName: window[process.env.VUE_APP_NAME].STORE.medias.showFileName || false,
+  showFileName:
+    window[process.env.VUE_APP_NAME].STORE.medias.showFileName || false,
   /**
    * Define types available in medias library
    * @type {Array.<string>}
@@ -85,41 +86,42 @@ const state = {
 const getters = {}
 
 const mutations = {
-  [MEDIA_LIBRARY.UPDATE_MEDIA_TYPE_TOTAL] (state, type) {
-    state.types = state.types.map(t => {
+  [MEDIA_LIBRARY.UPDATE_MEDIA_TYPE_TOTAL](state, type) {
+    state.types = state.types.map((t) => {
       if (t.value === type.type) t.total = type.total
       return t
     })
   },
-  [MEDIA_LIBRARY.UPDATE_REPLACE_INDEX] (state, index) {
+  [MEDIA_LIBRARY.UPDATE_REPLACE_INDEX](state, index) {
     state.indexToReplace = index
   },
-  [MEDIA_LIBRARY.INCREMENT_MEDIA_TYPE_TOTAL] (state, type) {
-    state.types = state.types.map(t => {
+  [MEDIA_LIBRARY.INCREMENT_MEDIA_TYPE_TOTAL](state, type) {
+    state.types = state.types.map((t) => {
       if (t.value === type) t.total = t.total + 1
       return t
     })
   },
-  [MEDIA_LIBRARY.DECREMENT_MEDIA_TYPE_TOTAL] (state, type) {
-    state.types = state.types.map(t => {
+  [MEDIA_LIBRARY.DECREMENT_MEDIA_TYPE_TOTAL](state, type) {
+    state.types = state.types.map((t) => {
       if (t.value === type) t.total = t.total - 1
       return t
     })
   },
-  [MEDIA_LIBRARY.UPDATE_MEDIAS] (state, { mediaRole, index, media }) {
-    Vue.set(
-      state.selected[mediaRole],
-      index,
-      media
-    )
+  [MEDIA_LIBRARY.UPDATE_MEDIAS](state, { mediaRole, index, media }) {
+    Vue.set(state.selected[mediaRole], index, media)
   },
-  [MEDIA_LIBRARY.SAVE_MEDIAS] (state, medias) {
+  [MEDIA_LIBRARY.SAVE_MEDIAS](state, medias) {
     if (state.connector) {
       const key = state.connector
-      const existedSelectedConnector = state.selected[key] && state.selected[key].length
+      const existedSelectedConnector =
+        state.selected[key] && state.selected[key].length
       if (existedSelectedConnector && state.indexToReplace > -1) {
         // Replace mode
-        state.selected[key].splice(state.indexToReplace, 1, cloneDeep(medias[0]))
+        state.selected[key].splice(
+          state.indexToReplace,
+          1,
+          cloneDeep(medias[0])
+        )
       } else if (existedSelectedConnector) {
         // Add mode
         medias.forEach(function (media) {
@@ -135,25 +137,26 @@ const mutations = {
       state.indexToReplace = -1
     }
   },
-  [MEDIA_LIBRARY.DESTROY_SPECIFIC_MEDIA] (state, media) {
+  [MEDIA_LIBRARY.DESTROY_SPECIFIC_MEDIA](state, media) {
     if (state.selected[media.name]) {
       state.selected[media.name].splice(media.index, 1)
-      if (state.selected[media.name].length === 0) Vue.delete(state.selected, media.name)
+      if (state.selected[media.name].length === 0)
+        Vue.delete(state.selected, media.name)
     }
 
     state.connector = null
   },
-  [MEDIA_LIBRARY.DESTROY_MEDIAS] (state, connector) {
+  [MEDIA_LIBRARY.DESTROY_MEDIAS](state, connector) {
     if (state.selected[connector]) Vue.delete(state.selected, connector)
 
     state.connector = null
   },
-  [MEDIA_LIBRARY.REORDER_MEDIAS] (state, newValues) {
+  [MEDIA_LIBRARY.REORDER_MEDIAS](state, newValues) {
     const newMedias = {}
     newMedias[newValues.name] = newValues.medias
     state.selected = Object.assign({}, state.selected, newMedias)
   },
-  [MEDIA_LIBRARY.PROGRESS_UPLOAD_MEDIA] (state, media) {
+  [MEDIA_LIBRARY.PROGRESS_UPLOAD_MEDIA](state, media) {
     const mediaToUpdate = state.loading.filter((m) => m.id === media.id)
     // Update existing form field
     if (mediaToUpdate.length) {
@@ -169,15 +172,15 @@ const mutations = {
       })
     }
   },
-  [MEDIA_LIBRARY.PROGRESS_UPLOAD] (state, uploadProgress) {
+  [MEDIA_LIBRARY.PROGRESS_UPLOAD](state, uploadProgress) {
     state.uploadProgress = uploadProgress
   },
-  [MEDIA_LIBRARY.DONE_UPLOAD_MEDIA] (state, media) {
+  [MEDIA_LIBRARY.DONE_UPLOAD_MEDIA](state, media) {
     state.loading.forEach(function (m, index) {
       if (m.id === media.id) state.loading.splice(index, 1)
     })
   },
-  [MEDIA_LIBRARY.ERROR_UPLOAD_MEDIA] (state, media) {
+  [MEDIA_LIBRARY.ERROR_UPLOAD_MEDIA](state, media) {
     state.loading.forEach(function (m, index) {
       if (m.id === media.id) {
         Vue.set(state.loading[index], 'progress', 0)
@@ -186,45 +189,46 @@ const mutations = {
       }
     })
   },
-  [MEDIA_LIBRARY.UPDATE_MEDIA_CONNECTOR] (state, newValue) {
+  [MEDIA_LIBRARY.UPDATE_MEDIA_CONNECTOR](state, newValue) {
     if (newValue && newValue !== '') state.connector = newValue
     else state.connector = null
   },
-  [MEDIA_LIBRARY.UPDATE_MEDIA_MODE] (state, newValue) {
+  [MEDIA_LIBRARY.UPDATE_MEDIA_MODE](state, newValue) {
     state.strict = newValue
   },
-  [MEDIA_LIBRARY.UPDATE_MEDIA_TYPE] (state, newValue) {
+  [MEDIA_LIBRARY.UPDATE_MEDIA_TYPE](state, newValue) {
     if (newValue && newValue !== '') state.type = newValue
   },
-  [MEDIA_LIBRARY.RESET_MEDIA_TYPE] (state) {
+  [MEDIA_LIBRARY.RESET_MEDIA_TYPE](state) {
     state.type = state.types[0].value
   },
-  [MEDIA_LIBRARY.UPDATE_MEDIA_MAX] (state, newValue) {
+  [MEDIA_LIBRARY.UPDATE_MEDIA_MAX](state, newValue) {
     state.max = Math.max(0, newValue)
   },
-  [MEDIA_LIBRARY.UPDATE_MEDIA_FILESIZE_MAX] (state, newValue) {
+  [MEDIA_LIBRARY.UPDATE_MEDIA_FILESIZE_MAX](state, newValue) {
     state.filesizeMax = Math.max(0, newValue)
   },
-  [MEDIA_LIBRARY.UPDATE_MEDIA_WIDTH_MIN] (state, newValue) {
+  [MEDIA_LIBRARY.UPDATE_MEDIA_WIDTH_MIN](state, newValue) {
     state.widthMin = Math.max(0, newValue)
   },
-  [MEDIA_LIBRARY.UPDATE_MEDIA_HEIGHT_MIN] (state, newValue) {
+  [MEDIA_LIBRARY.UPDATE_MEDIA_HEIGHT_MIN](state, newValue) {
     state.heightMin = Math.max(0, newValue)
   },
-  [MEDIA_LIBRARY.SET_MEDIA_METADATAS] (state, metadatas) {
+  [MEDIA_LIBRARY.SET_MEDIA_METADATAS](state, metadatas) {
     const connector = metadatas.media.context
     const medias = state.selected[connector]
     const newValue = metadatas.value
 
     // Save all the custom metadatas here (with or wthout localization)
-    function setMetatadas (mediaToModify) {
+    function setMetatadas(mediaToModify) {
       if (newValue.locale) {
         // if multi language we will fill an object
         if (!mediaToModify.metadatas.custom[newValue.id]) {
           mediaToModify.metadatas.custom[newValue.id] = {}
         }
 
-        mediaToModify.metadatas.custom[newValue.id][newValue.locale] = newValue.value
+        mediaToModify.metadatas.custom[newValue.id][newValue.locale] =
+          newValue.value
       } else {
         mediaToModify.metadatas.custom[newValue.id] = newValue.value
       }
@@ -237,15 +241,15 @@ const mutations = {
       Vue.set(medias, metadatas.media.index, media)
     }
   },
-  [MEDIA_LIBRARY.DESTROY_MEDIA_CONNECTOR] (state) {
+  [MEDIA_LIBRARY.DESTROY_MEDIA_CONNECTOR](state) {
     state.connector = null
   },
-  [MEDIA_LIBRARY.SET_MEDIA_CROP] (state, crop) {
+  [MEDIA_LIBRARY.SET_MEDIA_CROP](state, crop) {
     const key = crop.key
     const index = crop.index
     const media = state.selected[key][index]
 
-    function addCrop (mediaToModify) {
+    function addCrop(mediaToModify) {
       if (!mediaToModify.crops) mediaToModify.crops = {}
 
       // save all the crop variants to the media

@@ -14,10 +14,10 @@ Showing an arrow close to the text :
 ***/
 
 .f--external {
-  position:relative;
-  text-decoration:none;
+  position: relative;
+  text-decoration: none;
 
-/*  .icon {
+  /*  .icon {
     color:inherit;
     position:absolute;
     bottom: 0.25em;
@@ -26,11 +26,11 @@ Showing an arrow close to the text :
   }*/
 
   &:after {
-    content: "\2197";
-    font-size:12px;
-    color:inherit;
-    position:absolute;
+    content: '\2197';
+    font-size: 12px;
+    color: inherit;
+    position: absolute;
     transform: translateX(50%);
-    font-weight:400;
+    font-weight: 400;
   }
 }

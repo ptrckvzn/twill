@@ -4,35 +4,83 @@
       <div class="drag__handle--drag"></div>
     </td>
     <td class="buckets__itemThumbnail" v-if="item.thumbnail">
-      <img :src="item.thumbnail" :alt="item.name">
+      <img :src="item.thumbnail" :alt="item.name" />
     </td>
-    <td class="buckets__itemStarred" v-if="withToggleFeatured" :class="{'buckets__itemStarred--active': item.starred }">
-      <span @click.prevent="toggleFeatured" :data-tooltip-title="item.starred ? toggleFeaturedLabels['unstar'] ? toggleFeaturedLabels['unstar'] : 'Unfeature' : toggleFeaturedLabels['star'] ? toggleFeaturedLabels['star'] : 'Feature'" v-tooltip>
+    <td
+      class="buckets__itemStarred"
+      v-if="withToggleFeatured"
+      :class="{ 'buckets__itemStarred--active': item.starred }"
+    >
+      <span
+        @click.prevent="toggleFeatured"
+        :data-tooltip-title="
+          item.starred
+            ? toggleFeaturedLabels['unstar']
+              ? toggleFeaturedLabels['unstar']
+              : 'Unfeature'
+            : toggleFeaturedLabels['star']
+            ? toggleFeaturedLabels['star']
+            : 'Feature'
+        "
+        v-tooltip
+      >
         <span v-svg symbol="star-feature_active"></span>
         <span v-svg symbol="star-feature"></span>
       </span>
     </td>
     <td class="buckets__itemTitle">
       <h4>
-        <span v-if="item.edit" class="f--link-underlined--o"><a :href="item.edit" target="_blank">{{ item.name }}</a></span>
+        <span v-if="item.edit" class="f--link-underlined--o"
+          ><a :href="item.edit" target="_blank">{{ item.name }}</a></span
+        >
         <span v-else>{{ item.name }}</span>
       </h4>
     </td>
-    <td class="buckets__itemContentType" v-if="item.content_type &&!singleSource">
+    <td
+      class="buckets__itemContentType"
+      v-if="item.content_type && !singleSource"
+    >
       {{ item.content_type.label }}
     </td>
     <td class="buckets__itemOptions">
-      <a17-dropdown v-if="!singleBucket" ref="bucketDropdown" class="item__dropdown bucket__action" position="bottom-right" title="Featured in" :clickable="true">
-        <a17-button variant="icon" @click="$refs.bucketDropdown.toggle()"><span v-svg symbol="more-dots"></span>
+      <a17-dropdown
+        v-if="!singleBucket"
+        ref="bucketDropdown"
+        class="item__dropdown bucket__action"
+        position="bottom-right"
+        title="Featured in"
+        :clickable="true"
+      >
+        <a17-button variant="icon" @click="$refs.bucketDropdown.toggle()"
+          ><span v-svg symbol="more-dots"></span>
         </a17-button>
-        <div v-if="restricted" slot="dropdown__content" class="item__dropdown__content">
-          <a17-radiogroup name="bucketsSelection" radioClass="bucket" :radios="dropDownBuckets" :initialValue="selectedBuckets()[0]" @change="updateBucket"/>
+        <div
+          v-if="restricted"
+          slot="dropdown__content"
+          class="item__dropdown__content"
+        >
+          <a17-radiogroup
+            name="bucketsSelection"
+            radioClass="bucket"
+            :radios="dropDownBuckets"
+            :initialValue="selectedBuckets()[0]"
+            @change="updateBucket"
+          />
         </div>
         <div v-else="" slot="dropdown__content" class="item__dropdown__content">
-          <a17-checkboxgroup name="bucketsSelection" :options="dropDownBuckets" :selected="selectedBuckets()" @change="updateBucket"/>
+          <a17-checkboxgroup
+            name="bucketsSelection"
+            :options="dropDownBuckets"
+            :selected="selectedBuckets()"
+            @change="updateBucket"
+          />
         </div>
       </a17-dropdown>
-      <a17-button class="bucket__action" icon="close" @click="removeFromBucket()">
+      <a17-button
+        class="bucket__action"
+        icon="close"
+        @click="removeFromBucket()"
+      >
         <span v-svg symbol="close_icon"></span>
       </a17-button>
     </td>
@@ -82,9 +130,14 @@
         const self = this
         let find = false
         self.buckets.forEach(function (bucket) {
-          if (bucket.children.find(function (b) {
-            return b.id === self.item.id && b.content_type.value === self.item.content_type.value
-          })) {
+          if (
+            bucket.children.find(function (b) {
+              return (
+                b.id === self.item.id &&
+                b.content_type.value === self.item.content_type.value
+              )
+            })
+          ) {
             find = true
           }
         })
@@ -126,7 +179,8 @@
         const self = this
         if (this.buckets.length > 0) {
           this.buckets.forEach(function (bucket) {
-            if (self.inBucketById(bucket.id)) selected.push(self.slug(bucket.id))
+            if (self.inBucketById(bucket.id))
+              selected.push(self.slug(bucket.id))
           })
         }
         if (selected.length > 0) {
@@ -136,7 +190,16 @@
       },
       slug: function (id) {
         // Current Bucket ID + item id + bucket id
-        return 'bucket-' + this.bucket + '_item-' + this.item.id + '_type-' + this.item.content_type.value + '_inb-' + id
+        return (
+          'bucket-' +
+          this.bucket +
+          '_item-' +
+          this.item.id +
+          '_type-' +
+          this.item.content_type.value +
+          '_inb-' +
+          id
+        )
       },
       updateBucket: function (value) {
         const pattern = 'inb-'
@@ -144,7 +207,8 @@
 
         const selected = self.selectedBuckets()
 
-        if (self.restricted) { // when restricted : value is coming from a radio group
+        if (self.restricted) {
+          // when restricted : value is coming from a radio group
           const index = value.split(pattern)[1]
           if (!self.inBucketById(index)) {
             self.$refs.bucketDropdown.toggle()
@@ -161,7 +225,8 @@
           }
         })
 
-        if (Array.isArray(value)) { // when no restricted : values are coming from checkboxes as an array
+        if (Array.isArray(value)) {
+          // when no restricted : values are coming from checkboxes as an array
           value.forEach(function (val) {
             const index = val.split(pattern)[1]
             if (!self.inBucketById(index)) {
@@ -176,7 +241,6 @@
 </script>
 
 <style lang="scss" scoped>
-
   .drag__handle {
     position: absolute;
     top: 0;
@@ -204,35 +268,35 @@
     position: relative;
     width: 10px;
     height: 42px;
-    margin-left:auto;
-    margin-right:auto;
+    margin-left: auto;
+    margin-right: auto;
     transition: background 250ms ease;
     @include dragGrid($color__drag, $color__drag_bg);
   }
 
   .buckets__itemStarred {
-    display:block;
-    cursor:pointer;
-    position:relative;
-    top:2px;
+    display: block;
+    cursor: pointer;
+    position: relative;
+    top: 2px;
 
     .icon {
-      color:$color__icons;
-      display:block;
+      color: $color__icons;
+      display: block;
       top: -2px;
       position: relative;
     }
 
     .icon--star-feature_active {
-      color:$color__error;
+      color: $color__error;
     }
 
     .icon--star-feature {
-      display:block;
+      display: block;
     }
 
     .icon--star-feature_active {
-      display:none;
+      display: none;
     }
   }
 
@@ -242,11 +306,11 @@
     }
 
     .icon--star-feature {
-      display:none;
+      display: none;
     }
 
     .icon--star-feature_active {
-      display:block;
+      display: block;
     }
   }
 </style>

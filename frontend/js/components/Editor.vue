@@ -1,16 +1,50 @@
 <template>
-  <a17-overlay ref="overlay" :title="$trans('editor.title')" @close="closeEditor" @open="openEditor">
+  <a17-overlay
+    ref="overlay"
+    :title="$trans('editor.title')"
+    @close="closeEditor"
+    @open="openEditor"
+  >
     <div class="editor">
-      <a17-button class="editor__leave" variant="editor" size="small" @click="openPreview" v-if="revisions.length"><span v-svg symbol="preview" class="hide--xsmall"></span>{{ $trans('fields.block-editor.preview', 'Preview') }}</a17-button>
+      <a17-button
+        class="editor__leave"
+        variant="editor"
+        size="small"
+        @click="openPreview"
+        v-if="revisions.length"
+        ><span v-svg symbol="preview" class="hide--xsmall"></span
+        >{{ $trans('fields.block-editor.preview', 'Preview') }}</a17-button
+      >
       <div class="editor__frame">
         <div class="editor__inner">
           <div class="editor__sidebar" :class="sidebarClass" ref="sidebar">
-            <a17-editorsidebar @delete="deleteBlock" @save="saveBlock" @cancel="cancelBlock">{{ $trans('fields.block-editor.add-content', 'Add content') }}</a17-editorsidebar>
+            <a17-editorsidebar
+              @delete="deleteBlock"
+              @save="saveBlock"
+              @cancel="cancelBlock"
+              >{{
+                $trans('fields.block-editor.add-content', 'Add content')
+              }}</a17-editorsidebar
+            >
           </div>
           <div class="editor__resizer" @mousedown="resize"><span></span></div>
-          <div class="editor__preview" :class="previewClass" :style="previewStyle">
-            <a17-editorpreview ref="previews" @select="selectBlock" @delete="deleteBlock" @unselect="unselectBlock" @add="addBlock" />
-            <a17-spinner v-if="loading" :visible="true">{{ $trans('fields.block-editor.loading', 'Loading') }}&hellip;</a17-spinner>
+          <div
+            class="editor__preview"
+            :class="previewClass"
+            :style="previewStyle"
+          >
+            <a17-editorpreview
+              ref="previews"
+              @select="selectBlock"
+              @delete="deleteBlock"
+              @unselect="unselectBlock"
+              @add="addBlock"
+            />
+            <a17-spinner v-if="loading" :visible="true"
+              >{{
+                $trans('fields.block-editor.loading', 'Loading')
+              }}&hellip;</a17-spinner
+            >
           </div>
         </div>
       </div>
@@ -59,10 +93,10 @@
     },
     computed: {
       blocks: {
-        get () {
+        get() {
           return this.savedBlocks
         },
-        set (value) {
+        set(value) {
           this.$store.commit(CONTENT.REORDER_BLOCKS, value)
         }
       },
@@ -85,11 +119,11 @@
         return { 'background-color': this.bgColor }
       },
       ...mapState({
-        loading: state => state.content.loading,
-        activeBlock: state => state.content.active,
-        savedBlocks: state => state.content.blocks,
-        availableBlocks: state => state.content.available,
-        revisions: state => state.revision.all
+        loading: (state) => state.content.loading,
+        activeBlock: (state) => state.content.active,
+        savedBlocks: (state) => state.content.blocks,
+        availableBlocks: (state) => state.content.available,
+        revisions: (state) => state.revision.all
       })
     },
     watch: {
@@ -131,7 +165,9 @@
         const activeBlockEl = this.$refs.previews.$refs[this.activeBlock.id]
         if (activeBlockEl) {
           const activeScrollTop = activeBlockEl[0].offsetTop
-          const scrollContainer = this.$el.querySelector('.editorPreview__content')
+          const scrollContainer = this.$el.querySelector(
+            '.editorPreview__content'
+          )
           scrollContainer.scrollTop = Math.max(0, activeScrollTop - 20)
         }
       },
@@ -151,7 +187,9 @@
       resizeSidebar: function (event) {
         const sidebar = this.$refs.sidebar
         const windowWidth = window.innerWidth
-        if (sidebar) sidebar.style.width = (event.clientX - sidebar.offsetLeft) / windowWidth * 100 + '%'
+        if (sidebar)
+          sidebar.style.width =
+            ((event.clientX - sidebar.offsetLeft) / windowWidth) * 100 + '%'
       },
       stopResizeSidebar: function () {
         const self = this
@@ -211,7 +249,9 @@
         if (this.isBlockActive(blockId)) this.unselectBlock()
         else {
           // Save current Store and activate
-          window[process.env.VUE_APP_NAME].PREVSTATE = cloneDeep(this.$store.state)
+          window[process.env.VUE_APP_NAME].PREVSTATE = cloneDeep(
+            this.$store.state
+          )
           this.$store.commit(CONTENT.ACTIVATE_BLOCK, index)
 
           if (!this.isWatching) {
@@ -234,35 +274,34 @@
         this.isWatching = false
 
         // remove prevstate
-        if (window[process.env.VUE_APP_NAME].hasOwnProperty('PREVSTATE')) delete window[process.env.VUE_APP_NAME].PREVSTATE
+        if (window[process.env.VUE_APP_NAME].hasOwnProperty('PREVSTATE'))
+          delete window[process.env.VUE_APP_NAME].PREVSTATE
 
         if (!this.hasBlockActive) return
         this.$store.commit(CONTENT.ACTIVATE_BLOCK, -1)
       }
     },
-    mounted: function () {
-    }
+    mounted: function () {}
   }
 </script>
 
 <style lang="scss" scoped>
-
   $height__nav: 80px;
 
   .editor {
     display: block;
     width: 100%;
     padding: 0;
-    position:relative;
-    flex-grow:1;
-    background-color:$color__background;
+    position: relative;
+    flex-grow: 1;
+    background-color: $color__background;
   }
 
   .editor__leave {
-    position:fixed;
-    right:20px;
-    top:13px;
-    z-index:$zindex__overlay + 1;
+    position: fixed;
+    right: 20px;
+    top: 13px;
+    z-index: $zindex__overlay + 1;
   }
 
   .editor__frame {
@@ -271,7 +310,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    display:flex;
+    display: flex;
     flex-flow: column nowrap;
   }
 
@@ -280,15 +319,15 @@
     width: 100%;
     overflow: hidden;
     flex-grow: 1;
-    display:flex;
+    display: flex;
     flex-flow: row nowrap;
     // height: calc(100vh - 60px);
   }
 
   .editor__sidebar {
-    background:$color__border--light;
-    width:30vw;
-    min-width:400px;
+    background: $color__border--light;
+    width: 30vw;
+    min-width: 400px;
 
     @include breakpoint('small-') {
       display: none;
@@ -302,35 +341,34 @@
   }
 
   .editor__resizer {
-    width:10px;
+    width: 10px;
     min-width: 10px;
     cursor: col-resize;
-    background:$color__border--light;
+    background: $color__border--light;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    user-select:none;
+    user-select: none;
 
     span {
-      width:2px;
-      height:20px;
-      display:block;
+      width: 2px;
+      height: 20px;
+      display: block;
       background: dragGrid__dots($color__drag);
-      overflow:hidden;
-      margin-left:auto;
-      margin-right:auto;
+      overflow: hidden;
+      margin-left: auto;
+      margin-right: auto;
     }
   }
 
   .editor__preview {
-    flex-grow:1;
-    position:relative;
-    min-width:300px;
-    color:$color__text--light;
+    flex-grow: 1;
+    position: relative;
+    min-width: 300px;
+    color: $color__text--light;
   }
 
   .editor__preview--dark {
-    color:$color__background;
+    color: $color__background;
   }
-
 </style>

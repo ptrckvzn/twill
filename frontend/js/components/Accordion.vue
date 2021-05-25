@@ -1,11 +1,25 @@
 <template>
   <div class="accordion" :class="visibilityClasses">
-    <button type="button" class="accordion__trigger" @click="onClickVisibility" :aria-expanded="visible ?  'true' : 'false'" >
+    <button
+      type="button"
+      class="accordion__trigger"
+      @click="onClickVisibility"
+      :aria-expanded="visible ? 'true' : 'false'"
+    >
       <slot name="accordion__title"></slot>
-      <span class="accordion__value"><slot name="accordion__value"></slot></span>
+      <span class="accordion__value"
+        ><slot name="accordion__value"></slot
+      ></span>
       <span v-svg symbol="dropdown_module"></span>
     </button>
-    <transition :css="false" :duration="275" @before-enter="beforeEnter" @before-leave="beforeLeave" @enter="enter" @leave="leave">
+    <transition
+      :css="false"
+      :duration="275"
+      @before-enter="beforeEnter"
+      @before-leave="beforeLeave"
+      @enter="enter"
+      @leave="leave"
+    >
       <div class="accordion__dropdown" v-show="visible" :aria-hidden="!visible">
         <div class="accordion__list">
           <slot></slot>
@@ -29,8 +43,12 @@
       }
     },
     methods: {
-      getMaxHeight: function () { // retrieve max height depending on the content height
-        return Math.min(250, this.$el.querySelector('.accordion__list').clientHeight + 1)
+      getMaxHeight: function () {
+        // retrieve max height depending on the content height
+        return Math.min(
+          250,
+          this.$el.querySelector('.accordion__list').clientHeight + 1
+        )
       },
       beforeEnter: function (el) {
         el.style.maxHeight = '0px'
@@ -49,77 +67,76 @@
 </script>
 
 <style lang="scss" scoped>
-
   .accordion {
-    border-bottom:1px solid $color__border--light;
-    background-color:$color__background;
-    transition: background-color .25s linear;
-    overflow:hidden;
+    border-bottom: 1px solid $color__border--light;
+    background-color: $color__background;
+    transition: background-color 0.25s linear;
+    overflow: hidden;
   }
 
   .accordion__trigger {
     @include accordion-trigger;
-    color:$color__text;
-    display:flex;
+    color: $color__text;
+    display: flex;
     flex-flow: row nowrap;
     align-items: center;
 
     &:hover,
     &:focus {
-      background:$color__ultralight;
+      background: $color__ultralight;
     }
 
     .icon {
-      color:$color__text--light;
+      color: $color__text--light;
     }
   }
 
   .accordion__value {
-    flex-grow:1;
-    text-align:right;
-    color:$color__text--light;
-    padding-left:10px;
-    overflow:hidden;
+    flex-grow: 1;
+    text-align: right;
+    color: $color__text--light;
+    padding-left: 10px;
+    overflow: hidden;
 
     > * {
-      overflow:hidden;
+      overflow: hidden;
       text-overflow: ellipsis;
     }
   }
 
   .accordion__dropdown {
-    overflow:hidden;
-    max-height:0;
-    height:auto;
+    overflow: hidden;
+    max-height: 0;
+    height: auto;
     transition: max-height 0.275s ease;
   }
 
   .accordion__list {
-    border-top:1px solid $color__border--light;
-    padding:12px 20px;
+    border-top: 1px solid $color__border--light;
+    padding: 12px 20px;
   }
 
   .accordion__fields {
-    border-top:1px solid $color__border--light;
-    padding:20px;
+    border-top: 1px solid $color__border--light;
+    padding: 20px;
   }
 
   .accordion__list .accordion__fields {
-    border-top:0 none;
-    padding:8px 0;
+    border-top: 0 none;
+    padding: 8px 0;
   }
 
   /* Opened accordion */
   .s--open {
-    background-color:$color__ultralight;
+    background-color: $color__ultralight;
 
     .accordion__dropdown {
-      max-height:250px;
+      max-height: 250px;
       overflow-y: auto;
     }
 
     .icon {
-      transform:rotate(180deg);
+      transform: rotate(180deg);
     }
   }
 </style>

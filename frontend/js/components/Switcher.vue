@@ -1,12 +1,23 @@
 <template>
-  <div class="switcher" :class="switcherClasses" >
+  <div class="switcher" :class="switcherClasses">
     <h4 class="switcher__title">{{ title }}</h4>
 
     <label :for="name + '_live'" class="switcher__button">
-      <span v-if="isChecked" class="switcher__label">{{ formatTextEnabled }}</span>
-      <span v-if="!isChecked" class="switcher__label">{{ formatTextDisabled }}</span>
+      <span v-if="isChecked" class="switcher__label">{{
+        formatTextEnabled
+      }}</span>
+      <span v-if="!isChecked" class="switcher__label">{{
+        formatTextDisabled
+      }}</span>
 
-      <input type="checkbox" :disabled="disabled" v-model="checkedValue" :name="name" :id="name + '_live'" value="live" />
+      <input
+        type="checkbox"
+        :disabled="disabled"
+        v-model="checkedValue"
+        :name="name"
+        :id="name + '_live'"
+        value="live"
+      />
       <span class="switcher__switcher"></span>
     </label>
   </div>
@@ -54,7 +65,11 @@
       switcherClasses: function () {
         return [
           this.isChecked ? 'switcher--active' : '',
-          this.formatTextEnabled ? `switcher--${this.$options.filters.lowercase(this.formatTextEnabled)}` : ''
+          this.formatTextEnabled
+            ? `switcher--${this.$options.filters.lowercase(
+                this.formatTextEnabled
+              )}`
+            : ''
         ]
       },
       isChecked: function () {
@@ -81,128 +96,127 @@
         }
       },
       ...mapState({
-        startDate: state => state.publication.startDate,
-        endDate: state => state.publication.endDate,
-        published: state => state.publication.published
+        startDate: (state) => state.publication.startDate,
+        endDate: (state) => state.publication.endDate,
+        published: (state) => state.publication.published
       })
     }
   }
 </script>
 
 <style lang="scss" scoped>
-
   .switcher {
-    height:50px;
-    line-height:50px;
-    background:$color__icons;
-    color:$color__background;
-    padding:0 20px;
+    height: 50px;
+    line-height: 50px;
+    background: $color__icons;
+    color: $color__background;
+    padding: 0 20px;
 
     // because the switcher will live into a box and need to overlap the border
     margin: -1px -1px 0 -1px;
-    padding:0 21px;
+    padding: 0 21px;
     border-top-left-radius: 2px;
     border-top-right-radius: 2px;
 
-    transition: background-color .25s linear;
+    transition: background-color 0.25s linear;
   }
 
   .switcher__title {
-    display:inline;
-    font-weight:600;
+    display: inline;
+    font-weight: 600;
     @include font-smoothing();
   }
 
   .switcher__button {
-    float:right;
-    position:relative;
-    top:16px;
-    cursor:pointer;
+    float: right;
+    position: relative;
+    top: 16px;
+    cursor: pointer;
 
     input {
-      position:absolute;
-      opacity:0;
+      position: absolute;
+      opacity: 0;
     }
   }
 
   .switcher__label {
-    margin-right:15px;
+    margin-right: 15px;
   }
 
   .switcher__switcher {
-    display:inline-block;
-    height:12px;
-    border-radius:6px;
-    width:40px;
-    background:$color__black--70;
+    display: inline-block;
+    height: 12px;
+    border-radius: 6px;
+    width: 40px;
+    background: $color__black--70;
     box-shadow: inset 0 0 1px #000;
-    position:relative;
+    position: relative;
 
     // Big rounded thing
     &::after,
     &::before {
-      content:"";
-      position:absolute;
-      display:block;
-      height:18px;
-      width:18px;
-      border-radius:50%;
-      left:0;
-      top:-3px;
-      transform:translateX(0);
-      transition: all .25s $bezier__bounce;
+      content: '';
+      position: absolute;
+      display: block;
+      height: 18px;
+      width: 18px;
+      border-radius: 50%;
+      left: 0;
+      top: -3px;
+      transform: translateX(0);
+      transition: all 0.25s $bezier__bounce;
     }
 
     // Big rounded thing you want to click
     &::after {
-      background:$color__background;
+      background: $color__background;
       box-shadow: 0 0 1px #666;
     }
 
     // Big rounded thing for hover / focus states only
     &::before {
-      background:$color__background;
-      box-shadow: 0 0 0 3px rgba(0,0,0,0.1);
-      opacity:0;
+      background: $color__background;
+      box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+      opacity: 0;
     }
   }
 
   .switcher--active {
-    background:$color__lightGreen;
-    color:$color__publish;
+    background: $color__lightGreen;
+    color: $color__publish;
 
     .switcher__switcher {
-      background:$color__publish;
-      box-shadow: inset 0 0 1px rgba($color__black,0.4);
+      background: $color__publish;
+      box-shadow: inset 0 0 1px rgba($color__black, 0.4);
     }
 
     .switcher__switcher::after,
     .switcher__switcher::before {
-      transform:translateX(40px - 18px);
+      transform: translateX(40px - 18px);
     }
   }
 
   /* Show something when hover / focus */
   .switcher__button {
     input:focus + .switcher__switcher::before {
-      opacity:1;
+      opacity: 1;
     }
   }
 
   .switcher__button:hover,
   .switcher__button:focus {
     .switcher__switcher::before {
-      opacity:1;
+      opacity: 1;
     }
   }
 
   /* Expired is looking like draft */
   .switcher--expired {
-    background:$color__icons;
-    color:$color__background;
+    background: $color__icons;
+    color: $color__background;
 
     .switcher__switcher {
-      background:$color__black--70;
+      background: $color__black--70;
       box-shadow: inset 0 0 1px #000;
     }
   }

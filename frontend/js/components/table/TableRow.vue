@@ -1,17 +1,38 @@
 <template>
   <tr class="tablerow">
-    <td v-for="col in columns" :key="col.name" class="tablecell" :class="cellClasses(col, 'tablecell')" :style="nestedStyle(col)">
+    <td
+      v-for="col in columns"
+      :key="col.name"
+      class="tablecell"
+      :class="cellClasses(col, 'tablecell')"
+      :style="nestedStyle(col)"
+    >
       <template v-if="isSpecificColumn(col)">
-        <component :is="currentComponent(col.name)"
-                   v-bind="currentComponentProps(col)"
-                   @update="tableCellUpdate"
-                   @editInPlace="editInPlace"/>
+        <component
+          :is="currentComponent(col.name)"
+          v-bind="currentComponentProps(col)"
+          @update="tableCellUpdate"
+          @editInPlace="editInPlace"
+        />
       </template>
-      <a17-table-cell-generic v-else v-bind="currentComponentProps(col)" @editInPlace="editInPlace" @update="tableCellUpdate"/>
+      <a17-table-cell-generic
+        v-else
+        v-bind="currentComponentProps(col)"
+        @editInPlace="editInPlace"
+        @update="tableCellUpdate"
+      />
     </td>
     <td class="tablecell tablecell--spacer">&nbsp;</td>
     <td class="tablecell tablecell--sticky">
-      <a17-table-cell-actions v-bind="currentComponentProps()" @editInPlace="editInPlace" @update="tableCellUpdate" @restoreRow=" restoreRow" @destroyRow="destroyRow" @deleteRow="deleteRow" @duplicateRow="duplicateRow"/>
+      <a17-table-cell-actions
+        v-bind="currentComponentProps()"
+        @editInPlace="editInPlace"
+        @update="tableCellUpdate"
+        @restoreRow="restoreRow"
+        @destroyRow="destroyRow"
+        @deleteRow="deleteRow"
+        @duplicateRow="duplicateRow"
+      />
     </td>
   </tr>
 </template>
@@ -41,23 +62,26 @@
       }
     },
     computed: {
-      nestedOffset () {
+      nestedOffset() {
         return this.columns.find((col) => col.name === 'draggable') ? 10 : 0
       }
     },
     methods: {
-      nestedStyle (col) {
-        return this.columns.find((col) => col.name === 'nested') && col.name === 'draggable' ? {
-          'webkit-transform': 'translateX(-' + this.nestedDepth * 80 + 'px)',
-          transform: 'translateX(-' + this.nestedDepth * 80 + 'px)'
-        } : ''
+      nestedStyle(col) {
+        return this.columns.find((col) => col.name === 'nested') &&
+          col.name === 'draggable'
+          ? {
+              'webkit-transform':
+                'translateX(-' + this.nestedDepth * 80 + 'px)',
+              transform: 'translateX(-' + this.nestedDepth * 80 + 'px)'
+            }
+          : ''
       }
     }
   }
 </script>
 
 <style lang="scss" scoped>
-
   .tablerow {
     position: relative;
     border-bottom: 1px solid $color__border--light;
@@ -108,12 +132,20 @@
     right: 0;
     top: auto;
     padding: 15px 20px;
-    background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 25%);
+    background: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 1) 25%
+    );
     overflow: visible;
   }
 
   tr:hover > .tablecell--sticky {
-    background: linear-gradient(to right, #{rgba($color__f--bg, 0)} 0%, #{rgba($color__f--bg, 1)} 25%);
+    background: linear-gradient(
+      to right,
+      #{rgba($color__f--bg, 0)} 0%,
+      #{rgba($color__f--bg, 1)} 25%
+    );
   }
 
   /* Draggable */

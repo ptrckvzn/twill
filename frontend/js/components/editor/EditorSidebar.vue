@@ -1,45 +1,103 @@
 <template>
   <div class="editorSidebar">
-    <div class="editorSidebar__item" v-for="(block, index) in blocks" :key="block.id" v-show="isBlockActive(block.id)">
+    <div
+      class="editorSidebar__item"
+      v-for="(block, index) in blocks"
+      :key="block.id"
+      v-show="isBlockActive(block.id)"
+    >
       <div class="editorSidebar__title">
         <div class="editorSidebar__blockTitle">
-          <a17-dropdown class="f--small" position="bottom-left" :ref="moveDropdown(index)" :maxHeight="270">
-            <span class="editorSidebar__counter f--tiny" @click="toggleDropdown(index)">{{ index + 1 }}</span>
+          <a17-dropdown
+            class="f--small"
+            position="bottom-left"
+            :ref="moveDropdown(index)"
+            :maxHeight="270"
+          >
+            <span
+              class="editorSidebar__counter f--tiny"
+              @click="toggleDropdown(index)"
+              >{{ index + 1 }}</span
+            >
             <div slot="dropdown__content">
-              <button type="button"
-                      v-for="n in blocks.length"
-                      :key="n"
-                      @click="moveBlock(index, n - 1)">{{ n }}</button>
-            </div>
-          </a17-dropdown>{{ activeBlock.title }}
+              <button
+                type="button"
+                v-for="n in blocks.length"
+                :key="n"
+                @click="moveBlock(index, n - 1)"
+              >
+                {{ n }}
+              </button>
+            </div> </a17-dropdown
+          >{{ activeBlock.title }}
         </div>
         <span>
-          <a href="#" @click.prevent="deleteBlock(index)" class="f--small f--note f--underlined">{{ $trans('editor.delete') }}</a>
+          <a
+            href="#"
+            @click.prevent="deleteBlock(index)"
+            class="f--small f--note f--underlined"
+            >{{ $trans('editor.delete') }}</a
+          >
         </span>
       </div>
       <div class="editorSidebar__body">
-        <a17-inputframe label="" :name="`block.${block.id}`"/>
-        <component v-bind:is="`${block.type}`" :name="componentName(block.id)" v-bind="block.attributes" key="`editor_${block.type}_${block.id}`"></component>
+        <a17-inputframe label="" :name="`block.${block.id}`" />
+        <component
+          v-bind:is="`${block.type}`"
+          :name="componentName(block.id)"
+          v-bind="block.attributes"
+          key="`editor_${block.type}_${block.id}`"
+        ></component>
       </div>
     </div>
     <template v-if="!hasBlockActive">
-      <div class="editorSidebar__list" >
+      <div class="editorSidebar__list">
         <h4 class="editorSidebar__title"><slot></slot></h4>
-        <draggable v-model="availableBlocks" :options="{ group: { name: 'editorBlocks',  pull: 'clone', put: false }, handle: '.editorSidebar__button' }" v-if="availableBlocks.length">
-          <div class="editorSidebar__button" :data-title="availableBlock.title" :data-icon="availableBlock.icon" :data-component="availableBlock.component" v-for="availableBlock in availableBlocks" :key="availableBlock.component">
-            <span v-svg :symbol="availableBlock.icon"></span>{{ availableBlock.title }}
+        <draggable
+          v-model="availableBlocks"
+          :options="{
+            group: { name: 'editorBlocks', pull: 'clone', put: false },
+            handle: '.editorSidebar__button'
+          }"
+          v-if="availableBlocks.length"
+        >
+          <div
+            class="editorSidebar__button"
+            :data-title="availableBlock.title"
+            :data-icon="availableBlock.icon"
+            :data-component="availableBlock.component"
+            v-for="availableBlock in availableBlocks"
+            :key="availableBlock.component"
+          >
+            <span v-svg :symbol="availableBlock.icon"></span
+            >{{ availableBlock.title }}
           </div>
         </draggable>
       </div>
       <div class="editorSidebar__actions">
-        <a17-button v-if="isSubmitDisabled(submitOptions[0])" variant="validate" :disabled="true">{{ submitOptions[0].text }}</a17-button>
-        <a17-button v-else @click="saveForm(submitOptions[0].name)" :name="submitOptions[0].name" variant="validate">{{ submitOptions[0].text }}</a17-button>
+        <a17-button
+          v-if="isSubmitDisabled(submitOptions[0])"
+          variant="validate"
+          :disabled="true"
+          >{{ submitOptions[0].text }}</a17-button
+        >
+        <a17-button
+          v-else
+          @click="saveForm(submitOptions[0].name)"
+          :name="submitOptions[0].name"
+          variant="validate"
+          >{{ submitOptions[0].text }}</a17-button
+        >
       </div>
     </template>
     <template v-else>
       <div class="editorSidebar__actions">
-        <a17-button variant="action" @click="saveBlock()">{{ $trans('editor.done') }}</a17-button>
-        <a17-button variant="secondary" @click="cancelBlock()">{{ $trans('editor.cancel') }}</a17-button>
+        <a17-button variant="action" @click="saveBlock()">{{
+          $trans('editor.done')
+        }}</a17-button>
+        <a17-button variant="secondary" @click="cancelBlock()">{{
+          $trans('editor.cancel')
+        }}</a17-button>
       </div>
     </template>
   </div>
@@ -59,8 +117,7 @@
     },
     mixins: [draggableMixin],
     data: function () {
-      return {
-      }
+      return {}
     },
     computed: {
       hasBlockActive: function () {
@@ -70,9 +127,9 @@
         return this.$store.getters.getSubmitOptions
       },
       ...mapState({
-        activeBlock: state => state.content.active,
-        availableBlocks: state => state.content.available,
-        blocks: state => state.content.blocks
+        activeBlock: (state) => state.content.active,
+        availableBlocks: (state) => state.content.available,
+        blocks: (state) => state.content.blocks
       })
     },
     methods: {
@@ -122,31 +179,29 @@
         if (this.$root.submitForm) this.$root.submitForm()
       }
     },
-    mounted: function () {
-    }
+    mounted: function () {}
   }
 </script>
 
 <style lang="scss" scoped>
-
   .editorSidebar {
-    margin:20px 0 20px 0;
+    margin: 20px 0 20px 0;
     // height:100%;
-    position:relative;
+    position: relative;
     overflow: hidden;
     height: calc(100% - 40px);
   }
 
   .editorSidebar__item,
   .editorSidebar__list {
-    padding:0 10px 0 20px;
+    padding: 0 10px 0 20px;
     overflow-y: scroll;
     // height: calc(100% + 20px - 80px);
-    position:absolute;
-    top:0;
-    bottom:60px;
-    left:0;
-    right:0;
+    position: absolute;
+    top: 0;
+    bottom: 60px;
+    left: 0;
+    right: 0;
   }
 
   .editorSidebar__list {
@@ -154,28 +209,28 @@
   }
 
   .editorSidebar__title {
-    padding:15px 0 10px 0;
-    display:flex;
+    padding: 15px 0 10px 0;
+    display: flex;
   }
 
   .editorSidebar__body {
     border: 1px solid $color__border;
-    border-radius:2px;
-    background:$color__background;
-    padding:15px;
+    border-radius: 2px;
+    background: $color__background;
+    padding: 15px;
   }
 
   .editorSidebar__counter {
-    border:1px solid $color__border;
-    border-radius:50%;
-    height:26px;
-    width:26px;
-    text-align:center;
-    display:inline-block;
-    line-height:25px;
-    margin-right:10px;
-    background:$color__background;
-    color:$color__text--light;
+    border: 1px solid $color__border;
+    border-radius: 50%;
+    height: 26px;
+    width: 26px;
+    text-align: center;
+    display: inline-block;
+    line-height: 25px;
+    margin-right: 10px;
+    background: $color__background;
+    color: $color__text--light;
     @include monospaced-figures('off'); // dont use monospaced figures here
     user-select: none;
     cursor: default;
@@ -187,76 +242,76 @@
 
   .editorSidebar__counter:hover,
   .dropdown--active .editorSidebar__counter {
-    color:$color__text;
-    border-color:$color__text;
+    color: $color__text;
+    border-color: $color__text;
   }
 
   h4,
   .editorSidebar__blockTitle {
-    font-weight:600;
+    font-weight: 600;
   }
 
   .editorSidebar__blockTitle {
-    flex-grow:1;
+    flex-grow: 1;
 
     .dropdown {
-      display:inline-block;
+      display: inline-block;
     }
   }
 
   .editorSidebar__actions {
-    position:absolute;
-    width:100%;
-    left:0;
-    bottom:0;
+    position: absolute;
+    width: 100%;
+    left: 0;
+    bottom: 0;
     padding: 20px 10px 0 20px;
-    background:$color__border--light;
-    display:flex;
+    background: $color__border--light;
+    display: flex;
 
     button {
-      width:calc(50% - 10px);
+      width: calc(50% - 10px);
     }
 
     button + button {
-      margin-left:20px;
+      margin-left: 20px;
     }
 
     button.button--validate:last-child {
-      width:100%;
-      margin-left:0;
+      width: 100%;
+      margin-left: 0;
     }
   }
 
   .editorSidebar__button {
     @include btn-reset;
-    cursor:move;
-    display:block;
-    width:100%;
-    text-align:left;
-    background:$color__background;
+    cursor: move;
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: $color__background;
     border-radius: $border-radius;
     margin-bottom: 10px;
-    height:60px;
-    line-height:60px;
-    padding:0 20px;
-    border:1px solid $color__border;
-    color:$color__text--light;
+    height: 60px;
+    line-height: 60px;
+    padding: 0 20px;
+    border: 1px solid $color__border;
+    color: $color__text--light;
 
     .icon {
-      margin-left:-20px;
-      min-width:65px;
-      text-align:center;
-      color:$color__icons;
-      height:60px - 2px;
+      margin-left: -20px;
+      min-width: 65px;
+      text-align: center;
+      color: $color__icons;
+      height: 60px - 2px;
     }
 
     &:hover,
     &:focus {
-      color:$color__text;
-      border-color:$color__border--focus;
+      color: $color__text;
+      border-color: $color__border--focus;
 
       .icon {
-        color:$color__text;
+        color: $color__text;
       }
     }
   }

@@ -3,17 +3,36 @@
     <td v-if="draggable" class="fileItem__cell fileItem__cell--drag">
       <div class="drag__handle--drag"></div>
     </td>
-    <td class="fileItem__cell fileItem__cell--extension" v-if="currentItem.hasOwnProperty('extension')">
-      <a href="#" target="_blank"><span v-svg :symbol="getSvgIconName()"></span></a>
+    <td
+      class="fileItem__cell fileItem__cell--extension"
+      v-if="currentItem.hasOwnProperty('extension')"
+    >
+      <a href="#" target="_blank"
+        ><span v-svg :symbol="getSvgIconName()"></span
+      ></a>
     </td>
     <td class="fileItem__cell fileItem__cell--name">
-      <span v-if="currentItem.hasOwnProperty('thumbnail')"><img :src="currentItem.thumbnail"/></span>
-      <a :href="currentItem.hasOwnProperty('original') ? currentItem.original : '#'" download><span class="f--link-underlined--o">{{ currentItem.name }}</span></a>
-      <input type="hidden" :name="name" :value="currentItem.id"/>
+      <span v-if="currentItem.hasOwnProperty('thumbnail')"
+        ><img :src="currentItem.thumbnail"
+      /></span>
+      <a
+        :href="
+          currentItem.hasOwnProperty('original') ? currentItem.original : '#'
+        "
+        download
+        ><span class="f--link-underlined--o">{{ currentItem.name }}</span></a
+      >
+      <input type="hidden" :name="name" :value="currentItem.id" />
     </td>
-    <td class=" fileItem__cell fileItem__cell--size" v-if="currentItem.hasOwnProperty('size')">{{ currentItem.size }}</td>
+    <td
+      class="fileItem__cell fileItem__cell--size"
+      v-if="currentItem.hasOwnProperty('size')"
+    >
+      {{ currentItem.size }}
+    </td>
     <td class="fileItem__cell">
-      <a17-button class="bucket__action" icon="close" @click="deleteItem()"><span v-svg symbol="close_icon"></span>
+      <a17-button class="bucket__action" icon="close" @click="deleteItem()"
+        ><span v-svg symbol="close_icon"></span>
       </a17-button>
     </td>
   </tr>
@@ -76,7 +95,9 @@
 
         // Look into second extensions level by key
         for (const ext in Extensions) {
-          const index = Extensions[ext].extensions.findIndex((e) => e === itemExt)
+          const index = Extensions[ext].extensions.findIndex(
+            (e) => e === itemExt
+          )
           if (index > -1) {
             return Extensions[ext].icon
           }
@@ -90,7 +111,6 @@
 </script>
 
 <style lang="scss" scoped>
-
   .fileItem {
     position: relative;
     display: flex;
@@ -118,12 +138,12 @@
     padding-right: 5px;
 
     @include breakpoint('small+') {
-      padding-left:29px;
+      padding-left: 29px;
     }
 
     a {
-      display:block;
-      height:26px;
+      display: block;
+      height: 26px;
     }
   }
 
@@ -147,7 +167,7 @@
     .fileItem__cell--name:first-child,
     .fileItem__cell--extension:first-child,
     .fileItem__cell--drag + .fileItem__cell {
-      padding-left:29px;
+      padding-left: 29px;
     }
   }
 
@@ -180,8 +200,8 @@
     position: relative;
     width: 10px;
     height: 42px;
-    margin-left:auto;
-    margin-right:auto;
+    margin-left: auto;
+    margin-right: auto;
     transition: background 250ms ease;
     @include dragGrid($color__drag, $color__drag_bg);
   }

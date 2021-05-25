@@ -66,9 +66,9 @@ window[process.env.VUE_APP_NAME].vm = window.vm = new Vue({
       return this.bulkIds.length > 0
     },
     ...mapState({
-      localStorageKey: state => state.datatable.localStorageKey,
-      baseUrl: state => state.datatable.baseUrl,
-      bulkIds: state => state.datatable.bulk
+      localStorageKey: (state) => state.datatable.localStorageKey,
+      baseUrl: (state) => state.datatable.baseUrl,
+      bulkIds: (state) => state.datatable.bulk
     })
   },
   methods: {
@@ -88,18 +88,23 @@ window[process.env.VUE_APP_NAME].vm = window.vm = new Vue({
       this.$store.commit(DATATABLE.UPDATE_DATATABLE_PAGE, 1)
       this.$store.commit(DATATABLE.CLEAR_DATATABLE_FILTER)
 
-      Object.keys(this.$refs).filter(k => {
-        return k.indexOf('filterDropdown[') === 0
-      }).map(k => {
-        this.$refs[k].updateValue()
-      })
+      Object.keys(this.$refs)
+        .filter((k) => {
+          return k.indexOf('filterDropdown[') === 0
+        })
+        .map((k) => {
+          this.$refs[k].updateValue()
+        })
 
       this.reloadDatas()
     },
     filterListing: function (formData) {
       const self = this
       this.$store.commit(DATATABLE.UPDATE_DATATABLE_PAGE, 1)
-      this.$store.commit(DATATABLE.UPDATE_DATATABLE_FILTER, formData || { search: '' })
+      this.$store.commit(
+        DATATABLE.UPDATE_DATATABLE_FILTER,
+        formData || { search: '' }
+      )
 
       this.$nextTick(function () {
         self.reloadDatas()
@@ -115,13 +120,19 @@ window[process.env.VUE_APP_NAME].vm = window.vm = new Vue({
     let reload = false
     const pageOffset = getStorage(this.localStorageKey + '_page-offset')
     if (pageOffset) {
-      this.$store.commit(DATATABLE.UPDATE_DATATABLE_OFFSET, parseInt(pageOffset))
+      this.$store.commit(
+        DATATABLE.UPDATE_DATATABLE_OFFSET,
+        parseInt(pageOffset)
+      )
       reload = true
     }
 
     const columnsVisible = getStorage(this.localStorageKey + '_columns-visible')
     if (columnsVisible) {
-      this.$store.commit(DATATABLE.UPDATE_DATATABLE_VISIBLITY, JSON.parse(columnsVisible))
+      this.$store.commit(
+        DATATABLE.UPDATE_DATATABLE_VISIBLITY,
+        JSON.parse(columnsVisible)
+      )
       reload = true
     }
 

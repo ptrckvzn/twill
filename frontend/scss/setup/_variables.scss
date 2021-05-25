@@ -1,7 +1,7 @@
 // Max widths the main column can run to over the breakpoints
 // values can either be 'fluid' or a pixel value
 // recommended xxlarge is a px value and xsmall is fluid
-$max-width:1440px;
+$max-width: 1440px;
 
 $main-col-widths: (
   xlarge: $max-width,
@@ -42,33 +42,48 @@ $column-count: (
 // if a breakpoint is not fluid, then the start value is equal to the main col value plus 2x the gutter at this breakpoint
 /* 1540 = $max-width + 50 + 50 */
 $breakpoints: (
-  xsmall: (start: null, end: 599),
-  small: (start: 600, end: 849),
-  medium: (start: 850, end: 1039),
-  large: (start: 1040, end: 1539),
-  xlarge: (start: 1540, end: null),
+  xsmall: (
+    start: null,
+    end: 599
+  ),
+  small: (
+    start: 600,
+    end: 849
+  ),
+  medium: (
+    start: 850,
+    end: 1039
+  ),
+  large: (
+    start: 1040,
+    end: 1539
+  ),
+  xlarge: (
+    start: 1540,
+    end: null
+  )
 );
 
 // Uniform border radius
 $border-radius: 2px;
-$box-shadow: 0 0px 5px rgba(0,0,0,0.3);
+$box-shadow: 0 0px 5px rgba(0, 0, 0, 0.3);
 
 // Some easing functions
-$bezier__bounce: cubic-bezier(.5, -.6, .5, 1.6);
-$bezier__ease-in-out: cubic-bezier(.5, 0, .5, 0);
+$bezier__bounce: cubic-bezier(0.5, -0.6, 0.5, 1.6);
+$bezier__ease-in-out: cubic-bezier(0.5, 0, 0.5, 0);
 
 // z-index war
 
-$zindex__tooltip:600;
-$zindex__notif:550;
-$zindex__modal:500;
-$zindex__overlay:400;
+$zindex__tooltip: 600;
+$zindex__notif: 550;
+$zindex__modal: 500;
+$zindex__overlay: 400;
 $zindex__user: 301;
-$zindex__search:300;
-$zindex__env:150;
-$zindex__headermobile:120;
-$zindex__dropdown:100;
-$zindex__stickyNav:10;
-$zindex__loader:8;
-$zindex__stickyTableHead:5;
-$zindex__loadingTable:4;
+$zindex__search: 300;
+$zindex__env: 150;
+$zindex__headermobile: 120;
+$zindex__dropdown: 100;
+$zindex__stickyNav: 10;
+$zindex__loader: 8;
+$zindex__stickyTableHead: 5;
+$zindex__loadingTable: 4;

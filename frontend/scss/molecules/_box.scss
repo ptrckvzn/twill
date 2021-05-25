@@ -18,10 +18,10 @@ A simple box with an header, a body and a footer where you can put listings into
 ***/
 
 .box {
-  background:$color__background;
-  border-radius:2px;
-  border:1px solid $color__border;
-  margin-top:20px;
+  background: $color__background;
+  border-radius: 2px;
+  border: 1px solid $color__border;
+  margin-top: 20px;
 }
 
 .box__body {
@@ -29,44 +29,44 @@ A simple box with an header, a body and a footer where you can put listings into
 }
 
 .box__header {
-  height:55px;
-  line-height:55px;
-  border-bottom:1px solid $color__border--light;
-  padding:0 20px;
+  height: 55px;
+  line-height: 55px;
+  border-bottom: 1px solid $color__border--light;
+  padding: 0 20px;
 }
 
 .box__filter {
-  padding:10px 0;
-  margin-left:-5px;
+  padding: 10px 0;
+  margin-left: -5px;
 
   li {
-    display:inline;
+    display: inline;
   }
 
   a {
-    display:inline-block;
-    height:35px;
-    line-height:35px;
-    text-decoration:none;
-    padding:0 20px;
-    border-radius:17px;
-    color:$color__link;
-    background:$color__background;
+    display: inline-block;
+    height: 35px;
+    line-height: 35px;
+    text-decoration: none;
+    padding: 0 20px;
+    border-radius: 17px;
+    color: $color__link;
+    background: $color__background;
 
     &.s--on {
-      background:$color__border;
-      color:$color__text;
+      background: $color__border;
+      color: $color__text;
     }
 
     &:hover {
-      color:$color__text;
+      color: $color__text;
     }
   }
 }
 
 .box__footer {
-  height:55px;
-  line-height:55px;
-  border-top:1px solid $color__border--light;
-  padding:0 20px;
+  height: 55px;
+  line-height: 55px;
+  border-top: 1px solid $color__border--light;
+  padding: 0 20px;
 }

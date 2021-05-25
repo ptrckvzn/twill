@@ -1,24 +1,28 @@
 <template>
-  <draggable class="nested__dropArea"
-             :class="nestedDropAreaClasses"
-             v-model="rows"
-             :options="draggableOptions"
-             :tag="'ul'"
-             :component-data="draggableGetComponentData">
-    <li class="nested-datatable__item"
-        v-for="(row, index) in rows"
-        :class="haveChildren(row.children)"
-        :key="depth + '-' +  row.id">
-      <a17-nested-item :index="index"
-                       :row="row"
-                       :columns="columns"/>
-      <a17-nested-list v-if="row.children && depth < maxDepth"
-                       :maxDepth="maxDepth"
-                       :depth="depth + 1"
-                       :parentId="row.id"
-                       :items="row.children"
-                       :nested="true"
-                       :draggable="true"/>
+  <draggable
+    class="nested__dropArea"
+    :class="nestedDropAreaClasses"
+    v-model="rows"
+    :options="draggableOptions"
+    :tag="'ul'"
+    :component-data="draggableGetComponentData"
+  >
+    <li
+      class="nested-datatable__item"
+      v-for="(row, index) in rows"
+      :class="haveChildren(row.children)"
+      :key="depth + '-' + row.id"
+    >
+      <a17-nested-item :index="index" :row="row" :columns="columns" />
+      <a17-nested-list
+        v-if="row.children && depth < maxDepth"
+        :maxDepth="maxDepth"
+        :depth="depth + 1"
+        :parentId="row.id"
+        :items="row.children"
+        :nested="true"
+        :draggable="true"
+      />
     </li>
   </draggable>
 </template>
@@ -26,7 +30,11 @@
 <script>
   import { DATATABLE } from '@/store/mutations'
   import draggable from 'vuedraggable'
-  import { DatatableMixin, DraggableMixin, NestedDraggableMixin } from '@/mixins/index'
+  import {
+    DatatableMixin,
+    DraggableMixin,
+    NestedDraggableMixin
+  } from '@/mixins/index'
   import NestedItem from './NestedItem'
 
   export default {
@@ -58,17 +66,19 @@
         }
       },
       rows: {
-        get () {
+        get() {
           // return this.items
-          return this.parentId > -1 ? this.items : this.$store.state.datatable.data
+          return this.parentId > -1
+            ? this.items
+            : this.$store.state.datatable.data
         },
-        set (value) {
+        set(value) {
           const data = {
             parentId: this.parentId,
             val: value
           }
 
-          const isChangingParents = (this.rows.length !== data.val.length)
+          const isChangingParents = this.rows.length !== data.val.length
 
           if (this.parentId > -1) {
             this.$store.commit(DATATABLE.UPDATE_DATATABLE_NESTED, data)
@@ -81,7 +91,12 @@
       nestedDropAreaClasses: function () {
         return [
           this.rows.length === 0 ? 'nested__dropArea--empty' : '',
-          this.depth ? `nested__dropArea--depth nested__dropArea--depth${Math.min(10, this.depth)}` : ''
+          this.depth
+            ? `nested__dropArea--depth nested__dropArea--depth${Math.min(
+                10,
+                this.depth
+              )}`
+            : ''
         ]
       },
       draggableOptions: function () {
@@ -100,7 +115,8 @@
           // children may be undefined and not an array
           // if it's undefined the component wouldn't load anything
           // without providing a fallback value
-          'nested-datatable__item--empty': (children || []).length === 0 && this.depth < this.maxDepth
+          'nested-datatable__item--empty':
+            (children || []).length === 0 && this.depth < this.maxDepth
         }
       }
     }
@@ -108,9 +124,8 @@
 </script>
 
 <style lang="scss" scoped>
-
   .nested-datatable__item {
-    border: 1px solid #F2F2F2;
+    border: 1px solid #f2f2f2;
     // padding:10px 0 0 10px;
     margin-top: -1px;
 
@@ -164,8 +179,8 @@
       content: '';
       display: block;
       height: 6px;
-      border-left: 1px solid #D9D9D9;
-      border-bottom: 1px solid #D9D9D9;
+      border-left: 1px solid #d9d9d9;
+      border-bottom: 1px solid #d9d9d9;
       position: absolute;
       top: calc(50% - 3px);
       left: 20px;
@@ -192,7 +207,6 @@
       }
     }
   }
-
 </style>
 
 <style lang="scss">

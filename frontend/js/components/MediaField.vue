@@ -1,87 +1,187 @@
 <template>
-  <div class="media" :class="{ 'media--hoverable' : hover, 'media--slide' : isSlide }">
+  <div
+    class="media"
+    :class="{ 'media--hoverable': hover, 'media--slide': isSlide }"
+  >
     <div class="media__field">
       <div class="media__info" v-if="hasMedia">
         <div class="media__img">
           <div class="media__imgFrame">
             <div class="media__imgCentered" :style="cropThumbnailStyle">
-              <img v-if="cropSrc && showImg" :src="cropSrc" ref="mediaImg" :class="cropThumbnailClass"/>
+              <img
+                v-if="cropSrc && showImg"
+                :src="cropSrc"
+                ref="mediaImg"
+                :class="cropThumbnailClass"
+              />
             </div>
-            <div class="media__edit" @click="openMediaLibrary(1, mediaKey, index)">
-              <span class="media__edit--button"><span v-svg symbol="edit"></span></span>
+            <div
+              class="media__edit"
+              @click="openMediaLibrary(1, mediaKey, index)"
+            >
+              <span class="media__edit--button"
+                ><span v-svg symbol="edit"></span
+              ></span>
             </div>
           </div>
         </div>
 
         <ul class="media__metadatas">
-          <li class="media__name" @click="openMediaLibrary(1, mediaKey, index)"><strong :title="media.name">{{
-            media.name }}</strong></li>
-          <li class="f--small" v-if="media.size">File size: {{ media.size | uppercase }}</li>
-          <li class="f--small" v-if="media.width + media.height">{{ $trans('fields.medias.original-dimensions') }}: {{ media.width }}&nbsp;&times;&nbsp;{{
-            media.height }}
+          <li class="media__name" @click="openMediaLibrary(1, mediaKey, index)">
+            <strong :title="media.name">{{ media.name }}</strong>
           </li>
-          <li class="f--small media__crop-link" v-if="cropInfos" @click="openCropMedia">
-              <p class="f--small f--note hide--xsmall"
-                 v-for="(cropInfo, index) in cropInfos"
-                 :key="index">
-                <span v-html="cropInfo"></span>
-              </p>
+          <li class="f--small" v-if="media.size">
+            File size: {{ media.size | uppercase }}
+          </li>
+          <li class="f--small" v-if="media.width + media.height">
+            {{ $trans('fields.medias.original-dimensions') }}:
+            {{ media.width }}&nbsp;&times;&nbsp;{{ media.height }}
+          </li>
+          <li
+            class="f--small media__crop-link"
+            v-if="cropInfos"
+            @click="openCropMedia"
+          >
+            <p
+              class="f--small f--note hide--xsmall"
+              v-for="(cropInfo, index) in cropInfos"
+              :key="index"
+            >
+              <span v-html="cropInfo"></span>
+            </p>
           </li>
           <li class="f--small">
-            <a href="#" @click.prevent="metadatasInfos" v-if="withAddInfo" class="f--link-underlined--o">{{ metadatas.text }}</a>
+            <a
+              href="#"
+              @click.prevent="metadatasInfos"
+              v-if="withAddInfo"
+              class="f--link-underlined--o"
+              >{{ metadatas.text }}</a
+            >
           </li>
         </ul>
 
         <!--Actions-->
         <a17-buttonbar class="media__actions">
-          <a :href="media.original" download><span v-svg symbol="download"></span></a>
-          <button type="button" @click="openCropMedia" v-if="activeCrop"><span v-svg symbol="crop"></span></button>
-          <button type="button" @click="deleteMediaClick"><span v-svg symbol="trash"></span></button>
+          <a :href="media.original" download
+            ><span v-svg symbol="download"></span
+          ></a>
+          <button type="button" @click="openCropMedia" v-if="activeCrop">
+            <span v-svg symbol="crop"></span>
+          </button>
+          <button type="button" @click="deleteMediaClick">
+            <span v-svg symbol="trash"></span>
+          </button>
         </a17-buttonbar>
 
         <div class="media__actions-dropDown">
           <a17-dropdown ref="dropDown" position="right">
-            <a17-button size="icon" variant="icon" @click="$refs.dropDown.toggle()">
-              <span v-svg symbol="more-dots"></span></a17-button>
+            <a17-button
+              size="icon"
+              variant="icon"
+              @click="$refs.dropDown.toggle()"
+            >
+              <span v-svg symbol="more-dots"></span
+            ></a17-button>
             <div slot="dropdown__content">
-              <a :href="media.original" download><span v-svg symbol="download"></span>{{ $trans('fields.medias.download') }}</a>
-              <button type="button" @click="openCropMedia" v-if="activeCrop"><span v-svg symbol="crop"></span>{{ $trans('fields.medias.crop') }}
+              <a :href="media.original" download
+                ><span v-svg symbol="download"></span
+                >{{ $trans('fields.medias.download') }}</a
+              >
+              <button type="button" @click="openCropMedia" v-if="activeCrop">
+                <span v-svg symbol="crop"></span
+                >{{ $trans('fields.medias.crop') }}
               </button>
-              <button type="button" @click="deleteMediaClick"><span v-svg symbol="trash"></span>{{ $trans('fields.medias.delete') }}</button>
+              <button type="button" @click="deleteMediaClick">
+                <span v-svg symbol="trash"></span
+                >{{ $trans('fields.medias.delete') }}
+              </button>
             </div>
           </a17-dropdown>
         </div>
       </div>
 
       <!--Add media button-->
-      <a17-button variant="ghost" @click="openMediaLibrary" :disabled="disabled" v-if="!hasMedia">{{ btnLabel }}</a17-button>
+      <a17-button
+        variant="ghost"
+        @click="openMediaLibrary"
+        :disabled="disabled"
+        v-if="!hasMedia"
+        >{{ btnLabel }}</a17-button
+      >
       <p class="media__note f--small" v-if="!!this.$slots.default">
-        <slot/>
+        <slot />
       </p>
 
       <!-- Metadatas options -->
-      <div class="media__metadatas--options" :class="{ 's--active' : metadatas.active }" v-if="hasMedia && withAddInfo">
-        <a17-mediametadata :name='metadataName' label="Alt Text" id="altText" :media="media" :maxlength="altTextMaxLength" @change="updateMetadata"/>
-        <a17-mediametadata v-if="withCaption" :name='metadataName' label="Caption" id="caption" :media="media" :maxlength="captionMaxLength" @change="updateMetadata"/>
-        <a17-mediametadata v-if="withVideoUrl" :name='metadataName' label="Video URL (optional)" id="video" :media="media" @change="updateMetadata"/>
+      <div
+        class="media__metadatas--options"
+        :class="{ 's--active': metadatas.active }"
+        v-if="hasMedia && withAddInfo"
+      >
+        <a17-mediametadata
+          :name="metadataName"
+          label="Alt Text"
+          id="altText"
+          :media="media"
+          :maxlength="altTextMaxLength"
+          @change="updateMetadata"
+        />
+        <a17-mediametadata
+          v-if="withCaption"
+          :name="metadataName"
+          label="Caption"
+          id="caption"
+          :media="media"
+          :maxlength="captionMaxLength"
+          @change="updateMetadata"
+        />
+        <a17-mediametadata
+          v-if="withVideoUrl"
+          :name="metadataName"
+          label="Video URL (optional)"
+          id="video"
+          :media="media"
+          @change="updateMetadata"
+        />
         <template v-for="field in extraMetadatas">
-          <a17-mediametadata v-if="extraMetadatas.length > 0"
-                             :key="field.name"
-                             :type="field.type"
-                             :name='metadataName'
-                             :label="field.label"
-                             :id="field.name"
-                             :media="media"
-                             :maxlength="field.maxlength || 0"
-                             @change="updateMetadata"/>
+          <a17-mediametadata
+            v-if="extraMetadatas.length > 0"
+            :key="field.name"
+            :type="field.type"
+            :name="metadataName"
+            :label="field.label"
+            :id="field.name"
+            :media="media"
+            :maxlength="field.maxlength || 0"
+            @change="updateMetadata"
+          />
         </template>
       </div>
     </div>
 
     <!-- Crop modal -->
-    <a17-modal class="modal--cropper" :ref="cropModalName" :forceClose="true" :title="$trans('fields.medias.crop-edit')" mode="medium" v-if="hasMedia && activeCrop">
-      <a17-cropper :media="media" v-on:crop-end="cropMedia" :aspectRatio="16 / 9" :context="cropContext" :key="cropperKey">
-        <a17-button class="cropper__button" variant="action" @click="$refs[cropModalName].close()">{{ $trans('fields.medias.crop-save') }}</a17-button>
+    <a17-modal
+      class="modal--cropper"
+      :ref="cropModalName"
+      :forceClose="true"
+      :title="$trans('fields.medias.crop-edit')"
+      mode="medium"
+      v-if="hasMedia && activeCrop"
+    >
+      <a17-cropper
+        :media="media"
+        v-on:crop-end="cropMedia"
+        :aspectRatio="16 / 9"
+        :context="cropContext"
+        :key="cropperKey"
+      >
+        <a17-button
+          class="cropper__button"
+          variant="action"
+          @click="$refs[cropModalName].close()"
+          >{{ $trans('fields.medias.crop-save') }}</a17-button
+        >
       </a17-cropper>
     </a17-modal>
     <input :name="inputName" type="hidden" :value="JSON.stringify(media)" />
@@ -102,7 +202,9 @@
   import { cropConversion } from '@/utils/cropper'
   import smartCrop from 'smartcrop'
 
-  const IS_SAFARI = navigator.userAgent.indexOf('Safari') !== -1 && navigator.userAgent.indexOf('Chrome') === -1
+  const IS_SAFARI =
+    navigator.userAgent.indexOf('Safari') !== -1 &&
+    navigator.userAgent.indexOf('Chrome') === -1
 
   export default {
     name: 'A17Mediafield',
@@ -126,7 +228,7 @@
       },
       btnLabel: {
         type: String,
-        default () {
+        default() {
           return this.$trans('fields.medias.btn-label', 'Attach image')
         }
       },
@@ -232,10 +334,20 @@
         const cropInfos = []
         if (this.media.crops) {
           for (const variant in this.media.crops) {
-            if (this.media.crops[variant].width + this.media.crops[variant].height) { // crop is not 0x0
+            if (
+              this.media.crops[variant].width + this.media.crops[variant].height
+            ) {
+              // crop is not 0x0
               let cropInfo = ''
-              cropInfo += this.media.crops[variant].name + ' ' + this.$trans('fields.medias.crop-list') + ': '
-              cropInfo += this.media.crops[variant].width + '&nbsp;&times;&nbsp;' + this.media.crops[variant].height
+              cropInfo +=
+                this.media.crops[variant].name +
+                ' ' +
+                this.$trans('fields.medias.crop-list') +
+                ': '
+              cropInfo +=
+                this.media.crops[variant].width +
+                '&nbsp;&times;&nbsp;' +
+                this.media.crops[variant].height
               cropInfos.push(cropInfo)
             }
           }
@@ -255,8 +367,8 @@
         return `${name}Modal`
       },
       ...mapState({
-        selectedMedias: state => state.mediaLibrary.selected,
-        allCrops: state => state.mediaLibrary.crops
+        selectedMedias: (state) => state.mediaLibrary.selected,
+        allCrops: (state) => state.mediaLibrary.crops
       })
     },
     watch: {
@@ -265,13 +377,14 @@
 
         if (this.selectedMedias.hasOwnProperty(this.mediaKey)) {
           // reset isDestroyed status because we changed the media
-          if (this.selectedMedias[this.mediaKey][this.index]) this.isDestroyed = false
+          if (this.selectedMedias[this.mediaKey][this.index])
+            this.isDestroyed = false
         }
       }
     },
     methods: {
       // crop
-      canvasCrop () {
+      canvasCrop() {
         const data = this.media.crops[Object.keys(this.media.crops)[0]]
         if (!data) return
 
@@ -291,7 +404,17 @@
             const cropHeight = crop.height
             this.canvas.width = cropWidth
             this.canvas.height = cropHeight
-            this.ctx.drawImage(this.img, crop.x, crop.y, cropWidth, cropHeight, 0, 0, cropWidth, cropHeight)
+            this.ctx.drawImage(
+              this.img,
+              crop.x,
+              crop.y,
+              cropWidth,
+              cropHeight,
+              0,
+              0,
+              cropWidth,
+              cropHeight
+            )
             src = this.canvas.toDataURL('image/png')
 
             // show data url in the background
@@ -327,10 +450,12 @@
             let cropWidth = width
             let cropHeight = height
 
-            if (ratio > 0 && ratio < 1) { // "portrait" crop
+            if (ratio > 0 && ratio < 1) {
+              // "portrait" crop
               cropWidth = Math.floor(Math.min(height * ratio, width))
               cropHeight = Math.floor(cropWidth / ratio)
-            } else if (ratio >= 1) { // "landscape" or square crop
+            } else if (ratio >= 1) {
+              // "landscape" or square crop
               cropHeight = Math.floor(Math.min(width / ratio, height))
               cropWidth = Math.floor(cropHeight * ratio)
             }
@@ -345,42 +470,58 @@
             // Convert crop for original img values
             crop = cropConversion(crop, this.naturalDim, this.originalDim)
 
-            smarcrops.push(smartCrop.crop(this.img, { width: crop.width, height: crop.height, minScale: 1.0 }))
+            smarcrops.push(
+              smartCrop.crop(this.img, {
+                width: crop.width,
+                height: crop.height,
+                minScale: 1.0
+              })
+            )
 
             const x = Math.floor(center.x - cropWidth / 2)
             const y = Math.floor(center.y - cropHeight / 2)
 
             defaultCrops[cropVariant] = {}
-            defaultCrops[cropVariant].name = this.allCrops[this.cropContext][cropVariant][0].name || cropVariant
+            defaultCrops[cropVariant].name =
+              this.allCrops[this.cropContext][cropVariant][0].name ||
+              cropVariant
             defaultCrops[cropVariant].x = x
             defaultCrops[cropVariant].y = y
             defaultCrops[cropVariant].width = cropWidth
             defaultCrops[cropVariant].height = cropHeight
           }
 
-          Promise.all(smarcrops).then((values) => {
-            let index = 0
-            values.forEach((value) => {
-              const topCrop = {
-                x: value.topCrop.x,
-                y: value.topCrop.y,
-                width: value.topCrop.width,
-                height: value.topCrop.height
-              }
-              // Restore crop natural values (aka: value to store)
-              const cropVariant = defaultCrops[Object.keys(defaultCrops)[index]]
-              const crop = cropConversion(topCrop, this.originalDim, this.naturalDim)
-              cropVariant.x = crop.x
-              cropVariant.y = crop.y
-              cropVariant.width = crop.width
-              cropVariant.height = crop.height
-              index++
-            })
-            this.cropMedia({ values: defaultCrops })
-          }, (error) => {
-            console.error(error)
-            this.cropMedia({ values: defaultCrops })
-          })
+          Promise.all(smarcrops).then(
+            (values) => {
+              let index = 0
+              values.forEach((value) => {
+                const topCrop = {
+                  x: value.topCrop.x,
+                  y: value.topCrop.y,
+                  width: value.topCrop.width,
+                  height: value.topCrop.height
+                }
+                // Restore crop natural values (aka: value to store)
+                const cropVariant =
+                  defaultCrops[Object.keys(defaultCrops)[index]]
+                const crop = cropConversion(
+                  topCrop,
+                  this.originalDim,
+                  this.naturalDim
+                )
+                cropVariant.x = crop.x
+                cropVariant.y = crop.y
+                cropVariant.width = crop.width
+                cropVariant.height = crop.height
+                index++
+              })
+              this.cropMedia({ values: defaultCrops })
+            },
+            (error) => {
+              console.error(error)
+              this.cropMedia({ values: defaultCrops })
+            }
+          )
         } else {
           this.cropMedia({ values: defaultCrops })
         }
@@ -420,36 +561,43 @@
         if (this.hasMedia) {
           this.cropSrc = this.media.thumbnail
 
-          this.initImg().then(() => {
-            imgLoaded()
-          }, (error) => {
-            console.error(error)
-            this.showDefaultThumbnail()
+          this.initImg().then(
+            () => {
+              imgLoaded()
+            },
+            (error) => {
+              console.error(error)
+              this.showDefaultThumbnail()
 
-            // lets try to load to image tag now
-            this.$nextTick(() => {
-              // the image tag
-              const imgTag = this.$refs.mediaImg
-              if (imgTag) {
-                imgTag.addEventListener('load', () => {
-                  this.img = imgTag
-                  imgLoaded()
-                }, {
-                  once: true,
-                  passive: true,
-                  capture: true
-                })
+              // lets try to load to image tag now
+              this.$nextTick(() => {
+                // the image tag
+                const imgTag = this.$refs.mediaImg
+                if (imgTag) {
+                  imgTag.addEventListener(
+                    'load',
+                    () => {
+                      this.img = imgTag
+                      imgLoaded()
+                    },
+                    {
+                      once: true,
+                      passive: true,
+                      capture: true
+                    }
+                  )
 
-                imgTag.addEventListener('error', (e) => {
-                  console.error(e)
-                  this.showDefaultThumbnail()
-                })
-              } else {
-                this.showImg = false
-                this.cropSrc = this.media.thumbnail
-              }
-            })
-          })
+                  imgTag.addEventListener('error', (e) => {
+                    console.error(e)
+                    this.showDefaultThumbnail()
+                  })
+                } else {
+                  this.showImg = false
+                  this.cropSrc = this.media.thumbnail
+                }
+              })
+            }
+          )
           this.hasMediaChanged = false
         }
       },
@@ -462,13 +610,17 @@
           this.canvas = document.createElement('canvas')
           this.ctx = this.canvas.getContext('2d')
 
-          this.img.addEventListener('load', () => {
-            resolve()
-          }, {
-            once: true,
-            passive: true,
-            capture: true
-          })
+          this.img.addEventListener(
+            'load',
+            () => {
+              resolve()
+            },
+            {
+              once: true,
+              passive: true,
+              capture: true
+            }
+          )
 
           // in case of CORS issue or anything else
           this.img.addEventListener('error', (e) => {
@@ -513,7 +665,9 @@
       },
       metadatasInfos: function () {
         this.metadatas.active = !this.metadatas.active
-        this.metadatas.text = this.metadatas.active ? this.metadatas.textClose : this.metadatas.textOpen
+        this.metadatas.text = this.metadatas.active
+          ? this.metadatas.textClose
+          : this.metadatas.textOpen
       }
     },
     beforeMount: function () {
@@ -532,15 +686,14 @@
 </script>
 
 <style lang="scss" scoped>
-
-  $input-bg: #FCFCFC;
-  $input-border: #DFDFDF;
+  $input-bg: #fcfcfc;
+  $input-border: #dfdfdf;
   $height_input: 45px;
 
   .media {
     border-radius: 2px;
     border: 1px solid $color__border;
-    background:$color__background;
+    background: $color__background;
   }
 
   .media__field {
@@ -560,7 +713,7 @@
     position: absolute;
     bottom: 18px;
     right: 15px;
-    display:none;
+    display: none;
 
     @include breakpoint('small+') {
       display: inline-block;
@@ -581,25 +734,25 @@
     width: 33.33%;
     max-width: 240px;
     user-select: none;
-    position:relative;
+    position: relative;
     min-width: 100px;
 
     &:before {
-      content: "";
+      content: '';
       position: absolute;
-      display:block;
+      display: block;
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
-      border:1px solid rgba(0,0,0,0.05);
+      border: 1px solid rgba(0, 0, 0, 0.05);
     }
 
     img {
-      display:block;
-      max-width:100%;
-      max-height:100%;
-      margin:auto;
+      display: block;
+      max-width: 100%;
+      max-height: 100%;
+      margin: auto;
 
       &.media__img--landscape {
         width: 100%;
@@ -636,34 +789,35 @@
 
   // Image centered in a square option
   .media__imgFrame {
-    width:100%;
-    padding-bottom:100%;
-    position:relative;
-    overflow:hidden;
+    width: 100%;
+    padding-bottom: 100%;
+    position: relative;
+    overflow: hidden;
   }
 
   .media__imgCentered {
-    top:0;
-    bottom:0;
-    left:0;
-    right:0;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
     position: absolute;
     display: flex;
     background-color: $color__lighter;
     background-size: contain;
-    background-repeat:no-repeat;
-    background-position:center center;
-    transition: background-image 350ms cubic-bezier(0.795, 0.125, 0.280, 0.990), background-size 0ms 350ms;
+    background-repeat: no-repeat;
+    background-position: center center;
+    transition: background-image 350ms cubic-bezier(0.795, 0.125, 0.28, 0.99),
+      background-size 0ms 350ms;
 
     &:before {
-      content: "";
+      content: '';
       position: absolute;
-      display:block;
+      display: block;
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
-      border:1px solid rgba(0,0,0,0.05);
+      border: 1px solid rgba(0, 0, 0, 0.05);
     }
   }
 
@@ -674,7 +828,7 @@
     left: 0;
     right: 0;
     display: block;
-    opacity:0;
+    opacity: 0;
     background-color: rgba(0, 0, 0, 0.2);
     cursor: pointer;
     transition: opacity 0.3s ease;
@@ -694,12 +848,12 @@
 
       .icon {
         color: $color__icons;
-        transition: color .25s linear;
+        transition: color 0.25s linear;
       }
     }
 
     .media__imgFrame:hover & {
-      opacity:1;
+      opacity: 1;
     }
   }
 
@@ -718,11 +872,11 @@
     overflow: hidden;
 
     li {
-      overflow:hidden;
+      overflow: hidden;
     }
 
     a {
-      color:$color__link;
+      color: $color__link;
     }
   }
 
@@ -730,10 +884,10 @@
     strong {
       font-weight: normal;
       color: $color__text;
-      overflow:hidden;
-      text-overflow:ellipsis;
-      display:block;
-      margin-bottom:5px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: block;
+      margin-bottom: 5px;
       // white-space: nowrap;
     }
 
@@ -756,14 +910,14 @@
   }
 
   .media__actions {
-    min-width:45px * 3;
+    min-width: 45px * 3;
 
     @media screen and (max-width: 1140px) {
       display: none !important;
     }
 
-    .s--in-editor &{
-      display: none!important;
+    .s--in-editor & {
+      display: none !important;
     }
   }
 
@@ -773,7 +927,7 @@
     }
 
     .s--in-editor & {
-      display: block!important;
+      display: block !important;
     }
   }
 
@@ -790,18 +944,18 @@
 
   /* Modal with cropper */
   .modal--cropper .cropper__button {
-    width:100%;
-    display:block;
-    margin-top:20px;
-    margin-bottom:20px;
+    width: 100%;
+    display: block;
+    margin-top: 20px;
+    margin-bottom: 20px;
 
     @include breakpoint('small+') {
       position: absolute;
       bottom: 0;
       left: 0;
-      width:auto;
-      margin-top:20px;
-      margin-bottom:20px;
+      width: auto;
+      margin-top: 20px;
+      margin-bottom: 20px;
     }
   }
 </style>

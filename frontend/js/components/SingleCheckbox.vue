@@ -2,13 +2,34 @@
   <a17-inputframe :error="error" :note="note" :name="name">
     <div class="singleCheckbox">
       <span class="checkbox">
-        <input type="checkbox" class="checkbox__input" :class="checkboxClasses" value="true" :name="name + '[' + randKey + ']'" :id="uniqId" :disabled="disabled" :checked="checkedValue">
-        <label class="checkbox__label" :for="uniqId" @click.prevent="changeCheckbox">{{ label }} <span class="checkbox__icon"><span v-svg symbol="check"></span></span></label>
+        <input
+          type="checkbox"
+          class="checkbox__input"
+          :class="checkboxClasses"
+          value="true"
+          :name="name + '[' + randKey + ']'"
+          :id="uniqId"
+          :disabled="disabled"
+          :checked="checkedValue"
+        />
+        <label
+          class="checkbox__label"
+          :for="uniqId"
+          @click.prevent="changeCheckbox"
+          >{{ label }}
+          <span class="checkbox__icon"><span v-svg symbol="check"></span></span
+        ></label>
       </span>
     </div>
     <template v-if="requireConfirmation">
-      <a17-dialog ref="warningConfirm" modal-title="Confirm" confirm-label="Confirm">
-        <p class="modal--tiny-title"><strong>{{ confirmTitleText }}</strong></p>
+      <a17-dialog
+        ref="warningConfirm"
+        modal-title="Confirm"
+        confirm-label="Confirm"
+      >
+        <p class="modal--tiny-title">
+          <strong>{{ confirmTitleText }}</strong>
+        </p>
         <p>{{ confirmMessageText }}</p>
       </a17-dialog>
     </template>
@@ -64,14 +85,16 @@
         set: function (value) {
           if (value !== this.currentValue) {
             this.currentValue = value
-            if (typeof this.saveIntoStore !== 'undefined') this.saveIntoStore(value)
+            if (typeof this.saveIntoStore !== 'undefined')
+              this.saveIntoStore(value)
             this.$emit('change', value)
           }
         }
       }
     },
     methods: {
-      updateFromStore: function (newValue) { // called from the formStore mixin
+      updateFromStore: function (newValue) {
+        // called from the formStore mixin
         this.checkedValue = newValue
       },
       changeCheckbox: function () {
@@ -88,10 +111,9 @@
 </script>
 
 <style lang="scss" scoped>
-
   .checkbox {
-    color:$color__text;
-    min-width:30px;
+    color: $color__text;
+    min-width: 30px;
   }
 
   .checkbox__input {
@@ -104,7 +126,7 @@
     border: 0 none;
     clip: rect(1px, 1px, 1px, 1px);
     overflow: hidden;
-    opacity:0;
+    opacity: 0;
   }
 
   .checkbox__label {
@@ -123,7 +145,7 @@
     width: 15px;
     height: 15px;
     border-radius: 2px;
-    transition: all .2s linear;
+    transition: all 0.2s linear;
   }
 
   .checkbox__label::before {
@@ -134,17 +156,17 @@
 
   .checkbox__icon {
     background-color: $color__fborder--active;
-    color:$color__background;
+    color: $color__background;
     opacity: 0;
   }
 
   .checkbox__icon .icon {
-    color:$color__background;
+    color: $color__background;
     top: 2px;
     position: relative;
     display: block;
-    margin-left:auto;
-    margin-right:auto;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .checkbox__input:focus + .checkbox__label::before,
@@ -154,9 +176,9 @@
 
   // .checkbox__input:checked + .checkbox__label,
   .checkbox__label:hover,
-  .checkbox__input:hover   + .checkbox__label,
+  .checkbox__input:hover + .checkbox__label,
   .checkbox__input--checked + .checkbox__label {
-    color:$color__text;
+    color: $color__text;
   }
 
   // .checkbox__input:checked + .checkbox__label .checkbox__icon,
@@ -166,32 +188,32 @@
 
   /* disabled state */
   .checkbox__input:disabled + .checkbox__label {
-    opacity: .33;
+    opacity: 0.33;
     pointer-events: none;
   }
 
   // .checkbox__input:checked:disabled + .checkbox__label,
   .checkbox__input--checked:disabled + .checkbox__label {
-    opacity: .66;
+    opacity: 0.66;
     pointer-events: none;
   }
 
   /* Green variant */
   .checkbox__input--bold + .checkbox__label .checkbox__icon {
-    background-color:$color__publish
+    background-color: $color__publish;
   }
 
   /* Minus variant (for Bulk Edit) */
   .checkbox--minus {
     .checkbox__label::after {
-      content:'';
-      display:block;
-      width:9px;
-      height:2px;
-      background-color:$color__fborder--active;
-      position:absolute;
-      left:2px + 15px - 14px;
-      top:8px;
+      content: '';
+      display: block;
+      width: 9px;
+      height: 2px;
+      background-color: $color__fborder--active;
+      position: absolute;
+      left: 2px + 15px - 14px;
+      top: 8px;
     }
 
     // .checkbox__input:checked + .checkbox__label .checkbox__icon,

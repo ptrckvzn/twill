@@ -3,17 +3,30 @@
     <div class="container" v-if="entities.length">
       <div class="wrapper wrapper--reverse">
         <div class="shortcutCreator__create">
-          <a17-dropdown class="shortcutCreator__dropdown" ref="createNewDropdown" position="bottom-right" width="full"
-                        :offset="0">
-            <a17-button type="button" class="shortcutCreator__btn" variant="action"
-                        @click="$refs.createNewDropdown.toggle()">
+          <a17-dropdown
+            class="shortcutCreator__dropdown"
+            ref="createNewDropdown"
+            position="bottom-right"
+            width="full"
+            :offset="0"
+          >
+            <a17-button
+              type="button"
+              class="shortcutCreator__btn"
+              variant="action"
+              @click="$refs.createNewDropdown.toggle()"
+            >
               {{ $trans('dashboard.create-new', 'Create new') }}
-              <span class="shortcutCreator__trigger"><span v-svg symbol="dropdown_module"></span></span>
+              <span class="shortcutCreator__trigger"
+                ><span v-svg symbol="dropdown_module"></span
+              ></span>
             </a17-button>
             <div slot="dropdown__content">
               <ul>
                 <template v-for="(entity, index) in entities">
-                  <li :key="index" v-if="entity.createUrl"><a :href="entity.createUrl">{{ entity.singular }}</a></li>
+                  <li :key="index" v-if="entity.createUrl">
+                    <a :href="entity.createUrl">{{ entity.singular }}</a>
+                  </li>
                 </template>
               </ul>
             </div>
@@ -21,9 +34,16 @@
         </div>
         <div class="shortcutCreator__listing">
           <template v-for="(entity, index) in entities">
-            <a class="shortcutCreator__listingItem" :href="entity.url" v-if="entity.number" :key="index">
+            <a
+              class="shortcutCreator__listingItem"
+              :href="entity.url"
+              v-if="entity.number"
+              :key="index"
+            >
               <span class="shortcutCreator__label">{{ entity.label }}</span>
-              <h3 class="shortcutCreator__sum f--heading">{{ entity.number }}</h3>
+              <h3 class="shortcutCreator__sum f--heading">
+                {{ entity.number }}
+              </h3>
             </a>
           </template>
         </div>
@@ -49,7 +69,6 @@
 </script>
 
 <style lang="scss" scoped>
-
   $height_btn: 40px;
 
   $column-spans__listing: (
@@ -106,7 +125,7 @@
       color: $color__link;
 
       .shortcutCreator__label::after {
-        content: "\2192";
+        content: '\2192';
         font-size: 15px;
         color: inherit;
         position: absolute;
@@ -170,7 +189,7 @@
     // border-top-right-radius:2px;
     // border-bottom-right-radius:2px;
     color: $color__background;
-    transition: color .2s linear;
+    transition: color 0.2s linear;
     padding-left: 6px;
     // margin-left: -2px;
     // padding:0 10px;

@@ -1,21 +1,32 @@
 <template>
   <div class="browserField">
     <div class="browserField__trigger" v-if="buttonOnTop && remainingItems">
-      <a17-button type="button" variant="ghost" @click="openBrowser">{{ addLabel }}</a17-button>
-      <input type="hidden" :name="name" :value="itemsIds"/>
+      <a17-button type="button" variant="ghost" @click="openBrowser">{{
+        addLabel
+      }}</a17-button>
+      <input type="hidden" :name="name" :value="itemsIds" />
       <span class="browserField__note f--small"><slot></slot></span>
     </div>
     <table class="browserField__table" v-if="items.length">
       <draggable :tag="'tbody'" v-model="items">
-        <a17-browseritem v-for="(item, index) in items" :key="item.endpointType + '_' + item.id" class="item__content"
-                         :name="`${name}_${item.id}`" :draggable="draggable" :item="item" @delete="deleteItem(index)"
-                         :max="max"
-                         :showType="endpoints.length > 0" />
+        <a17-browseritem
+          v-for="(item, index) in items"
+          :key="item.endpointType + '_' + item.id"
+          class="item__content"
+          :name="`${name}_${item.id}`"
+          :draggable="draggable"
+          :item="item"
+          @delete="deleteItem(index)"
+          :max="max"
+          :showType="endpoints.length > 0"
+        />
       </draggable>
     </table>
     <div class="browserField__trigger" v-if="!buttonOnTop && remainingItems">
-      <a17-button type="button" variant="ghost" @click="openBrowser">{{ addLabel }}</a17-button>
-      <input type="hidden" :name="name" :value="itemsIds"/>
+      <a17-button type="button" variant="ghost" @click="openBrowser">{{
+        addLabel
+      }}</a17-button>
+      <input type="hidden" :name="name" :value="itemsIds" />
       <span class="browserField__note f--small"><slot></slot></span>
     </div>
   </div>
@@ -88,20 +99,22 @@
         return this.max - this.items.length
       },
       addLabel: function () {
-        return this.$trans('fields.browser.add-label', 'Add') + ' ' + this.itemLabel
+        return (
+          this.$trans('fields.browser.add-label', 'Add') + ' ' + this.itemLabel
+        )
       },
       browserTitle: function () {
         return this.modalTitle !== '' ? this.modalTitle : this.addLabel
       },
       items: {
-        get () {
+        get() {
           if (this.selectedBrowser.hasOwnProperty(this.name)) {
             return this.selectedBrowser[this.name] || []
           } else {
             return []
           }
         },
-        set (value) {
+        set(value) {
           this.$store.commit(BROWSER.REORDER_ITEMS, {
             name: this.name,
             items: value
@@ -116,11 +129,9 @@
         }
       },
       ...mapState({
-        selectedBrowser: state => state.browser.selected
+        selectedBrowser: (state) => state.browser.selected
       }),
-      ...mapGetters([
-        'selectedItemsByIds'
-      ])
+      ...mapGetters(['selectedItemsByIds'])
     },
     methods: {
       deleteAll: function () {
@@ -163,7 +174,6 @@
 </script>
 
 <style lang="scss" scoped>
-
   .browserField {
     // width: 100%;
     display: block;
@@ -179,7 +189,7 @@
     border-top: 1px solid $color__border--light;
 
     &:first-child {
-      border-top: 0 none
+      border-top: 0 none;
     }
   }
 

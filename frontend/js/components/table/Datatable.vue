@@ -1,26 +1,48 @@
 <template>
   <div class="datatable" v-sticky data-sticky-id="thead" data-sticky-offset="0">
-
     <!-- Sticky table head -->
     <div class="datatable__sticky" data-sticky-top="thead">
       <div class="datatable__stickyHead" data-sticky-target="thead">
         <div class="container">
           <div class="datatable__stickyInner">
             <div class="datatable__setup">
-              <a17-dropdown class="datatable__setupDropdown" v-if="hideableColumns.length" ref="setupDropdown"
-                            position="bottom-right" :title="$trans('listing.columns.show')" :clickable="true" :offset="-10">
-                <button class="datatable__setupButton" @click="$refs.setupDropdown.toggle()">
-                  <span v-svg symbol="preferences"></span></button>
+              <a17-dropdown
+                class="datatable__setupDropdown"
+                v-if="hideableColumns.length"
+                ref="setupDropdown"
+                position="bottom-right"
+                :title="$trans('listing.columns.show')"
+                :clickable="true"
+                :offset="-10"
+              >
+                <button
+                  class="datatable__setupButton"
+                  @click="$refs.setupDropdown.toggle()"
+                >
+                  <span v-svg symbol="preferences"></span>
+                </button>
                 <div slot="dropdown__content">
-                  <a17-checkboxgroup name="visibleColumns" :options="checkboxesColumns" :selected="visibleColumnsNames"
-                                     @change="updateActiveColumns" :min="2"/>
+                  <a17-checkboxgroup
+                    name="visibleColumns"
+                    :options="checkboxesColumns"
+                    :selected="visibleColumnsNames"
+                    @change="updateActiveColumns"
+                    :min="2"
+                  />
                 </div>
               </a17-dropdown>
             </div>
             <div class="datatable__stickyTable">
-              <a17-table :columnsWidth="columnsWidth" :xScroll="xScroll" @scroll="updateScroll">
+              <a17-table
+                :columnsWidth="columnsWidth"
+                :xScroll="xScroll"
+                @scroll="updateScroll"
+              >
                 <thead>
-                <a17-tablehead :columns="visibleColumns" @sortColumn="updateSort"/>
+                  <a17-tablehead
+                    :columns="visibleColumns"
+                    @sortColumn="updateSort"
+                  />
                 </thead>
               </a17-table>
             </div>
@@ -34,20 +56,35 @@
       <div class="datatable__table" :class="isEmptyDatable">
         <a17-table :xScroll="xScroll" @scroll="updateScroll">
           <thead>
-          <a17-tablehead :columns="visibleColumns" ref="thead"/>
+            <a17-tablehead :columns="visibleColumns" ref="thead" />
           </thead>
           <template v-if="draggable">
-            <draggable class="datatable__drag" :tag="'tbody'" v-model="rows" :options="dragOptions">
+            <draggable
+              class="datatable__drag"
+              :tag="'tbody'"
+              v-model="rows"
+              :options="dragOptions"
+            >
               <template v-for="(row, index) in rows">
-                <a17-tablerow :row="row" :index="index" :columns="visibleColumns" :key="row.id"/>
+                <a17-tablerow
+                  :row="row"
+                  :index="index"
+                  :columns="visibleColumns"
+                  :key="row.id"
+                />
               </template>
             </draggable>
           </template>
 
           <tbody v-else>
-          <template v-for="(row, index) in rows">
-            <a17-tablerow :row="row" :index="index" :columns="visibleColumns" :key="row.id"/>
-          </template>
+            <template v-for="(row, index) in rows">
+              <a17-tablerow
+                :row="row"
+                :index="index"
+                :columns="visibleColumns"
+                :key="row.id"
+              />
+            </template>
           </tbody>
         </a17-table>
 
@@ -56,9 +93,19 @@
             <h4>{{ emptyMessage }}</h4>
           </div>
         </template>
-        <a17-paginate v-if="maxPage > 1 || initialMaxPage > maxPage && !isEmpty" :max="maxPage" :value="page"
-                      :offset="offset" :availableOffsets="[initialOffset,initialOffset*3,initialOffset*6]"
-                      @changePage="updatePage" @changeOffset="updateOffset"/>
+        <a17-paginate
+          v-if="maxPage > 1 || (initialMaxPage > maxPage && !isEmpty)"
+          :max="maxPage"
+          :value="page"
+          :offset="offset"
+          :availableOffsets="[
+            initialOffset,
+            initialOffset * 3,
+            initialOffset * 6
+          ]"
+          @changePage="updatePage"
+          @changeOffset="updateOffset"
+        />
       </div>
     </div>
     <a17-spinner v-if="loading">Loading&hellip;</a17-spinner>
@@ -115,12 +162,12 @@
         return checkboxes
       },
       ...mapState({
-        page: state => state.datatable.page,
-        offset: state => state.datatable.offset,
-        maxPage: state => state.datatable.maxPage,
-        initialOffset: state => state.datatable.defaultOffset,
-        initialMaxPage: state => state.datatable.defaultMaxPage,
-        loading: state => state.datatable.loading
+        page: (state) => state.datatable.page,
+        offset: (state) => state.datatable.offset,
+        maxPage: (state) => state.datatable.maxPage,
+        initialOffset: (state) => state.datatable.defaultOffset,
+        initialMaxPage: (state) => state.datatable.defaultMaxPage,
+        loading: (state) => state.datatable.loading
       })
     },
     methods: {
@@ -199,11 +246,11 @@
       }
     },
     beforeMount: function () {
-      function findBulkColumn (column) {
+      function findBulkColumn(column) {
         return column.name === 'bulk'
       }
 
-      function findDraggableColumn (column) {
+      function findDraggableColumn(column) {
         return column.name === 'draggable'
       }
 
@@ -248,7 +295,6 @@
 </script>
 
 <style lang="scss" scoped>
-
   table {
     width: 100%;
   }
@@ -265,7 +311,11 @@
   .datatable__setupDropdown {
     float: right;
     padding: 18px 20px 16px 15px;
-    background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 25%);
+    background: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 1) 25%
+    );
   }
 
   .datatable__setupButton {
@@ -326,7 +376,11 @@
         border-bottom: 1px solid rgba($color__black, 0.05);
 
         .datatable__setupDropdown {
-          background: linear-gradient(to right, rgba($color__border--light, 0) 0%, $color__border--light 25%);
+          background: linear-gradient(
+            to right,
+            rgba($color__border--light, 0) 0%,
+            $color__border--light 25%
+          );
         }
       }
     }

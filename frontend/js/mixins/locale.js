@@ -25,8 +25,8 @@ export default {
       else return false
     },
     ...mapState({
-      currentLocale: state => state.language.active,
-      languages: state => state.language.all
+      currentLocale: (state) => state.language.active,
+      languages: (state) => state.language.all
     })
   },
   methods: {

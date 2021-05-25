@@ -18,9 +18,9 @@ General styles for the forms : can be used to style general thing that will live
 ***/
 
 .form {
-  background-color:$color__border--light;
-  min-height:calc(100vh - 200px);
-  padding-bottom:80px;
+  background-color: $color__border--light;
+  min-height: calc(100vh - 200px);
+  padding-bottom: 80px;
 }
 
 /* Hide search input button */
@@ -29,26 +29,26 @@ input::-ms-clear {
   display: none;
 }
 
-input[type="search"] {
+input[type='search'] {
   -webkit-appearance: none;
 }
 
-input[type="search"]::-webkit-search-decoration,
-input[type="search"]::-webkit-search-cancel-button,
-input[type="search"]::-webkit-search-results-button,
-input[type="search"]::-webkit-search-results-decoration {
+input[type='search']::-webkit-search-decoration,
+input[type='search']::-webkit-search-cancel-button,
+input[type='search']::-webkit-search-results-button,
+input[type='search']::-webkit-search-results-decoration {
   display: none;
 }
 
 /* Hide HTML5 Up and Down arrows. */
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-input[type="number"] {
-  text-align:left;
+input[type='number'] {
+  text-align: left;
   -moz-appearance: textfield;
 }
 
@@ -56,7 +56,7 @@ input[type="number"] {
   max-width: 100%;
   height: 250px;
   margin-top: 10px;
-  background:$color__f--placeholder;
+  background: $color__f--placeholder;
 }
 
 $height_input: 45px;
@@ -70,7 +70,7 @@ $height_input: 45px;
   display: block;
 
   @include placeholder() {
-    color:$color__f--placeholder;
+    color: $color__f--placeholder;
   }
 
   &.s--focus {
@@ -85,38 +85,38 @@ $height_input: 45px;
     @include disabledState;
   }
 
-  input[type="text"],
-  input[type="search"] {
+  input[type='text'],
+  input[type='search'] {
     @include resetfield;
     width: 100%;
     height: $height_input - 2px;
     line-height: $height_input - 2px;
     padding: 0 15px;
-    color:inherit;
+    color: inherit;
 
     @include placeholder() {
-      color:$color__f--placeholder;
+      color: $color__f--placeholder;
     }
   }
 
   textarea {
     @include resetfield;
-    padding:10px;
-    line-height:inherit;
-    width:100%;
+    padding: 10px;
+    line-height: inherit;
+    width: 100%;
     box-sizing: border-box;
-    display:block;
+    display: block;
     resize: none;
-    z-index:1;
-    position:relative;
-    color:inherit;
+    z-index: 1;
+    position: relative;
+    color: inherit;
 
     @include placeholder() {
-      color:$color__f--placeholder;
+      color: $color__f--placeholder;
     }
   }
 
-  input[type="search"] {
+  input[type='search'] {
     display: block;
     background-repeat: no-repeat;
     background-position: right;
@@ -128,10 +128,10 @@ $height_input: 45px;
 }
 
 .form__field--textarea {
-  display:block;
-  padding:0;
-  height:auto;
-  line-height:inherit;
+  display: block;
+  padding: 0;
+  height: auto;
+  line-height: inherit;
 }
 
 @mixin regular-field() {
@@ -155,7 +155,7 @@ $height_input: 45px;
   }
 
   @include placeholder() {
-    color:$color__f--placeholder;
+    color: $color__f--placeholder;
   }
 }
 
@@ -170,5 +170,5 @@ $height_input: 45px;
 }
 
 .form__input--hidden {
-  display:none;
+  display: none;
 }

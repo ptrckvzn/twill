@@ -28,14 +28,14 @@
 */
 
 @mixin resetfield() {
-  padding:0;
-  margin:0;
-  border-radius:0;
+  padding: 0;
+  margin: 0;
+  border-radius: 0;
   -webkit-appearance: none;
-  background:transparent;
-  border:0 none;
-  font-size:inherit;
-  letter-spacing:inherit;
+  background: transparent;
+  border: 0 none;
+  font-size: inherit;
+  letter-spacing: inherit;
 
   &:focus {
     outline: 0;
@@ -48,12 +48,12 @@
 */
 
 @mixin textfield() {
-  border-radius:2px;
-  box-shadow:inset 0 0 1px #f9f9f9;
-  width:100%;
-  border:0 none;
-  box-sizing:border-box;
-  font-size:15px;
+  border-radius: 2px;
+  box-shadow: inset 0 0 1px #f9f9f9;
+  width: 100%;
+  border: 0 none;
+  box-sizing: border-box;
+  font-size: 15px;
   caret-color: $color__action;
 }
 
@@ -64,8 +64,8 @@
 
 @mixin defaultState() {
   background-color: $color__f--bg;
-  border:1px solid $color__fborder;
-  color:$color__text--forms;
+  border: 1px solid $color__fborder;
+  color: $color__text--forms;
 }
 
 /*
@@ -74,7 +74,7 @@
 */
 
 @mixin hoverState() {
-  border-color:$color__fborder--hover;
+  border-color: $color__fborder--hover;
 }
 
 /*
@@ -83,10 +83,10 @@
 */
 
 @mixin focusState() {
-  border-color:$color__fborder--hover;
-  color:$color__text--forms;
-  outline:0;
-  background-color:$color__background;
+  border-color: $color__fborder--hover;
+  color: $color__text--forms;
+  outline: 0;
+  background-color: $color__background;
 }
 
 /*
@@ -96,9 +96,9 @@
 
 @mixin disabledState() {
   @include defaultState();
-  box-shadow:0 none;
-  outline:0;
+  box-shadow: 0 none;
+  outline: 0;
 
-  opacity: .5;
+  opacity: 0.5;
   pointer-events: none;
 }

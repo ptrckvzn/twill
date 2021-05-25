@@ -3,7 +3,7 @@
   Flatpickr is creating the form elements itself so style can't be scoped
 */
 body .flatpickr-wrapper {
-  display:block;
+  display: block;
 
   .flatpickr-input {
     @include regular-field;
@@ -15,25 +15,25 @@ body .flatpickr-wrapper {
 body {
   .flatpickr-calendar {
     border-radius: 2px;
-    box-shadow: 0 0px 8px rgba(0,0,0,0.3);
+    box-shadow: 0 0px 8px rgba(0, 0, 0, 0.3);
   }
 
   .flatpickr-month {
-    height:50px;
+    height: 50px;
   }
 
   .flatpickr-month .flatpickr-prev-month,
   .flatpickr-month .flatpickr-next-month {
-    height:50px;
-    line-height:50px;
-    padding-top:0;
-    padding-bottom:0;
+    height: 50px;
+    line-height: 50px;
+    padding-top: 0;
+    padding-bottom: 0;
   }
 
   .flatpickr-current-month {
-    font-size:1em;
+    font-size: 1em;
     height: 50px;
-    padding-top:16px;
+    padding-top: 16px;
 
     span.cur-month,
     input.cur-year {
@@ -62,9 +62,8 @@ body {
     &.selected.nextMonthDay,
     &.startRange.nextMonthDay,
     &.endRange.nextMonthDay {
-      background:$color__link;
-      border-color:$color__link;
+      background: $color__link;
+      border-color: $color__link;
     }
   }
 }
-

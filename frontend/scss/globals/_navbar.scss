@@ -8,16 +8,16 @@ The Form navbar
 ***/
 
 .navbar {
-  width:100%;
-  background-color:$color__border--light;
-  overflow:hidden;
-  margin-bottom:20px;
+  width: 100%;
+  background-color: $color__border--light;
+  overflow: hidden;
+  margin-bottom: 20px;
 }
 
 .navbar--sticky {
-  min-height:90px;
+  min-height: 90px;
 }
 
 .navbar .container {
-  display:flex;
+  display: flex;
 }

@@ -1,34 +1,51 @@
 <template>
   <div class="slideshow">
     <div class="slideshow__trigger" v-if="buttonOnTop && remainingSlides > 0">
-      <a17-button type="button" variant="ghost" @click="openMediaLibrary(remainingSlides)">{{ addLabel }}</a17-button>
+      <a17-button
+        type="button"
+        variant="ghost"
+        @click="openMediaLibrary(remainingSlides)"
+        >{{ addLabel }}</a17-button
+      >
       <span class="slideshow__note f--small"><slot></slot></span>
     </div>
-    <draggable class="slideshow__content" v-model="slides" :options="dragOptions" v-if="slides.length">
-      <transition-group name="draggable_list" tag='div'>
+    <draggable
+      class="slideshow__content"
+      v-model="slides"
+      :options="dragOptions"
+      v-if="slides.length"
+    >
+      <transition-group name="draggable_list" tag="div">
         <div class="slide" v-for="(slide, index) in slides" :key="slide.id">
-            <div class="slide__handle">
-              <div class="slide__handle--drag"></div>
-            </div>
-            <a17-mediafield class="slide__content"
-                            :name="`${name}_${slide.id}`"
-                            :index="index"
-                            :mediaContext="name"
-                            :cropContext="cropContext"
-                            :hover="hoverable"
-                            :isSlide="true"
-                            :withAddInfo="withAddInfo"
-                            :withCaption="withCaption"
-                            :withVideoUrl="withVideoUrl"
-                            :altTextMaxLength="altTextMaxLength"
-                            :captionMaxLength="captionMaxLength"
-                            :extraMetadatas="extraMetadatas">
-            </a17-mediafield>
+          <div class="slide__handle">
+            <div class="slide__handle--drag"></div>
+          </div>
+          <a17-mediafield
+            class="slide__content"
+            :name="`${name}_${slide.id}`"
+            :index="index"
+            :mediaContext="name"
+            :cropContext="cropContext"
+            :hover="hoverable"
+            :isSlide="true"
+            :withAddInfo="withAddInfo"
+            :withCaption="withCaption"
+            :withVideoUrl="withVideoUrl"
+            :altTextMaxLength="altTextMaxLength"
+            :captionMaxLength="captionMaxLength"
+            :extraMetadatas="extraMetadatas"
+          >
+          </a17-mediafield>
         </div>
       </transition-group>
     </draggable>
     <div class="slideshow__trigger" v-if="!buttonOnTop && remainingSlides > 0">
-      <a17-button type="button" variant="ghost" @click="openMediaLibrary(remainingSlides)">{{ addLabel }}</a17-button>
+      <a17-button
+        type="button"
+        variant="ghost"
+        @click="openMediaLibrary(remainingSlides)"
+        >{{ addLabel }}</a17-button
+      >
       <span class="slideshow__note f--small"><slot></slot></span>
     </div>
   </div>
@@ -83,14 +100,14 @@
         return 'Attach ' + itemNames
       },
       slides: {
-        get () {
+        get() {
           if (this.selectedMedias.hasOwnProperty(this.name)) {
             return this.selectedMedias[this.name] || []
           } else {
             return []
           }
         },
-        set (value) {
+        set(value) {
           this.$store.commit(MEDIA_LIBRARY.REORDER_MEDIAS, {
             name: this.name,
             medias: value
@@ -98,7 +115,7 @@
         }
       },
       ...mapState({
-        selectedMedias: state => state.mediaLibrary.selected
+        selectedMedias: (state) => state.mediaLibrary.selected
       })
     },
     methods: {
@@ -114,23 +131,22 @@
 </script>
 
 <style lang="scss" scoped>
-
   .slideshow {
     // width: 100%;
     display: block;
     border-radius: 2px;
     border: 1px solid $color__border;
     /*overflow-x: hidden;*/
-    background:$color__background;
+    background: $color__background;
   }
 
   .slideshow__trigger {
-    padding:10px;
-    position:relative;
+    padding: 10px;
+    position: relative;
     border-top: 1px solid $color__border--light;
 
     &:first-child {
-      border-top:0 none
+      border-top: 0 none;
     }
   }
 
@@ -140,7 +156,7 @@
     position: absolute;
     bottom: 18px;
     right: 15px;
-    display:none;
+    display: none;
 
     @include breakpoint('small+') {
       display: inline-block;
@@ -174,7 +190,7 @@
     justify-content: center;
     align-items: center;
     width: 12px;
-    min-width:12px;
+    min-width: 12px;
     background-color: $color__drag_bg;
     transition: background 250ms ease;
 
@@ -197,7 +213,6 @@
 
   .slide__content {
     flex-grow: 1;
-    max-width:calc(100% - 12px);
+    max-width: calc(100% - 12px);
   }
-
 </style>

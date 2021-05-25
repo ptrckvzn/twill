@@ -1,4 +1,4 @@
-const fs = require("fs")
+const fs = require('fs')
 const path = require('path')
 const isProd = process.env.NODE_ENV === 'production'
 
@@ -6,7 +6,10 @@ const isProd = process.env.NODE_ENV === 'production'
 process.env.VUE_APP_NAME = process.env.VUE_APP_NAME || 'TWILL'
 
 // eslint-disable-next-line no-console
-console.log('\x1b[32m', `\n🔥 Building Twill assets in ${isProd ? 'production' : 'dev'} mode.`)
+console.log(
+  '\x1b[32m',
+  `\n🔥 Building Twill assets in ${isProd ? 'production' : 'dev'} mode.`
+)
 
 /**
  * For configuration
@@ -71,13 +74,22 @@ const svgConfig = (suffix = null) => {
 let plugins = [
   new CleanWebpackPlugin(),
   new SVGSpritemapPlugin(`${srcDirectory}/icons/**/*.svg`, svgConfig()),
-  new SVGSpritemapPlugin(`${srcDirectory}/icons-files/**/*.svg`, svgConfig('files')),
-  new SVGSpritemapPlugin(`${srcDirectory}/icons-wysiwyg/**/*.svg`, svgConfig('wysiwyg')),
+  new SVGSpritemapPlugin(
+    `${srcDirectory}/icons-files/**/*.svg`,
+    svgConfig('files')
+  ),
+  new SVGSpritemapPlugin(
+    `${srcDirectory}/icons-wysiwyg/**/*.svg`,
+    svgConfig('wysiwyg')
+  ),
   new WebpackAssetsManifest({
     output: `${assetsDir}/twill-manifest.json`,
     publicPath: true,
-    customize (entry, original, manifest, asset) {
-      const search = new RegExp(`${assetsDir.replace(/\//gm, '\/')}\/(css|fonts|js|icons)\/`, 'gm')
+    customize(entry, original, manifest, asset) {
+      const search = new RegExp(
+        `${assetsDir.replace(/\//gm, '/')}\/(css|fonts|js|icons)\/`,
+        'gm'
+      )
       return {
         key: entry.key.replace(search, '')
       }
@@ -86,10 +98,15 @@ let plugins = [
 ]
 
 if (!isProd) {
-  plugins.push(new WebpackNotifierPlugin({
-    title: 'Twill',
-    contentImage: path.join(__dirname, 'docs/.vuepress/public/favicon-180.png')
-  }))
+  plugins.push(
+    new WebpackNotifierPlugin({
+      title: 'Twill',
+      contentImage: path.join(
+        __dirname,
+        'docs/.vuepress/public/favicon-180.png'
+      )
+    })
+  )
 }
 
 // Define npm module resolve order: 1. local (Twill), 2. root (App)
@@ -120,17 +137,29 @@ const config = {
     hot: true,
     disableHostCheck: true,
     headers: {
-      "Access-Control-Allow-Origin": "*"
+      'Access-Control-Allow-Origin': '*'
     }
   },
   runtimeCompiler: true,
   configureWebpack: {
     resolve: {
       alias: {
-        'prosemirror-tables': path.join(__dirname, 'node_modules/prosemirror-tables/src/index.js'),
-        'prosemirror-state' : path.join(__dirname, 'node_modules/prosemirror-state/src/index.js'),
-        'prosemirror-view' : path.join(__dirname, 'node_modules/prosemirror-view/src/index.js'),
-        'prosemirror-transform' : path.join(__dirname, 'node_modules/prosemirror-transform/src/index.js')
+        'prosemirror-tables': path.join(
+          __dirname,
+          'node_modules/prosemirror-tables/src/index.js'
+        ),
+        'prosemirror-state': path.join(
+          __dirname,
+          'node_modules/prosemirror-state/src/index.js'
+        ),
+        'prosemirror-view': path.join(
+          __dirname,
+          'node_modules/prosemirror-view/src/index.js'
+        ),
+        'prosemirror-transform': path.join(
+          __dirname,
+          'node_modules/prosemirror-transform/src/index.js'
+        )
       },
       modules: resolveModules
     },
@@ -139,14 +168,14 @@ const config = {
       hints: false
     }
   },
-  chainWebpack: config => {
+  chainWebpack: (config) => {
     // Update default vue-cli aliases
     config.resolve.alias.set('fonts', path.resolve(`${srcDirectory}/fonts`))
     config.resolve.alias.set('@', path.resolve(`${srcDirectory}/js`))
     config.resolve.alias.set('styles', path.resolve(`${srcDirectory}/scss`))
 
     // Delete HTML related webpack plugins by page
-    Object.keys(pages).forEach(page => {
+    Object.keys(pages).forEach((page) => {
       config.plugins.delete(`html-${page}`)
       config.plugins.delete(`preload-${page}`)
       config.plugins.delete(`prefetch-${page}`)
