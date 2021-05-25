@@ -1,11 +1,16 @@
 name: On Demand Formatting
 on:
-  issue_comment:
-    types: [created]
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'
+        required: true
+        default: 'warning'
+      tags:
+        description: 'Test format'
 jobs:
   rebase:
     name: Format
-    if: github.event.issue.pull_request != '' && contains(github.event.comment.body, '/rebase')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the latest code
