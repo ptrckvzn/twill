@@ -199,7 +199,7 @@ trait HandleBlocks
                         'max' => $blockTypeConfig['max'],
                     ] : []);
                 } else {
-                    $fields['blocks'][] = $blockItem + [
+                    $fields['blocks'][$block->name ?? 'default'][] = $blockItem + [
                         'icon' => $blockTypeConfig['icon'],
                     ];
                 }
